@@ -269,12 +269,14 @@ public class HmLogin {
 		if(check_load.compareTo("0")!=0)
 		{
 			Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+
 		}
 		else
 		{
 			Toast.makeText(this.activity.getApplicationContext(), "برای استفاده از امکانات آسپینو باید ثبت نام کنید", Toast.LENGTH_LONG).show();
 		}
 		LoadActivity(MainMenu.class, "guid", "0","hamyarcode","0");
+
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{

@@ -19,9 +19,11 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
@@ -48,7 +50,7 @@ public class Profile extends Activity {
 	private EditText etReagentCodeProfile;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
-//	//private Button btnCredit;
+	private Button btnSendProfile;
 //	//private Button btnOrders;
 //	//private Button btnHome;
 	private ImageView imgUser;
@@ -82,6 +84,7 @@ public class Profile extends Activity {
 		tvCodeMoaref=(TextView)findViewById(R.id.tvCodeMoaref);
 		etBrithday=(EditText) findViewById(R.id.etBrithday);
 		etReagentCodeProfile=(EditText)findViewById(R.id.etReagentCodeProfile);
+		btnSendProfile=(Button) findViewById(R.id.btnSendProfile);
 		imgUser=(ImageView) findViewById(R.id.imgUser);
 		//***************************************************************
 //		btnCredit=(Button)findViewById(R.id.btnCredit);
@@ -169,12 +172,29 @@ public class Profile extends Activity {
 			etBrithday.setText(coursors.getString(coursors.getColumnIndex("BthDate")));
 			tvNumberPhone.setText(coursors.getString(coursors.getColumnIndex("Mobile")));
 			etReagentCodeProfile.setText(coursors.getString(coursors.getColumnIndex("HamyarCodeForReagent")));
-			bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+			try
+			{
+				if(coursors.getString(coursors.getColumnIndex("Pic")).length()>0) {
+					bmp = convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
+				}
+			}
+			catch (Exception ex)
+			{
+
+			}
 		}
 
 		db.close();
 
-		imgUser.setImageBitmap(getRoundedRectBitmap(bmp,1000));
+		try
+		{
+			imgUser.setImageBitmap(getRoundedRectBitmap(bmp, 1000));
+		}
+		catch (Exception ex)
+		{
+			bmp = BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+			imgUser.setImageBitmap(getRoundedRectBitmap(bmp, 1000));
+		}
 
 		etBrithday.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -220,6 +240,27 @@ public class Profile extends Activity {
 					datePickerDialog.setThemeDark(true);
 					datePickerDialog.show(getFragmentManager(), "tpd");
 				}
+			}
+		});
+		btnSendProfile.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View arg0) {
+				InternetConnection ic=new InternetConnection(getApplicationContext());
+				if(ic.isConnectingToInternet())
+				{
+					if(etReagentCodeProfile.getText().length()>0 && etReagentCodeProfile.getText().length()<=5)
+					{
+						Toast.makeText(getApplicationContext(), "کد معرف به درستی وارد نشده!", Toast.LENGTH_LONG).show();
+					}
+					else
+					{
+						insertKarbar();
+					}
+				}
+				else
+				{
+					Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
+				}
+				db.close();
 			}
 		});
 //		btnCredit.setOnClickListener(new View.OnClickListener() {
@@ -300,6 +341,23 @@ public class Profile extends Activity {
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 
 		return result;
+	}
+	public void insertKarbar() {
+		db=dbh.getReadableDatabase();
+		String errorStr="";
+		if(yearStr.compareTo("")==0 || monStr.compareTo("")==0 || dayStr.compareTo("")==0){
+			errorStr="لطفا تاریخ تولد را وارد نمایید\n";
+		}
+		if(errorStr.compareTo("")==0)
+		{
+			UpdateProfile updateProfile = new UpdateProfile(Profile.this, hamyarcode, yearStr, monStr, dayStr,etReagentCodeProfile.getText().toString());
+			updateProfile.AsyncExecute();
+		}
+		else
+		{
+			Toast.makeText(Profile.this, errorStr, Toast.LENGTH_SHORT).show();
+		}
+		db.close();
 	}
 }
 

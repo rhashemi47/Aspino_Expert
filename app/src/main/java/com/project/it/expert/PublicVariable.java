@@ -5,7 +5,7 @@ public class PublicVariable {
 	public static final String NAMESPACE = "http://tempuri.org/";
 	//public static final String URL = "http://192.168.3.5/WebERP/WebBesparin/WebService/BesparinWS.asmx";
 	//public static final String URL = "http://94.183.241.216:8070/WebERP/WebBesparin/WebService/BesparinWS.asmx";
-	public static final String URL = "http://aspino.org/WebERP/WebAspino/WebService/AspinoWS.asmx";
+	public static final String URL = "http://aspino.org/WebERP/WebAspino/WebService/AspinoWSN.asmx";
 	public static final String site = "http://aspino.org";
 	public static final int PersonId = 0;
 	public static String GuidCode = null;

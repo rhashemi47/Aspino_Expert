@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -136,7 +137,7 @@ public class Info_Person extends Activity {
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spEducation.setAdapter(dataAdapter);
 		db.close();
-
+		education=spEducation.getSelectedItem().toString();
         prepareListData();
  
         listAdapter = new CustomeExpandableListAdapter(this, listDataHeader, listDataChild);
@@ -218,6 +219,17 @@ public class Info_Person extends Activity {
 
 					}
 
+		});
+        spEducation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				education=spEducation.getSelectedItem().toString();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+
+			}
 		});
 	}
 public void insertHamyar() {

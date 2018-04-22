@@ -14,7 +14,7 @@
             android:name="com.project.it.expert.MainMenu"
             android:label="@string/Logo_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="true" >
+            android:noHistory="false" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,67 +23,67 @@
         </activity>
         <activity
             android:name="com.project.it.expert.Login"
-            android:noHistory="true" />
+            android:noHistory="false" />
         <activity
             android:name="com.project.it.expert.Info_Person"
-            android:noHistory="true" />
+            android:noHistory="false" />
         <activity
             android:name="com.project.it.expert.Accept_code"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.Profile"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.About"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.Contact"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.GiftBank"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.Help"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.List_Messages"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.OurCommitment"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.StepJob"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.YourCommitment"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.ViewJob"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.StepJobDetaile"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.ShowMessage"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.List_Visits"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.Save_Per_Factor"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.Credit"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.History"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.List_Dutys"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.List_Services"
-            android:noHistory="true"/>
+            android:noHistory="false"/>
         <service android:name="com.project.it.expert.ServiceGetNewJob">
 
         </service>

@@ -31,7 +31,7 @@ public class SyncCanselJob {
 	private String UserServiceCode;
 	private String Description;
 	private String RowID;
-	private boolean CuShowDialog=false;
+	private boolean CuShowDialog=true;
 	//Contractor
 	public SyncCanselJob(Activity activity, String guid, String hamyarcode, String UserServiceCode, String rowid,String Description) {
 		this.activity = activity;
@@ -91,7 +91,8 @@ public class SyncCanselJob {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
+		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
