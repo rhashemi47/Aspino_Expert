@@ -122,7 +122,7 @@ public class HmLogin {
 	            {
 	            	Toast.makeText(this.activity.getApplicationContext(), "کد اشتباه است", Toast.LENGTH_LONG).show();
 	            }
-	            else if(res[0].toString().compareTo("1") == 0)//همیار شناسایی شده و باید به روز رسانی اطلاعات انجام شود
+	            else if(res[0].toString().compareTo("1") == 0)//متخصص شناسایی شده و باید به روز رسانی اطلاعات انجام شود
 	            {
 	            	setlogin();
 	            }
@@ -272,7 +272,7 @@ public class HmLogin {
 		}
 		else
 		{
-			Toast.makeText(this.activity.getApplicationContext(), "برای استفاده از امکانات بسپارینا باید ثبت نام کنید", Toast.LENGTH_LONG).show();
+			Toast.makeText(this.activity.getApplicationContext(), "برای استفاده از امکانات آسپینو باید ثبت نام کنید", Toast.LENGTH_LONG).show();
 		}
 		LoadActivity(MainMenu.class, "guid", "0","hamyarcode","0");
 	}

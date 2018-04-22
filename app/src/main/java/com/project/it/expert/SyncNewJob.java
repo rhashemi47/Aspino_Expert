@@ -121,7 +121,7 @@ public class SyncNewJob {
                 }
                 else if(WsResponse.toString().compareTo("2") == 0)
                 {
-                   // Toast.makeText(this.activity.getApplicationContext(), "همیار شناسایی نشد!", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(this.activity.getApplicationContext(), "متخصص شناسایی نشد!", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
@@ -303,7 +303,7 @@ public class SyncNewJob {
                 if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
                 {
                     coursors.moveToNext();
-                    runNotification("بسپارینا", coursors.getString(coursors.getColumnIndex("name")), i, value[0], ViewJob.class);
+                    runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i, value[0], ViewJob.class);
                 }
 
                 db.close();

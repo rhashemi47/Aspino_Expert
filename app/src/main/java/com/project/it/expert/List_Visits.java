@@ -21,17 +21,17 @@
         private ListView lvVisit;
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
-        private Button btnCredit;
-        private Button btnOrders;
-        private Button btnHome;
+        //private Button btnCredit;
+        //private Button btnOrders;
+        //private Button btnHome;
         private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
         @Override
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_visits);
-            btnCredit=(Button)findViewById(R.id.btnCredit);
-            btnOrders=(Button)findViewById(R.id.btnOrders);
-            btnHome=(Button)findViewById(R.id.btnHome);
+//            btnCredit=(Button)findViewById(R.id.btnCredit);
+//            btnOrders=(Button)findViewById(R.id.btnOrders);
+//            btnHome=(Button)findViewById(R.id.btnHome);
         lvVisit=(ListView)findViewById(R.id.listViewVisit);
             dbh=new DatabaseHelper(getApplicationContext());
             try {
@@ -94,24 +94,24 @@
             lvVisit.setAdapter(dataAdapter);
         }
             db.close();
-            btnCredit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-                }
-            });
-            btnOrders.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-                }
-            });
-            btnHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-                }
-            });
+//            btnCredit.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//                }
+//            });
+//            btnOrders.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//                }
+//            });
+//            btnHome.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//                }
+//            });
     }
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {

@@ -4,8 +4,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo2"
-        android:roundIcon="@drawable/logo2"
+        android:icon="@drawable/logo"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:label="@string/Logo_name"
         android:theme="@style/AppTheme"

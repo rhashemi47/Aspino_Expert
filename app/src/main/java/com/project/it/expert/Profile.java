@@ -48,9 +48,9 @@ public class Profile extends Activity {
 	private EditText etReagentCodeProfile;
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
-//	private Button btnCredit;
-//	private Button btnOrders;
-//	private Button btnHome;
+//	//private Button btnCredit;
+//	//private Button btnOrders;
+//	//private Button btnHome;
 	private ImageView imgUser;
 	private String yearStr="";
 	private String monStr="";
@@ -275,7 +275,7 @@ public class Profile extends Activity {
 	{
 		Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 		sharingIntent.setType("text/plain");
-		String shareBody = "بسپارینا" + "\n"+"کد معرف: "+shareStr+"\n"+"آدرس سایت: " + PublicVariable.site;
+		String shareBody = "آسپینو" + "\n"+"کد معرف: "+shareStr+"\n"+"آدرس سایت: " + PublicVariable.site;
 		sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "عنوان");
 		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 		startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری با"));

@@ -52,9 +52,9 @@
         private List<String> labelsServiceDetailName;
         private List<String> listItems;
         private ArrayAdapter<String> adapterList;
-        private Button btnCredit;
-        private Button btnOrders;
-        private Button btnHome;
+        //private Button btnCredit;
+        //private Button btnOrders;
+        //private Button btnHome;
 
         @Override
         protected void attachBaseContext(Context newBase) {
@@ -64,9 +64,9 @@
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.stepjobdetaile);
-            btnCredit=(Button)findViewById(R.id.btnCredit);
-            btnOrders=(Button)findViewById(R.id.btnOrders);
-            btnHome=(Button)findViewById(R.id.btnHome);
+//            btnCredit=(Button)findViewById(R.id.btnCredit);
+//            btnOrders=(Button)findViewById(R.id.btnOrders);
+//            btnHome=(Button)findViewById(R.id.btnHome);
             EttitleStep = (EditText) findViewById(R.id.EttitleToolsStep);
             EtUnitPrice = (EditText) findViewById(R.id.EtPriceTool);
             lvStepJob = (ListView) findViewById(R.id.ListViewSaveSetpTool);
@@ -127,8 +127,6 @@
                     hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
             }
-
-            db.close();
             addItemFromList(true);
             db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery("SELECT * FROM services", null);
@@ -203,24 +201,24 @@
                 }
             });
 
-            btnCredit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-                }
-            });
-            btnOrders.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-                }
-            });
-            btnHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-                }
-            });
+//            btnCredit.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//                }
+//            });
+//            btnOrders.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//                }
+//            });
+//            btnHome.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//                }
+//            });
         }
 
         private void addItemFromList(boolean FirestFill) {

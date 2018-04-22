@@ -31,12 +31,12 @@ public class About extends AppCompatActivity {
 	private DatabaseHelper dbh;
 	private TextView txtContent;
 	private SQLiteDatabase db;
-	private Button btnCredit;
-	private Button btnOrders;
-	private Button btnHome;
-	private GoogleMap map;
-	private Typeface FontMitra;
-	private LatLng point;
+//	//private Button btnCredit;
+//	//private Button btnOrders;
+//	//private Button btnHome;
+//	private GoogleMap map;
+//	private Typeface FontMitra;
+//	private LatLng point;
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -45,9 +45,9 @@ public class About extends AppCompatActivity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.about);
-	btnCredit=(Button)findViewById(R.id.btnCredit);
-	btnOrders=(Button)findViewById(R.id.btnOrders);
-	btnHome=(Button)findViewById(R.id.btnHome);
+//	btnCredit=(Button)findViewById(R.id.btnCredit);
+//	btnOrders=(Button)findViewById(R.id.btnOrders);
+//	btnHome=(Button)findViewById(R.id.btnHome);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -86,35 +86,35 @@ protected void onCreate(Bundle savedInstanceState) {
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
 	txtContent=(TextView)findViewById(R.id.tvTextAbout);
 	txtContent.setTypeface(FontMitra);
-	((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {
-		@Override
-
-		public void onMapReady(GoogleMap googleMap) {
-			map = googleMap;
-			point = new LatLng(0, 0);
-			map.addMarker(new MarkerOptions().position(point).title("بسپارینا").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
-			map.getUiSettings().setZoomControlsEnabled(true);
-		}
-	});
-	btnCredit.setOnClickListener(new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-		}
-	});
-	btnOrders.setOnClickListener(new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-		}
-	});
-	btnHome.setOnClickListener(new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-		}
-	});
+//	((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map3)).getMapAsync(new OnMapReadyCallback() {
+//		@Override
+//
+//		public void onMapReady(GoogleMap googleMap) {
+//			map = googleMap;
+//			point = new LatLng(0, 0);
+//			map.addMarker(new MarkerOptions().position(point).title("آسپینو").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+//			map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
+//			map.getUiSettings().setZoomControlsEnabled(true);
+//		}
+//	});
+//	btnCredit.setOnClickListener(new View.OnClickListener() {
+//		@Override
+//		public void onClick(View v) {
+//			LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//		}
+//	});
+//	btnOrders.setOnClickListener(new View.OnClickListener() {
+//		@Override
+//		public void onClick(View v) {
+//			LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//		}
+//	});
+//	btnHome.setOnClickListener(new View.OnClickListener() {
+//		@Override
+//		public void onClick(View v) {
+//			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//		}
+//	});
 }
 @Override
 public boolean onKeyDown( int keyCode, KeyEvent event )  {

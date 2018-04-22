@@ -57,9 +57,9 @@ public class MainMenu extends AppCompatActivity {
     private String countVisit;
     private Button btnDuty;
     private Button btnServices;
-    private Button btnCredit;
-    private Button btnOrders;
-    private Button btnHome;
+//    //private Button btnCredit;
+//    //private Button btnOrders;
+//    //private Button btnHome;
     private boolean IsActive=true;
     ArrayList<String> slides;
     ImageView imageView;
@@ -85,9 +85,9 @@ public class MainMenu extends AppCompatActivity {
         btnDuty.setTextSize(18);
         btnServices.setTextSize(18);
         //****************************************************************
-        btnCredit=(Button)findViewById(R.id.btnCredit);
-        btnOrders=(Button)findViewById(R.id.btnOrders);
-        btnHome=(Button)findViewById(R.id.btnHome);
+//        btnCredit=(Button)findViewById(R.id.btnCredit);
+//        btnOrders=(Button)findViewById(R.id.btnOrders);
+//        btnHome=(Button)findViewById(R.id.btnHome);
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(MainMenu.this));
         dbh=new DatabaseHelper(getApplicationContext());
         try {
@@ -245,24 +245,24 @@ public class MainMenu extends AppCompatActivity {
         }
 
 
-        btnCredit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-            }
-        });
-        btnOrders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-        });
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-        });
+//        btnCredit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//            }
+//        });
+//        btnOrders.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//            }
+//        });
+//        btnHome.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//            }
+//        });
         //****************************************************************************************
         CreateMenu(toolbar);
         //***************************************************************************************************************************
@@ -393,7 +393,8 @@ public class MainMenu extends AppCompatActivity {
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.menu_header)
+                .withHeaderBackground(R.color.mdtp_dark_gray)
+//                .withHeaderBackground(R.drawable.menu_header)
                 .addProfiles(
                         new ProfileDrawerItem().withName(name+" "+family).withIcon(bmp)// withIcon(getResources().getDrawable(R.drawable.personpic))
                 ).withSelectionListEnabledForSingleProfile(false)
@@ -413,24 +414,25 @@ public class MainMenu extends AppCompatActivity {
                 .addDrawerItems(
                         new SecondaryDrawerItem().withName(R.string.Profile).withIcon(R.drawable.profile).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.ListVisit).withIcon(R.drawable.job).withBadge(countVisit).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
-                        // new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         new SecondaryDrawerItem().withName(R.string.Yourcommitment).withIcon(R.drawable.yourcommitment).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.Ourcommitment).withIcon(R.drawable.ourcommitment).withSelectable(false),
-                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
-                        new SecondaryDrawerItem().withName(R.string.Messages).withIcon(R.drawable.messages).withBadge(countMessage).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
                         new SecondaryDrawerItem().withName(R.string.GiftBank).withIcon(R.drawable.gift).withSelectable(false).withEnabled(IsActive),
                         new SecondaryDrawerItem().withName(R.string.Invite_friends).withIcon(R.drawable.about).withSelectable(false).withEnabled(IsActive),
                         new SecondaryDrawerItem().withName(R.string.Contact).withIcon(R.drawable.contact).withSelectable(false),
-                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         new SecondaryDrawerItem().withName(R.string.action_settings).withIcon(R.drawable.setting).withSelectable(false).withEnabled(IsActive),
                         new SecondaryDrawerItem().withName(R.string.Help).withIcon(R.drawable.help).withSelectable(false),
                         new SecondaryDrawerItem().withName(R.string.About).withIcon(R.drawable.about).withSelectable(false),
+                        new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
+                        // new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
+                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
+                        //new SecondaryDrawerItem().withName(R.string.Messages).withIcon(R.drawable.messages).withBadge(countMessage).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
+                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
                         //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
-                ).addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
-                        new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
-                        new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
+                )
+//                .addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
+//                        new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
+//                        new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -488,17 +490,17 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
+//                            case 5:
+//                                db = dbh.getReadableDatabase();
+//                                c = db.rawQuery("SELECT * FROM login",null);
+//                                if(c.getCount()>0) {
+//                                    c.moveToNext();
+//
+//                                    LoadActivity(List_Messages.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
+//                                }
+//                                db.close();
+//                                break;
                             case 5:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(List_Messages.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
-                                break;
-                            case 6:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login",null);
                                 if(c.getCount()>0) {
@@ -508,7 +510,7 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 7:
+                            case 6:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM Profile", null);
                                 if (c.getCount() > 0) {
@@ -518,7 +520,7 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 8:
+                            case 7:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login",null);
                                 if(c.getCount()>0) {
@@ -526,7 +528,7 @@ public class MainMenu extends AppCompatActivity {
                                     LoadActivity(Contact.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
                                 }
                                 break;
-                            case 9:
+                            case 8:
 //                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
                                 AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
                                 // set the message to display
@@ -536,6 +538,7 @@ public class MainMenu extends AppCompatActivity {
                                 alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
                                     // do something when the button is clicked
                                     public void onClick(DialogInterface arg0, int arg1) {
+                                        db=dbh.getReadableDatabase();
                                         Cursor  c = db.rawQuery("SELECT * FROM login",null);
                                         if(c.getCount()>0) {
                                             c.moveToNext();
@@ -553,6 +556,7 @@ public class MainMenu extends AppCompatActivity {
                                     // do something when the button is clicked
                                     public void onClick(DialogInterface arg0, int arg1) {
                                         //Declare Object From Get Internet Connection Status For Check Internet Status
+                                        db=dbh.getReadableDatabase();
                                         Cursor  c = db.rawQuery("SELECT * FROM login",null);
                                         if(c.getCount()>0) {
                                             c.moveToNext();
@@ -568,7 +572,7 @@ public class MainMenu extends AppCompatActivity {
 
                                 alertbox.show();
                                 break;
-                            case 10:
+                            case 9:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login",null);
                                 if(c.getCount()>0) {
@@ -578,7 +582,7 @@ public class MainMenu extends AppCompatActivity {
                                 }
                                 db.close();
                                 break;
-                            case 11:
+                            case 10:
                                 db = dbh.getReadableDatabase();
                                 c = db.rawQuery("SELECT * FROM login",null);
                                 if(c.getCount()>0) {
@@ -592,16 +596,16 @@ public class MainMenu extends AppCompatActivity {
 ////                                Toast.makeText(MainMenu.this, "خروج از برنامه", Toast.LENGTH_SHORT).show();
 //                                ExitApplication();
 //                                break;
-                            case 12:
+                            case 11:
 //                                Toast.makeText(MainMenu.this, "خروج از کاربری", Toast.LENGTH_SHORT).show();
                                 Logout();
                                 break;
-                            case 14:
-                                Toast.makeText(MainMenu.this, "تلگرام", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 15:
-                                Toast.makeText(MainMenu.this, "اینستاگرام", Toast.LENGTH_SHORT).show();
-                                break;
+//                            case 14:
+//                                Toast.makeText(MainMenu.this, "تلگرام", Toast.LENGTH_SHORT).show();
+//                                break;
+//                            case 15:
+//                                Toast.makeText(MainMenu.this, "اینستاگرام", Toast.LENGTH_SHORT).show();
+//                                break;
                         }
                         return true;
                     }
@@ -698,7 +702,7 @@ public class MainMenu extends AppCompatActivity {
     {
         Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
         sharingIntent.setType("text/plain");
-        String shareBody = "بسپارینا" + "\n"+"کد معرف: "+shareStr+"\n"+"آدرس سایت: " + PublicVariable.site;
+        String shareBody = "آسپینو" + "\n"+"کد معرف: "+shareStr+"\n"+"آدرس سایت: " + PublicVariable.site;
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "عنوان");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری با"));

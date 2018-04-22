@@ -87,9 +87,9 @@ public class Save_Per_Factor extends Activity {
     private LinearLayout LinerTotalSumTool;
     private HashMap<String,String > mapStep=new HashMap<String, String>();
     private HashMap<String,String > mapTool=new HashMap<String, String>();
-    private Button btnCredit;
-    private Button btnOrders;
-    private Button btnHome;
+    //private Button btnCredit;
+    //private Button btnOrders;
+    //private Button btnHome;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -100,9 +100,9 @@ public class Save_Per_Factor extends Activity {
         setContentView(R.layout.save_per_factor);
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
         //********************************************************************
-        btnCredit=(Button)findViewById(R.id.btnCredit);
-        btnOrders=(Button)findViewById(R.id.btnOrders);
-        btnHome=(Button)findViewById(R.id.btnHome);
+//        btnCredit=(Button)findViewById(R.id.btnCredit);
+//        btnOrders=(Button)findViewById(R.id.btnOrders);
+//        btnHome=(Button)findViewById(R.id.btnHome);
         SpTitleStepJob=(Spinner)findViewById(R.id.SpTitleStepJob);
         SPTitleTools=(Spinner)findViewById(R.id.SPTitleTools);
         EtUnitValuePrice=(EditText) findViewById(R.id.EtUnitValuePrice);
@@ -386,24 +386,24 @@ public class Save_Per_Factor extends Activity {
                 return true;
             }
         });
-        btnCredit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-            }
-        });
-        btnOrders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-        });
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-        });
+//        btnCredit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//            }
+//        });
+//        btnOrders.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//            }
+//        });
+//        btnHome.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//            }
+//        });
     }
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {

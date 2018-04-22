@@ -144,7 +144,7 @@ public class SyncGetFactorUsersHeadCode {
 	            }
 				else if(WsResponse.toString().compareTo("-1") == 0)
 				{
-					Toast.makeText(this.activity.getApplicationContext(), "همیار شناسایی نشد!", Toast.LENGTH_LONG).show();
+					Toast.makeText(this.activity.getApplicationContext(), "متخصص شناسایی نشد!", Toast.LENGTH_LONG).show();
 
 				}
 				else

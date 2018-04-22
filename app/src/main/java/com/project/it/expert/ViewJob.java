@@ -62,9 +62,9 @@ public class ViewJob extends AppCompatActivity{
     private Button btnFinal;
     private Button btnCallToCustomer;
     private Cursor coursors;
-    private Button btnCredit;
-    private Button btnOrders;
-    private Button btnHome;
+//    //private Button btnCredit;
+//    //private Button btnOrders;
+//    //private Button btnHome;
     GoogleMap map;
 
     @Override
@@ -77,9 +77,9 @@ public class ViewJob extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewjob);
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-        btnCredit=(Button)findViewById(R.id.btnCredit);
-        btnOrders=(Button)findViewById(R.id.btnOrders);
-        btnHome=(Button)findViewById(R.id.btnHome);
+//        btnCredit=(Button)findViewById(R.id.btnCredit);
+//        btnOrders=(Button)findViewById(R.id.btnOrders);
+//        btnHome=(Button)findViewById(R.id.btnHome);
         ContentShowJob=(TextView)findViewById(R.id.ContentShowJob);
         btnSelect=(Button)findViewById(R.id.btnSelect);
         btnCansel=(Button)findViewById(R.id.btnCansel);
@@ -90,9 +90,9 @@ public class ViewJob extends AppCompatActivity{
         btnFinal=(Button)findViewById(R.id.btnFinal);
         btnCallToCustomer=(Button)findViewById(R.id.btnCallToCustomer);
         //********************************
-        btnCredit.setTypeface(FontMitra);
-        btnOrders.setTypeface(FontMitra);
-        btnHome.setTypeface(FontMitra);
+//        btnCredit.setTypeface(FontMitra);
+//        btnOrders.setTypeface(FontMitra);
+//        btnHome.setTypeface(FontMitra);
         ContentShowJob.setTypeface(FontMitra);
         btnSelect.setTypeface(FontMitra);
         btnCansel.setTypeface(FontMitra);
@@ -231,7 +231,7 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("MaleCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
+                        Content += "تعداد متخصص مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
                     }
                 }
                 catch (Exception ex)
@@ -241,7 +241,7 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("FemaleCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
+                        Content += "تعداد متخصص زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
                     }
                 }
                 catch (Exception ex)
@@ -251,7 +251,7 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("HamyarCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
+                        Content += "تعداد متخصص: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
                     }
                 }
                 catch (Exception ex)
@@ -528,7 +528,7 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("MaleCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
+                        Content += "تعداد متخصص مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
                     }
                 }
                 catch (Exception ex)
@@ -538,7 +538,7 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("FemaleCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
+                        Content += "تعداد متخصص زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
                     }
                 }
                 catch (Exception ex)
@@ -548,7 +548,7 @@ public class ViewJob extends AppCompatActivity{
                 try
                 {
                     if(coursors.getString(coursors.getColumnIndex("HamyarCount")).toString().compareTo("0")!=0) {
-                        Content += "تعداد همیار: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
+                        Content += "تعداد متخصص: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
                     }
                 }
                 catch (Exception ex)
@@ -732,32 +732,32 @@ public class ViewJob extends AppCompatActivity{
             }
             db.close();
         }
-        //**************************************************************************************
-        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                map = googleMap;
-
-                LatLng point;
-                if(latStr.length()>0 && lonStr.length()>0)
-                {
-                    double lat=Double.parseDouble(latStr);
-                    double lon=Double.parseDouble(lonStr);
-                    point = new LatLng(lat,lon);
-                }
-                else
-                {
-                    point = new LatLng(0, 0);
-                }
-
-                map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
-
-
-                map.getUiSettings().setZoomControlsEnabled(true);
-                map.getUiSettings().setMyLocationButtonEnabled(true);
-            }
-        });
+//        //**************************************************************************************
+//        ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(new OnMapReadyCallback() {
+//            @Override
+//            public void onMapReady(GoogleMap googleMap) {
+//                map = googleMap;
+//
+//                LatLng point;
+//                if(latStr.length()>0 && lonStr.length()>0)
+//                {
+//                    double lat=Double.parseDouble(latStr);
+//                    double lon=Double.parseDouble(lonStr);
+//                    point = new LatLng(lat,lon);
+//                }
+//                else
+//                {
+//                    point = new LatLng(0, 0);
+//                }
+//
+//                map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.marker)));
+//                map.moveCamera(CameraUpdateFactory.newLatLngZoom(point,17));
+//
+//
+//                map.getUiSettings().setZoomControlsEnabled(true);
+//                map.getUiSettings().setMyLocationButtonEnabled(true);
+//            }
+//        });
 
 //**************************************************************************************
         if(tab.compareTo("0")==0)//status 0 is check-status 1 is select- 2 is pause - 3 is pause - 4 is cansel - 5 is visit - 6 is perfactor-7 is Final
@@ -1028,24 +1028,24 @@ public class ViewJob extends AppCompatActivity{
             }
         });
 
-        btnCredit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-            }
-        });
-        btnOrders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-        });
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-            }
-        });
+//        btnCredit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//            }
+//        });
+//        btnOrders.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//            }
+//        });
+//        btnHome.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//            }
+//        });
     }
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {

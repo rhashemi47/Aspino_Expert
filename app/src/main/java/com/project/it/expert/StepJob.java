@@ -59,9 +59,9 @@
         private ArrayAdapter<String> adapterList;
         private HashMap<String,String> Unit_value=new HashMap<String, String>();
         private HashMap<String,String> Unit_key=new HashMap<String, String>();
-        private Button btnCredit;
-        private Button btnOrders;
-        private Button btnHome;
+        //private Button btnCredit;
+        //private Button btnOrders;
+        //private Button btnHome;
 
         @Override
         protected void attachBaseContext(Context newBase) {
@@ -72,9 +72,9 @@
             super.onCreate(savedInstanceState);
             setContentView(R.layout.stepjob);
             Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");
-            btnCredit=(Button)findViewById(R.id.btnCredit);
-            btnOrders=(Button)findViewById(R.id.btnOrders);
-            btnHome=(Button)findViewById(R.id.btnHome);
+//            btnCredit=(Button)findViewById(R.id.btnCredit);
+//            btnOrders=(Button)findViewById(R.id.btnOrders);
+//            btnHome=(Button)findViewById(R.id.btnHome);
             EttitleStep = (EditText) findViewById(R.id.EttitleStep);
             EtUnitPrice = (EditText) findViewById(R.id.EtUnitPrice);
             lvStepJob = (ListView) findViewById(R.id.ListViewSaveSetp);
@@ -89,9 +89,7 @@
             tvUnit= (TextView) findViewById(R.id.tvUnit);
             tvUnitPrice= (TextView) findViewById(R.id.tvUnitPrice);
             //******************************************************************
-            btnCredit.setTypeface(FontMitra);
-            btnOrders.setTypeface(FontMitra);
-            btnHome.setTypeface(FontMitra);
+
             EttitleStep.setTypeface(FontMitra);
             EtUnitPrice.setTypeface(FontMitra);
             btnSave .setTypeface(FontMitra);
@@ -102,9 +100,6 @@
             tvUnit.setTypeface(FontMitra);
             tvUnitPrice.setTypeface(FontMitra);
             //******************************************************************
-            btnCredit.setTextSize(18);
-            btnOrders.setTextSize(18);
-            btnHome.setTextSize(18);
             EttitleStep.setTextSize(18);
             EtUnitPrice.setTextSize(18);
             btnSave .setTextSize(18);
@@ -186,6 +181,7 @@
                 SyncUnit unit = new SyncUnit(this,guid,hamyarcode);
                 unit.AsyncExecute();
             }
+            db=dbh.getReadableDatabase();
             coursors = db.rawQuery("SELECT * FROM services", null);
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {
@@ -258,24 +254,24 @@
                 }
             });
 
-            btnCredit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-                }
-            });
-            btnOrders.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-                }
-            });
-            btnHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-                }
-            });
+//            btnCredit.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//                }
+//            });
+//            btnOrders.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//                }
+//            });
+//            btnHome.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//                }
+//            });
 
 }
 

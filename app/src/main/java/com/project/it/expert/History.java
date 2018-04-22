@@ -27,9 +27,9 @@
         private ListView lstHistory;
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
-        private Button btnCredit;
-        private Button btnOrders;
-        private Button btnHome;
+        //private Button btnCredit;
+        //private Button btnOrders;
+        //private Button btnHome;
         private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
         @Override
         protected void attachBaseContext(Context newBase) {
@@ -39,9 +39,9 @@
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.history);
-            btnCredit=(Button)findViewById(R.id.btnCredit);
-            btnOrders=(Button)findViewById(R.id.btnOrders);
-            btnHome=(Button)findViewById(R.id.btnHome);
+//            btnCredit=(Button)findViewById(R.id.btnCredit);
+//            btnOrders=(Button)findViewById(R.id.btnOrders);
+//            btnHome=(Button)findViewById(R.id.btnHome);
             dbh = new DatabaseHelper(getApplicationContext());
             try {
 
@@ -141,21 +141,21 @@
                 }
                 try {
                     if (coursors.getString(coursors.getColumnIndex("MaleCount")).toString().compareTo("0") != 0) {
-                        Content += "تعداد همیار مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
+                        Content += "تعداد متخصص مرد: " + coursors.getString(coursors.getColumnIndex("MaleCount")) + "\n";
                     }
                 } catch (Exception ex) {
                     //todo
                 }
                 try {
                     if (coursors.getString(coursors.getColumnIndex("FemaleCount")).toString().compareTo("0") != 0) {
-                        Content += "تعداد همیار زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
+                        Content += "تعداد متخصص زن: " + coursors.getString(coursors.getColumnIndex("FemaleCount")) + "\n";
                     }
                 } catch (Exception ex) {
                     //todo
                 }
                 try {
                     if (coursors.getString(coursors.getColumnIndex("HamyarCount")).toString().compareTo("0") != 0) {
-                        Content += "تعداد همیار: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
+                        Content += "تعداد متخصص: " + coursors.getString(coursors.getColumnIndex("HamyarCount")) + "\n";
                     }
                 } catch (Exception ex) {
                     //todo
@@ -293,24 +293,24 @@
             }
             db.close();
 
-            btnCredit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-                }
-            });
-            btnOrders.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-                }
-            });
-            btnHome.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-                }
-            });
+//            btnCredit.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
+//                }
+//            });
+//            btnOrders.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
+//                }
+//            });
+//            btnHome.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//                }
+//            });
         }
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {

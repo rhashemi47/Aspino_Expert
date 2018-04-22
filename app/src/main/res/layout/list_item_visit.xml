@@ -17,8 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnCallFromList"
-        android:background="@drawable/rounded_button_bottom_list"
-        android:drawableLeft="@drawable/call_supporter"
+        android:background="@drawable/rounded_button"
         android:text="@string/CallToCastumer"
         android:textColor="#ffff"/>
 </LinearLayout>
