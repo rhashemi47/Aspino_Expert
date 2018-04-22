@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.project.it.expert">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo2"
+        android:roundIcon="@drawable/logo2"
+        android:supportsRtl="true"
+        android:label="@string/Logo_name"
+        android:theme="@style/AppTheme"
+        android:name="com.project.it.expert.FontMain">
+        <activity
+            android:name="com.project.it.expert.MainMenu"
+            android:label="@string/Logo_name"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.project.it.expert.Login"
+            android:noHistory="true" />
+        <activity
+            android:name="com.project.it.expert.Info_Person"
+            android:noHistory="true" />
+        <activity
+            android:name="com.project.it.expert.Accept_code"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.Profile"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.About"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.Contact"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.GiftBank"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.Help"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.List_Messages"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.OurCommitment"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.StepJob"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.YourCommitment"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.ViewJob"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.StepJobDetaile"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.ShowMessage"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.List_Visits"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.Save_Per_Factor"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.Credit"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.History"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.List_Dutys"
+            android:noHistory="true"/>
+        <activity
+            android:name="com.project.it.expert.List_Services"
+            android:noHistory="true"/>
+        <service android:name="com.project.it.expert.ServiceGetNewJob">
+
+        </service>
+        <service android:name="com.project.it.expert.ServiceGetNewJobNotNotifi">
+
+        </service>
+        <service android:name="com.project.it.expert.ServiceGetLocation">
+
+        </service>
+        <service android:name="com.project.it.expert.ServiceGetSliderPic">
+
+        </service>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <receiver android:name="com.project.it.expert.SMSReseiver" android:enabled="true" android:exported="true">
+            <intent-filter android:priority="2147483647">
+                <action android:name=
+                    "android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+    </application>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+</manifest>
