@@ -6,9 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/backgound"
+    android:background="@drawable/background_body"
     android:layoutDirection="rtl"
     android:focusableInTouchMode="true">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/appbar_padding_top"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/Register"
+            app:titleTextColor="#ffff"
+            android:background="@drawable/background_title"/>
+    </android.support.design.widget.AppBarLayout>
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -126,8 +143,8 @@
                     android:text="@string/Save"
                     android:layout_marginLeft="70dp"
                     android:layout_marginRight="70dp"
-                    android:drawableLeft="@drawable/save"
-                    android:textColor="#000000"/>
+                    android:background="@drawable/rounded_button"
+                    android:textColor="#fff"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

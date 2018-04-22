@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/menu_body"
+    android:background="@drawable/background_body"
     android:layoutDirection="rtl"
     android:focusableInTouchMode="true">
     <android.support.design.widget.AppBarLayout
@@ -19,8 +19,8 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/Profile"
-            app:titleTextColor="#000000"
-            android:background="@drawable/background_actionbar"/>
+            app:titleTextColor="#fff"
+            android:background="@drawable/background_title"/>
     </android.support.design.widget.AppBarLayout>
     <ScrollView
         android:layout_marginTop="80dp"
@@ -193,7 +193,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Save"
             android:textColor="#ffff"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_button_save"
             android:textSize="40px"/>
         <!--<Button-->
             <!--android:layout_width="wrap_content"-->

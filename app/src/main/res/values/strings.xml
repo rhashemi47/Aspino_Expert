@@ -23,8 +23,8 @@
     <string name="Exit">خروج از برنامه</string>
     <string name="Logout">خروج از حساب کاربری</string>
     <string name="Login">ورود</string>
-    <string name="Job">لیست درخواست های رسیده</string>
-    <string name="Duty">فرصت های شغلی امروز</string>
+    <string name="Job">سرویس های رسیده</string>
+    <string name="Duty">سرویس های دردست اقدام</string>
     <string name="Select">انتخاب</string>
     <string name="Cansel">لغو</string>
     <string name="PerFactor">پیش فاکتور</string>
@@ -119,5 +119,7 @@
     <string name="Email">ایمیل</string>
     <string name="TextAbout">درباره آسپینو</string>
     <string name="CallSupporter">تماس با پشتیبانی</string>
+    <string name="CreditsGift">دریافت اعتبار هدیه</string>
+    <string name="Register">فرم ثبت نام کاربر</string>
 
 </resources>

@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/menu_body"
+    android:background="@drawable/background_body"
     android:theme="@style/Theme.AppCompat.NoActionBar"
     android:layoutDirection="rtl">
     <android.support.design.widget.AppBarLayout
@@ -19,14 +19,14 @@
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:title="@string/History"
-            app:titleTextColor="#000000"
-            android:background="@drawable/background_actionbar"/>
+            app:titleTextColor="#fff"
+            android:background="@drawable/background_title"/>
     </android.support.design.widget.AppBarLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_below="@+id/appbar"
         android:orientation="vertical">
         <TextView
@@ -35,67 +35,50 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:lineSpacingExtra="4dp"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:textColor="#000000"/>
 
         <ListView
             android:id="@+id/lstHistory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="85dp">
+            android:background="@drawable/rounded_layout_select_job_body">
 
         </ListView>
     </LinearLayout>
     <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true">-->
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/background_actionbar"-->
-        <!--&gt;-->
-
-    <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/bottomNavigationView"-->
-        <!--style="@style/BottomNavigation"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:menu="@menu/bottom_menu"/>-->
-    <!--</FrameLayout>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:layout_alignParentBottom="true">-->
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/Order"-->
+    <!--android:id="@+id/btnOrderBottom"-->
+    <!--android:background="@drawable/rounded_button"-->
+    <!--android:textColor="#052d93"-->
+    <!--android:layout_weight="1"-->
+    <!--android:drawableTop="@drawable/job2"/>-->
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/AcceptOrder"-->
+    <!--android:id="@+id/btnAcceptOrderBottom"-->
+    <!--android:background="@drawable/rounded_button"-->
+    <!--android:textColor="#052d93"-->
+    <!--android:layout_weight="1"-->
+    <!--android:drawableTop="@drawable/duty2"/>-->
+    <!--<Button-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/Credits"-->
+    <!--android:id="@+id/btncrediteBottom"-->
+    <!--android:background="@drawable/rounded_button"-->
+    <!--android:textColor="#052d93"-->
+    <!--android:layout_weight="1"-->
+    <!--android:drawableTop="@drawable/credit2"/>-->
     <!--</LinearLayout>-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnHome"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/home"
-            android:text="@string/home"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnOrders"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/history"
-            android:text="@string/Orders"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/btnCredit"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_button_bottom"
-            android:drawableTop="@drawable/credit"
-            android:text="@string/credite"/>
-    </LinearLayout>
 </RelativeLayout>
