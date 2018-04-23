@@ -26,24 +26,24 @@ public class UpdateProfile {
 	private Activity activity;
 	private String UserCode;
 	private String Month;
-	private String Year;
+	private String GUID;
 	private String Day;
 	private String WsResponse;
 	private String ReagentCode;
 	private boolean CuShowDialog=true;
 	private String[] res;
 	//Contractor
-	public UpdateProfile(Activity activity, String UserCode, String Year, String Month, String Day, String ReagentCode) {
+	public UpdateProfile(Activity activity, String UserCode, String GUID, String ReagentCode) {
 		this.activity = activity;
 		this.UserCode=UserCode;
-		this.Year=Year;
-		this.Month=Month;
+		this.GUID=GUID;
 		this.ReagentCode=ReagentCode;
-		this.Day=Day;
 
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-		
+		if(this.ReagentCode.compareTo("")==0){
+			this.ReagentCode="0";
+		}
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -162,7 +162,7 @@ public class UpdateProfile {
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
 	    PropertyInfo UserCodePI = new PropertyInfo();
 	    //Set Name
-		UserCodePI.setName("UserCode");
+		UserCodePI.setName("HamyarCode");
 	    //Set Value
 		UserCodePI.setValue(this.UserCode);
 	    //Set dataType
@@ -170,39 +170,19 @@ public class UpdateProfile {
 	    //Add the property to request object
 	    request.addProperty(UserCodePI);
 	    //*******************************************************************
-	    PropertyInfo YearPI = new PropertyInfo();
+	    PropertyInfo GUIDPI = new PropertyInfo();
 	    //Set Name
-		YearPI.setName("Year");
+		GUIDPI.setName("GUID");
 	    //Set Value
-		YearPI.setValue(this.Year);
+		GUIDPI.setValue(this.GUID);
 	    //Set dataType
-		YearPI.setType(String.class);
+		GUIDPI.setType(String.class);
 	    //Add the property to request object
-	    request.addProperty(YearPI);
-	    //*********************************************************************
-	    PropertyInfo MonthPI = new PropertyInfo();
-	    //Set Name
-		MonthPI.setName("Month");
-	    //Set Value
-		MonthPI.setValue(this.Month);
-	    //Set dataType
-		MonthPI.setType(String.class);
-	    //Add the property to request object
-	    request.addProperty(MonthPI);
-	    //**********************************************************************
-	    PropertyInfo DayPI = new PropertyInfo();
-	    //Set Name
-		DayPI.setName("Day");
-	    //Set Value
-		DayPI.setValue(this.Day);
-	    //Set dataType
-		DayPI.setType(String.class);
-	    //Add the property to request object
-	    request.addProperty(DayPI);
-	    //*********
+	    request.addProperty(GUIDPI);
+	    //**********************************************************
 	    PropertyInfo ReagentCodePI = new PropertyInfo();
 	    //Set Name
-		ReagentCodePI.setName("ReagentCodeStr");
+		ReagentCodePI.setName("ReagentCode");
 	    //Set Value
 		ReagentCodePI.setValue(this.ReagentCode);
 	    //Set dataType
@@ -236,7 +216,7 @@ public class UpdateProfile {
 	public void InsertDataFromWsToDb()
     {
 		db=dbh.getWritableDatabase();
-		db.execSQL("UPDATE Profile SET BthDate='"+Year+"/"+Month+"/"+Day+"'");
+		db.execSQL("UPDATE Profile SET ReagentName='"+ReagentCode+"'");
 		db.close();
 		Toast.makeText(this.activity, "ثبت شد", Toast.LENGTH_SHORT).show();
     }

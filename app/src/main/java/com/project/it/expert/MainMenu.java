@@ -171,8 +171,8 @@ public class MainMenu extends AppCompatActivity {
         {
             throw new Error("Error Opne Activity");
         }
-        stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetLocation.class));
         startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
         //**************************************************************************
@@ -326,7 +326,7 @@ public class MainMenu extends AppCompatActivity {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
                 stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                 stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-                stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+               // stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM AmountCredit");
@@ -371,8 +371,34 @@ public class MainMenu extends AppCompatActivity {
         Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
         if(coursors.getCount()>0) {
             coursors.moveToNext();
-            name=coursors.getString(coursors.getColumnIndex("Name"));
-            family= coursors.getString(coursors.getColumnIndex("Fam"));
+            try
+            {
+                if(coursors.getString(coursors.getColumnIndex("Name")).compareTo("null")!=0){
+                    name = coursors.getString(coursors.getColumnIndex("Name"));
+                }
+                else
+                {
+                    name = "کاربر";
+                }
+
+            }
+            catch (Exception ex){
+                name = "کاربر";
+            }
+            try
+            {
+                if(coursors.getString(coursors.getColumnIndex("Fam")).compareTo("null")!=0){
+                    family = coursors.getString(coursors.getColumnIndex("Fam"));
+                }
+                else
+                {
+                    family = "مهمان";
+                }
+
+            }
+            catch (Exception ex){
+                family = "مهمان";
+            }
             bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
             db.close();
         }
@@ -658,7 +684,7 @@ public class MainMenu extends AppCompatActivity {
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+            //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
             ExitApplication();
         }
@@ -690,26 +716,26 @@ public class MainMenu extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
     protected void onStop() {
 
         super.onStop();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+       // stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     protected void onPause() {
 
         super.onPause();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     protected void onDestroy() {
 
         super.onDestroy();
-        stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
     }
     void sharecode(String shareStr)

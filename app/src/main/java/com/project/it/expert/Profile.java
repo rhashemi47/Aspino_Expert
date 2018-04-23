@@ -51,7 +51,7 @@ public class Profile extends Activity {
 	private DatabaseHelper dbh;
 	private SQLiteDatabase db;
 	private Button btnSendProfile;
-//	//private Button btnOrders;
+	private Button btnSendRegentCodeToFriend;
 //	//private Button btnHome;
 	private ImageView imgUser;
 	private String yearStr="";
@@ -64,6 +64,8 @@ public class Profile extends Activity {
 	private Bitmap result;
 	private Canvas canvas;
 	private float roundPx;
+	private String SendRegentCodeToFriend;
+
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -85,6 +87,7 @@ public class Profile extends Activity {
 		etBrithday=(EditText) findViewById(R.id.etBrithday);
 		etReagentCodeProfile=(EditText)findViewById(R.id.etReagentCodeProfile);
 		btnSendProfile=(Button) findViewById(R.id.btnSendProfile);
+		btnSendRegentCodeToFriend=(Button) findViewById(R.id.btnSendRegentCodeToFriend);
 		imgUser=(ImageView) findViewById(R.id.imgUser);
 		//***************************************************************
 //		btnCredit=(Button)findViewById(R.id.btnCredit);
@@ -171,7 +174,7 @@ public class Profile extends Activity {
 			tvUserFName.setText(coursors.getString(coursors.getColumnIndex("Fam")));
 			etBrithday.setText(coursors.getString(coursors.getColumnIndex("BthDate")));
 			tvNumberPhone.setText(coursors.getString(coursors.getColumnIndex("Mobile")));
-			etReagentCodeProfile.setText(coursors.getString(coursors.getColumnIndex("HamyarCodeForReagent")));
+			SendRegentCodeToFriend=coursors.getString(coursors.getColumnIndex("HamyarCodeForReagent"));
 			try
 			{
 				if(coursors.getString(coursors.getColumnIndex("Pic")).length()>0) {
@@ -263,6 +266,12 @@ public class Profile extends Activity {
 				db.close();
 			}
 		});
+		btnSendRegentCodeToFriend.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				sharecode(SendRegentCodeToFriend);
+			}
+		});
 //		btnCredit.setOnClickListener(new View.OnClickListener() {
 //			@Override
 //			public void onClick(View v) {
@@ -343,21 +352,9 @@ public class Profile extends Activity {
 		return result;
 	}
 	public void insertKarbar() {
-		db=dbh.getReadableDatabase();
-		String errorStr="";
-		if(yearStr.compareTo("")==0 || monStr.compareTo("")==0 || dayStr.compareTo("")==0){
-			errorStr="لطفا تاریخ تولد را وارد نمایید\n";
-		}
-		if(errorStr.compareTo("")==0)
-		{
-			UpdateProfile updateProfile = new UpdateProfile(Profile.this, hamyarcode, yearStr, monStr, dayStr,etReagentCodeProfile.getText().toString());
+			UpdateProfile updateProfile = new UpdateProfile(Profile.this, hamyarcode,guid, etReagentCodeProfile.getText().toString());
 			updateProfile.AsyncExecute();
-		}
-		else
-		{
-			Toast.makeText(Profile.this, errorStr, Toast.LENGTH_SHORT).show();
-		}
-		db.close();
 	}
+
 }
 

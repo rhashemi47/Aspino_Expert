@@ -268,6 +268,12 @@ public class HmLogin {
 	{
 		if(check_load.compareTo("0")!=0)
 		{
+			db = dbh.getWritableDatabase();
+			db.execSQL("DELETE FROM login");
+			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+res[1].toString()+"','"+res[2].toString()+"','1')";
+			db.execSQL(query);
+			SyncProfile syncProfile=new SyncProfile(this.activity,res[2].toString(), res[1].toString());
+			syncProfile.AsyncExecute();
 			Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();
 
 		}

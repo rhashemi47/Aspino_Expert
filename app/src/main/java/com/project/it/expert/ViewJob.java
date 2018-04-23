@@ -420,14 +420,14 @@ public class ViewJob extends AppCompatActivity{
                 {
                     //todo
                 }
-                try
-                {
-                    Content+="وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری"));
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
+//                try
+//                {
+//                    Content+="وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری"));
+//                }
+//                catch (Exception ex)
+//                {
+//                    //todo
+//                }
                 ContentShowJob.setText(Content);
                 ContentShowJob.setTypeface(FontMitra);
                 ContentShowJob.setTextSize(18);
@@ -717,14 +717,14 @@ public class ViewJob extends AppCompatActivity{
                 {
                     //todo
                 }
-                try
-                {
-                    Content+="وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری"));
-                }
-                catch (Exception ex)
-                {
-                    //todo
-                }
+//                try
+//                {
+//                    Content+="وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری"));
+//                }
+//                catch (Exception ex)
+//                {
+//                    //todo
+//                }
                 ContentShowJob.setText(Content);
                 ContentShowJob.setTypeface(FontMitra);
                 ContentShowJob.setTextSize(18);
@@ -987,6 +987,7 @@ public class ViewJob extends AppCompatActivity{
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
                         "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode AND BsHamyarSelectServices.Code=" + BsUserServicesID;
+                db=dbh.getReadableDatabase();
                 coursors = db.rawQuery(query, null);
                 if (coursors.getCount()>0) {
                     coursors.moveToNext();

@@ -206,9 +206,9 @@ public class Info_Person extends Activity {
 								new DatePickerDialog.OnDateSetListener() {
 									@Override
 									public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-										brithday.setText(String.valueOf(year)+"/"+String.valueOf(monthOfYear)+"/"+String.valueOf(dayOfMonth));
+										brithday.setText(String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
 										yearStr=String.valueOf(year);
-										monStr=String.valueOf(monthOfYear);
+										monStr=String.valueOf(monthOfYear+1);
 										dayStr=String.valueOf(dayOfMonth);
 									}
 								}, now.getPersianYear(),
@@ -219,6 +219,29 @@ public class Info_Person extends Activity {
 
 					}
 
+		});
+		brithday.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+			@Override
+			public void onFocusChange(View v, boolean hasFocus) {
+				if(hasFocus)
+				{
+					PersianCalendar now = new PersianCalendar();
+					DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+							new DatePickerDialog.OnDateSetListener() {
+								@Override
+								public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+									brithday.setText(String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
+									yearStr=String.valueOf(year);
+									monStr=String.valueOf(monthOfYear+1);
+									dayStr=String.valueOf(dayOfMonth);
+								}
+							}, now.getPersianYear(),
+							now.getPersianMonth(),
+							now.getPersianDay());
+					datePickerDialog.setThemeDark(true);
+					datePickerDialog.show(getFragmentManager(), "tpd");
+				}
+			}
 		});
         spEducation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override

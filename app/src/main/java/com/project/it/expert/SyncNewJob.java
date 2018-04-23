@@ -24,6 +24,7 @@ public class SyncNewJob {
     //Primary Variable
     DatabaseHelper dbh;
     SQLiteDatabase db;
+    SQLiteDatabase db_check;
     PublicVariable PV;
     InternetConnection IC;
     private Context activity;
@@ -91,7 +92,8 @@ public class SyncNewJob {
 
         public AsyncCallWS(Context activity) {
             this.activity = activity;
-            this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+            this.dialog = new ProgressDialog(activity);
+            this.dialog.setCanceledOnTouchOutside(false);
         }
 
         @Override
@@ -218,96 +220,102 @@ public class SyncNewJob {
         String query=null;
         res=WsResponse.split("@@");
         db=dbh.getWritableDatabase();
-        for(int i=0;i<res.length;i++){
-            value=res[i].split("##");
-            query="INSERT INTO BsUserServices (" +
-                    "Code," +
-                    "UserCode," +
-                    "UserName," +
-                    "UserFamily," +
-                    "ServiceDetaileCode," +
-                    "MaleCount," +
-                    "FemaleCount," +
-                    "StartDate," +
-                    "EndDate," +
-                    "AddressCode," +
-                    "AddressText," +
-                    "Lat," +
-                    "Lng," +
-                    "City," +
-                    "State," +
-                    "Description," +
-                    "IsEmergency," +
-                    "InsertUser," +
-                    "InsertDate," +
-                    "StartTime," +
-                    "EndTime," +
-                    "HamyarCount," +
-                    "PeriodicServices," +
-                    "EducationGrade," +
-                    "FieldOfStudy," +
-                    "StudentGender," +
-                    "TeacherGender," +
-                    "EducationTitle," +
-                    "ArtField," +
-                    "CarWashType," +
-                    "CarType," +
-                    "Language," +
-                    "ArtFieldOther," +
-                    "UserPhone" +
-                    ") VALUES('"+
-                          value[0]+
-                    "','"+value[1]+
-                    "','"+value[2]+
-                    "','"+value[3]+
-                    "','"+value[4]+
-                    "','"+value[5]+
-                    "','"+value[6]+
-                    "','"+value[7]+
-                    "','"+value[8]+
-                    "','"+value[9]+
-                    "','"+value[10]+
-                    "','"+value[11]+
-                    "','"+value[12]+
-                    "','"+value[13]+
-                    "','"+value[14]+
-                    "','"+value[15]+
-                    "','"+value[16]+
-                    "','"+value[17]+
-                    "','"+value[18]+
-                    "','"+value[19]+
-                    "','"+value[20]+
-                    "','"+value[21]+
-                    "','"+value[22]+
-                    "','"+value[23]+
-                    "','"+value[24]+
-                    "','"+value[25]+
-                    "','"+value[26]+
-                    "','"+value[27]+
-                    "','"+value[28]+
-                    "','"+value[29]+
-                    "','"+value[30]+
-                    "','"+value[31]+
-                    "','"+value[32]+
-                    "','"+value[33]+
-                    "')";
-            db.execSQL(query);
-
-            db.close();
-            SyncGetServiceUserInfo syncGetServiceUserInfo=new SyncGetServiceUserInfo(this.activity,value[0]);
-            syncGetServiceUserInfo.AsyncExecute();
-            if(notifocationEnable) {
-                db = dbh.getReadableDatabase();
-                query = "SELECT * FROM Servicesdetails  WHERE code=" + value[4];
-                Cursor coursors = db.rawQuery(query, null);
-                if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
-                {
-                    coursors.moveToNext();
-                    runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i, value[0], ViewJob.class);
-                }
+        for(int i=0;i<res.length;i++) {
+            value = res[i].split("##");
+            db_check = dbh.getReadableDatabase();
+            Cursor cursor = db_check.rawQuery("SELECT * FROM BsUserServices WHERE Code='" + value[0] + "'", null);
+            if (cursor.getCount() == 0) {
+                query = "INSERT INTO BsUserServices (" +
+                        "Code," +
+                        "UserCode," +
+                        "UserName," +
+                        "UserFamily," +
+                        "ServiceDetaileCode," +
+                        "MaleCount," +
+                        "FemaleCount," +
+                        "StartDate," +
+                        "EndDate," +
+                        "AddressCode," +
+                        "AddressText," +
+                        "Lat," +
+                        "Lng," +
+                        "City," +
+                        "State," +
+                        "Description," +
+                        "IsEmergency," +
+                        "InsertUser," +
+                        "InsertDate," +
+                        "StartTime," +
+                        "EndTime," +
+                        "HamyarCount," +
+                        "PeriodicServices," +
+                        "EducationGrade," +
+                        "FieldOfStudy," +
+                        "StudentGender," +
+                        "TeacherGender," +
+                        "EducationTitle," +
+                        "ArtField," +
+                        "CarWashType," +
+                        "CarType," +
+                        "Language," +
+                        "ArtFieldOther," +
+                        "UserPhone" +
+                        ") VALUES('" +
+                        value[0] +
+                        "','" + value[1] +
+                        "','" + value[2] +
+                        "','" + value[3] +
+                        "','" + value[4] +
+                        "','" + value[5] +
+                        "','" + value[6] +
+                        "','" + value[7] +
+                        "','" + value[8] +
+                        "','" + value[9] +
+                        "','" + value[10] +
+                        "','" + value[11] +
+                        "','" + value[12] +
+                        "','" + value[13] +
+                        "','" + value[14] +
+                        "','" + value[15] +
+                        "','" + value[16] +
+                        "','" + value[17] +
+                        "','" + value[18] +
+                        "','" + value[19] +
+                        "','" + value[20] +
+                        "','" + value[21] +
+                        "','" + value[22] +
+                        "','" + value[23] +
+                        "','" + value[24] +
+                        "','" + value[25] +
+                        "','" + value[26] +
+                        "','" + value[27] +
+                        "','" + value[28] +
+                        "','" + value[29] +
+                        "','" + value[30] +
+                        "','" + value[31] +
+                        "','" + value[32] +
+                        "','" + value[33] +
+                        "')";
+                db.execSQL(query);
 
                 db.close();
+                SyncGetServiceUserInfo syncGetServiceUserInfo = new SyncGetServiceUserInfo(this.activity, value[0]);
+                syncGetServiceUserInfo.AsyncExecute();
+                if (notifocationEnable) {
+                    db = dbh.getReadableDatabase();
+                    query = "SELECT * FROM Servicesdetails  WHERE code=" + value[4];
+                    Cursor coursors = db.rawQuery(query, null);
+                    if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
+                    {
+                        coursors.moveToNext();
+                        runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i, value[0], ViewJob.class);
+                    }
+
+                    db.close();
+                }
             }
+
+            db_check.close();
         }
     }
 

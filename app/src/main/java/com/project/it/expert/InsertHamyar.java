@@ -299,11 +299,28 @@ public class InsertHamyar {
     	String brith=BthYear+"/"+BthMonth+"/"+BthDay;
 		db=dbh.getWritableDatabase();	
 		db.execSQL("DELETE FROM login");
+		db.execSQL("DELETE FROM Profile");
 		db.execSQL("INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+hamyarcode+"','"+guid+"','1')");
 		db.execSQL("INSERT INTO Profile " +
 				"(Code,Name,Fam,BthDate,ShSh,BirthplaceCode,Sader,StartDate,Address,Tel,Mobile,ReagentName,AccountNumber,HamyarNumber,IsEmrgency,Status) " +
 				"VALUES" +
-				"('"+notext+"','"+Name+"','"+Family+"','"+brith+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"','"+notext+"')");
+				"('"
+				+hamyarcode+"','"
+				+Name+"','"
+				+Family+"','"
+				+brith+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"','"
+				+notext+"')");
 		db.close();
 		LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode);
     }
