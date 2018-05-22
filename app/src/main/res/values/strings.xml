@@ -96,5 +96,23 @@
     <string name="CallSupporter">تماس با پشتیبانی</string>
     <string name="CreditsGift">دریافت اعتبار هدیه</string>
     <string name="Register">فرم ثبت نام کاربر</string>
+    <string name="RealOrLegal">حقیقی / حقوقی</string>
+    <string name="Real">حقیقی</string>
+    <string name="Legal">حقوقی</string>
+    <string name="Gender">جنسیت</string>
+    <string name="man">مرد</string>
+    <string name="woman">زن</string>
+    <string name="NumberShenasname">شماره شناسنامه</string>
+    <string name="CodeMelli">کد ملی</string>
+    <string name="Mobile">موبایل</string>
+    <string name="NumberPhone">شماره ثابت</string>
+    <string name="Experience">تخصص</string>
+    <string name="PostalCode">کد پستی</string>
+    <string name="NameCompani">نام شرکت</string>
+    <string name="NameManager">مدیر عامل</string>
+    <string name="NumberCo">شماره ثبت</string>
+    <string name="AddressCo">آدرس قانونی شرکت</string>
+    <string name="FieldOfExpertise">زمینه تخصص</string>
+    <string name="ReceiveAnInterview">دریافت وقت مصاحبه</string>
 
 </resources>

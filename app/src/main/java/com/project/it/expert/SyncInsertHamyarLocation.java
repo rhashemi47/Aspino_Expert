@@ -2,6 +2,7 @@ package com.project.it.expert;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ public class SyncInsertHamyarLocation {
 	private String Minute;
 	private String Lat;
 	private String Lng;
+	private int rowID;
 	private boolean CuShowDialog=false;
 	//Contractor
 	public SyncInsertHamyarLocation(Context activity,
@@ -44,7 +46,8 @@ public class SyncInsertHamyarLocation {
 									String Hour,
 									String Minute,
 									String Lat,
-									String Lng)
+									String Lng,
+									int rowID)
 	{
 		this.activity = activity;
 		this.guid = guid;
@@ -56,6 +59,7 @@ public class SyncInsertHamyarLocation {
 		this.Minute=Minute;
 		this.Lat=Lat;
 		this.Lng=Lng;
+		this.rowID=rowID;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -295,6 +299,9 @@ public class SyncInsertHamyarLocation {
 
 	public void InsertDataFromWsToDb()
 	{
-		//nothing
+		db=dbh.getWritableDatabase();
+		String query="DELETE location WHERE id="+rowID;
+		db.execSQL(query);
+		db.close();
 	}
 }

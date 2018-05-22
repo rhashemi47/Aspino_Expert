@@ -52,6 +52,7 @@ public class Profile extends Activity {
 	private SQLiteDatabase db;
 	private Button btnSendProfile;
 	private Button btnSendRegentCodeToFriend;
+	private Button btnReceiveAnInterview;
 //	//private Button btnHome;
 	private ImageView imgUser;
 	private String yearStr="";
@@ -88,6 +89,7 @@ public class Profile extends Activity {
 		etReagentCodeProfile=(EditText)findViewById(R.id.etReagentCodeProfile);
 		btnSendProfile=(Button) findViewById(R.id.btnSendProfile);
 		btnSendRegentCodeToFriend=(Button) findViewById(R.id.btnSendRegentCodeToFriend);
+		btnReceiveAnInterview=(Button) findViewById(R.id.btnReceiveAnInterview);
 		imgUser=(ImageView) findViewById(R.id.imgUser);
 		//***************************************************************
 //		btnCredit=(Button)findViewById(R.id.btnCredit);
@@ -270,6 +272,12 @@ public class Profile extends Activity {
 			@Override
 			public void onClick(View v) {
 				sharecode(SendRegentCodeToFriend);
+			}
+		});
+		btnReceiveAnInterview.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
 			}
 		});
 //		btnCredit.setOnClickListener(new View.OnClickListener() {

@@ -77,14 +77,8 @@ public class ServiceGetLocation extends Service {
                                             Cursor c = db.rawQuery("SELECT * FROM login",null);
                                             if(c.getCount()>0)
                                             {
-                                                c.moveToNext();
-                                                guid=c.getString(c.getColumnIndex("guid"));
-                                                hamyarcode=c.getString(c.getColumnIndex("hamyarcode"));
                                                 latitude = gps.getLatitude();
                                                 longitude = gps.getLongitude();
-                                                String query = "UPDATE Profile SET Lat='" + Double.toString(latitude) + "',Lon='" + Double.toString(longitude) + "'";
-                                                db = dbh.getWritableDatabase();
-                                                db.execSQL(query);
                                                 String[] DateSp = ChangeDate.getCurrentDate().split("/");
                                                 String Yearobj = DateSp[0];
                                                 String Monthobj = DateSp[1];
@@ -92,14 +86,44 @@ public class ServiceGetLocation extends Service {
                                                 String[] TimeSp = ChangeDate.getCurrentTime().split(":");
                                                 String Hourobj = TimeSp[0];
                                                 String Minuteobj = TimeSp[1];
-                                                SyncInsertHamyarLocation syncInsertHamyarLocation = new SyncInsertHamyarLocation(getApplicationContext(),
-                                                        guid, hamyarcode, Yearobj, Monthobj, Dayobj, Hourobj, Minuteobj, Double.toString(latitude), Double.toString(longitude));
-                                                syncInsertHamyarLocation.AsyncExecute();
+                                                String query = "INSERT INTO location (lat,lon,year,mon,day,hour,minute) VALUES("
+                                                        +Double.toString(latitude)+","
+                                                        +Double.toString(longitude)+","
+                                                        +Yearobj+","
+                                                        +Monthobj+","
+                                                        +Dayobj+","
+                                                        +Hourobj+","
+                                                        +Minuteobj;
+                                                db = dbh.getWritableDatabase();
+                                                db.execSQL(query);
+
                                             }
                                         }
 
-                                        db.close();
                                     }
+                                    db=dbh.getReadableDatabase();
+                                    Cursor c = db.rawQuery("SELECT * FROM login",null);
+                                    if(c.getCount()>0) {
+                                        c.moveToNext();
+                                        guid = c.getString(c.getColumnIndex("guid"));
+                                        hamyarcode = c.getString(c.getColumnIndex("hamyarcode"));
+                                        Cursor coursors = db.rawQuery("SELECT * FROM location", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+                                            SyncInsertHamyarLocation syncInsertHamyarLocation = new SyncInsertHamyarLocation(getApplicationContext(),
+                                                    guid, hamyarcode, coursors.getString(coursors.getColumnIndex("year")),
+                                                    coursors.getString(coursors.getColumnIndex("mon")),
+                                                    coursors.getString(coursors.getColumnIndex("day")),
+                                                    coursors.getString(coursors.getColumnIndex("hour")),
+                                                    coursors.getString(coursors.getColumnIndex("minute")),
+                                                    coursors.getString(coursors.getColumnIndex("lat")),
+                                                    coursors.getString(coursors.getColumnIndex("lon")),
+                                                    Integer.parseInt(coursors.getString(coursors.getColumnIndex("id"))));
+                                            syncInsertHamyarLocation.AsyncExecute();
+                                        }
+                                    }
+
+                                    db.close();
 
                                 }
                             });
