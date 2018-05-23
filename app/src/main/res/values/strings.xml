@@ -114,5 +114,7 @@
     <string name="AddressCo">آدرس قانونی شرکت</string>
     <string name="FieldOfExpertise">زمینه تخصص</string>
     <string name="ReceiveAnInterview">دریافت وقت مصاحبه</string>
+    <string name="Rating">امتیاز دهی</string>
+    <string name="SendRate">ثبت امتیاز</string>
 
 </resources>

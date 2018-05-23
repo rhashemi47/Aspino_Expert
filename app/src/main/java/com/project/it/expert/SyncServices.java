@@ -26,15 +26,17 @@ public class SyncServices {
 	private Activity activity;
 	private String acceptcode;
 	private String phonenumber;
+	private String CityCode;
 	private String WsResponse;
 	private String flag;
 	//private String acceptcode; 
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncServices(Activity activity, String phonenumber , String acceptcode,String flag) {
+	public SyncServices(Activity activity, String phonenumber , String acceptcode,String flag,String CityCode) {
 		this.activity = activity;
 		this.acceptcode = acceptcode;
 		this.phonenumber = phonenumber;
+		this.CityCode = CityCode;
 		this.flag = flag;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
@@ -161,7 +163,17 @@ public class SyncServices {
 	    //Set dataType
 	    VerifyCode.setType(String.class);
 	    //Add the property to request object
-	    request.addProperty(VerifyCode);	    
+	    request.addProperty(VerifyCode);
+	    //**********************************
+	    PropertyInfo CityCode = new PropertyInfo();
+	    //Set Name
+		CityCode.setName("CityCode");
+	    //Set Value
+		CityCode.setValue(CityCode);
+	    //Set dataType
+		CityCode.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(CityCode);
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -197,7 +209,7 @@ public class SyncServices {
 			db.execSQL("INSERT INTO services (code,servicename) VALUES('"+value[0] +"','"+value[1]+"')");		
 		}
 		db.close();
-		SyncServicesDetails syncservicesdetails=new SyncServicesDetails(this.activity,this.phonenumber,this.acceptcode,this.flag);
+		SyncServicesDetails syncservicesdetails=new SyncServicesDetails(this.activity,this.phonenumber,this.acceptcode,this.flag,CityCode);
 		syncservicesdetails.AsyncExecute();
     }
 	

@@ -31,15 +31,17 @@ public class HmLogin {
 	private String acceptcode;
 	private String WsResponse;
 	private String LastMessageCode;
+	private String CityCodeLocation;
 	private boolean CuShowDialog=true;
 	private boolean CuLoadActivityAfterExecute;
 	private String[] res;
 	//Contractor
-	public HmLogin(Activity activity, String phonenumber, String acceptcode, String check_load) {
+	public HmLogin(Activity activity, String phonenumber, String acceptcode, String check_load, String CityCodeLocation) {
 		this.activity = activity;
 		this.phonenumber = phonenumber;		
 		this.acceptcode=acceptcode;
 		this.check_load=check_load;
+		this.CityCodeLocation=CityCodeLocation;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -259,6 +261,10 @@ public class HmLogin {
 
 		SyncMessage syncMessage=new SyncMessage(this.activity, res[2].toString(), res[1].toString(),LastMessageCode,LastHamyarUserServiceCode);
 		syncMessage.AsyncExecute();
+		SyncState syncState=new SyncState(this.activity);
+		syncState.AsyncExecute();
+		SyncCity syncCity=new SyncCity(this.activity,CityCodeLocation,phonenumber,acceptcode);
+		syncCity.AsyncExecute();
 		SyncProfile syncProfile=new SyncProfile(this.activity,res[2].toString(), res[1].toString());
 		syncProfile.AsyncExecute();
 		db.close();

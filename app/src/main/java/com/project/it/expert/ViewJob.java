@@ -48,6 +48,7 @@ public class ViewJob extends AppCompatActivity{
     private String BsUserServicesID;
     private String tab;
     private String status;
+    private String NeedVisit;
     private String latStr="0";
     private String lonStr="0";
     private TextView ContentShowJob;
@@ -138,7 +139,7 @@ public class ViewJob extends AppCompatActivity{
         db=dbh.getReadableDatabase();
         if(tab.compareTo("1")==0)
         {
-            String query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+            String query="SELECT BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
                     "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Code="+BsUserServicesID;
@@ -420,22 +421,22 @@ public class ViewJob extends AppCompatActivity{
                 {
                     //todo
                 }
-//                try
-//                {
-//                    Content+="وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری"));
-//                }
-//                catch (Exception ex)
-//                {
-//                    //todo
-//                }
+                try
+                {
+                    NeedVisit=coursors.getString(coursors.getColumnIndex("NeedVisit"));
+                }
+                catch (Exception ex)
+                {
+                    NeedVisit="0";
+                }
                 ContentShowJob.setText(Content);
                 ContentShowJob.setTypeface(FontMitra);
                 ContentShowJob.setTextSize(18);
             }
         }
         else
-            {
-            String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+        {
+            String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.* FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
                     "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code=" + BsUserServicesID;
@@ -764,7 +765,7 @@ public class ViewJob extends AppCompatActivity{
         {
             if(status.compareTo("0")==0)//check
             {
-                btnSelect.setEnabled(true);
+                btnSelect.setEnabled(false);
                 btnPerFactor.setEnabled(true);
                 btnVisit.setEnabled(true);
                 btnCansel.setEnabled(false);
@@ -846,13 +847,25 @@ public class ViewJob extends AppCompatActivity{
         }
         else
         {
-            btnSelect.setEnabled(true);
-            btnPerFactor.setEnabled(false);
-            btnVisit.setEnabled(false);
-            btnCansel.setEnabled(false);
-            btnPause.setEnabled(false);
-            btnResume.setEnabled(false);
-            btnFinal.setEnabled(false);
+            if(NeedVisit.compareTo("0")==0) {
+                btnSelect.setEnabled(true);
+                btnPerFactor.setEnabled(false);
+                btnVisit.setEnabled(false);
+                btnCansel.setEnabled(false);
+                btnPause.setEnabled(false);
+                btnResume.setEnabled(false);
+                btnFinal.setEnabled(false);
+            }
+            else {
+                btnSelect.setEnabled(false);
+                btnPerFactor.setEnabled(true);
+                btnVisit.setEnabled(true);
+                btnCansel.setEnabled(false);
+                btnPause.setEnabled(false);
+                btnResume.setEnabled(false);
+                btnFinal.setEnabled(false);
+
+            }
         }
         btnSelect.setOnClickListener(new View.OnClickListener() {
             @Override

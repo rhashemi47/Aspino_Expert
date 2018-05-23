@@ -11,6 +11,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -25,12 +27,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Accept_code extends Activity {
 	String phonenumber;
 	EditText acceptcode;
+	private double lat;
+	private double lon;
+	private GPSTracker gps;
 	Button btnSendAcceptcode;
 	Button btnRefreshAcceptcode;
 	String check_load;
@@ -95,6 +102,14 @@ public class Accept_code extends Activity {
 		} catch (SQLException sqle) {
 
 			throw sqle;
+		}
+		gps = new GPSTracker(getApplicationContext());
+
+		// check if GPS enabled
+		if(gps.canGetLocation())
+		{
+			lat = gps.getLatitude();
+			lon = gps.getLongitude();
 		}
 		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//remive page title
@@ -198,9 +213,46 @@ public void onPause() {
 		String query="UPDATE login SET Phone ='"+phonenumber+"', AcceptCode='"+acceptcode.getText().toString()+"'";
 		db=dbh.getWritableDatabase();
 		db.execSQL(query);
-		HmLogin hm=new HmLogin(Accept_code.this, phonenumber, acceptcode.getText().toString(),check_load);
+		HmLogin hm=new HmLogin(Accept_code.this, phonenumber, acceptcode.getText().toString(),check_load,getStringLocation());
 		hm.AsyncExecute();
 
 		db.close();
+	}
+	private  String getStringLocation()
+	{
+		Locale locale = new Locale("fa");
+
+		Geocoder geocoder = new Geocoder(getApplicationContext(), locale);
+
+		List<Address> list;
+
+		try {
+			lat = gps.getLatitude();
+			lon = gps.getLongitude();
+			list = geocoder.getFromLocation(lat, lon, 2);
+
+			Address address = list.get(0);
+
+
+			//Toast.makeText(getApplicationContext(), "CountryCode: " + address.getCountryCode() +
+//                    " ,AdminArea : " + address.getAdminArea() +
+//                    " ,CountryName : " + address.getCountryName() +
+//                    " ,SubLocality : " + address.getSubLocality()+address.getFeatureName(), Toast.LENGTH_SHORT).show();
+			if(address.getSubLocality()!=null)
+			{
+				return address.getLocality();
+			}
+			else {
+				return address.getThoroughfare();
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			return "";
+		}
+
+		catch (Exception e){
+			return "";
+		}
 	}
 }

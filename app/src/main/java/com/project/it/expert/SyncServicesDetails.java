@@ -27,14 +27,16 @@ public class SyncServicesDetails {
 	private Activity activity;
 	private String acceptcode;
 	private String phonenumber;
+	private String CityCode;
 	private String WsResponse;
 	private String flag;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncServicesDetails(Activity activity, String phonenumber, String acceptcode,String flag) {
+	public SyncServicesDetails(Activity activity, String phonenumber, String acceptcode,String flag,String CityCode) {
 		this.activity = activity;
 		this.acceptcode = acceptcode;
 		this.phonenumber = phonenumber;
+		this.CityCode = CityCode;
 		this.flag = flag;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
@@ -160,7 +162,17 @@ public class SyncServicesDetails {
 	    //Set dataType
 	    VerifyCode.setType(String.class);
 	    //Add the property to request object
-	    request.addProperty(VerifyCode);	    
+	    request.addProperty(VerifyCode);
+	    //**********************************************
+	    PropertyInfo CityCode = new PropertyInfo();
+	    //Set Name
+		CityCode.setName("CityCode");
+	    //Set Value
+		CityCode.setValue(CityCode);
+	    //Set dataType
+		CityCode.setType(String.class);
+	    //Add the property to request object
+	    request.addProperty(CityCode);
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -193,11 +205,8 @@ public class SyncServicesDetails {
 		db.execSQL("DELETE FROM servicesdetails");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");			
-			db.execSQL("INSERT INTO servicesdetails (code,servicename,type,name) VALUES('"+value[0] +"','"+value[1]+"','"+value[2]+"','"+value[3]+"')");		
+			db.execSQL("INSERT INTO servicesdetails (code,servicename,type,name,NeedVisit) VALUES('"+value[0] + "','" +value[1] + "','" + value[2] +"','"+value[3]+"','"+value[4]+"')");
 		}
-		String Query="UPDATE UpdateApp SET Status='0'";
-		db=dbh.getWritableDatabase();
-		db.execSQL(Query);
 		db.close();
 		if(this.flag.compareTo("0")==0)
 		{

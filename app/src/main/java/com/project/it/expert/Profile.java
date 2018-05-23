@@ -268,6 +268,16 @@ public class Profile extends Activity {
 				db.close();
 			}
 		});
+		db=dbh.getReadableDatabase();
+		Cursor cursor=db.rawQuery("SELECT * FROM IntroductionTime",null);
+		if(cursor.getCount()>0)
+		{
+			btnReceiveAnInterview.setVisibility(View.GONE);
+		}
+		else
+		{
+			btnReceiveAnInterview.setVisibility(View.VISIBLE);
+		}
 		btnSendRegentCodeToFriend.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -277,7 +287,8 @@ public class Profile extends Activity {
 		btnReceiveAnInterview.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-
+				SyncInsertHamyarIntroductionTime syncInsertHamyarIntroductionTime=new SyncInsertHamyarIntroductionTime(Profile.this,hamyarcode);
+				syncInsertHamyarIntroductionTime.AsyncExecute();
 			}
 		});
 //		btnCredit.setOnClickListener(new View.OnClickListener() {

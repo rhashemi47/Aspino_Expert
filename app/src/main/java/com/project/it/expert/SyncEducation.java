@@ -147,18 +147,6 @@ public class SyncEducation {
         
     }
 	
-	String LastNewsId;
-	public void LoadMaxNewId()
-	{
-		db = dbh.getReadableDatabase();
-		Cursor cursors = db.rawQuery("select IFNULL(max(id),0)MID from news", null);
-		if(cursors.getCount() > 0)
-		{
-			cursors.moveToNext();
-			LastNewsId = cursors.getString(cursors.getColumnIndex("MID"));
-		}
-	}
-	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
@@ -205,8 +193,8 @@ public class SyncEducation {
 			value=res[i].split("##");			
 			db.execSQL("INSERT INTO education (key,title) VALUES('"+value[0] +"','"+value[1]+"')");		
 		}
-		SyncServices syncservices=new SyncServices(this.activity,this.phonenumber,this.acceptcode,"0");
-		syncservices.AsyncExecute();
+//		SyncServices syncservices=new SyncServices(this.activity,this.phonenumber,this.acceptcode,"0");
+//		syncservices.AsyncExecute();
 		db.close();
     }
 	
