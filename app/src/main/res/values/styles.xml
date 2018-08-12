@@ -38,4 +38,9 @@
     </style>
 
     <style name="TextAppearance">TextAppearance</style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlActivated">#cb9867</item>
+        <item name="colorControlNormal">#d4d4d4</item>
+    </style>
 </resources>

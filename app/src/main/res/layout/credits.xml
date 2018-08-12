@@ -2,71 +2,143 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background_body"
+    android:background="#fff"
     android:theme="@style/Theme.AppCompat.NoActionBar"
     android:layoutDirection="rtl">
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/appbar_padding_top"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="90dp"
+        android:orientation="vertical"
+        android:background="@drawable/head_income"
+        android:id="@+id/LinearHeader"
+        android:textDirection="rtl"
+        android:layoutDirection="rtl">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/Credits"
-            android:background="@drawable/background_title"
-            app:titleTextColor="#ffff" />
-    </android.support.design.widget.AppBarLayout>
+            android:layout_height="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/humberger"
+                android:id="@+id/imgHumberger"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/tvUserName"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:fontFamily="@font/vazir_medium"
+                android:textColor="#fffdfd"
+                android:text="@string/Info_Bank_ID"
+                android:layout_weight="1"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/back_button"
+                android:id="@+id/imgBack"/>
+        </LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="90dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:id="@+id/LinearMinCredit"
-        android:background="@drawable/rounded_layout_credit">
+        android:layout_below="@+id/LinearHeader"
+        android:background="#fff">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/appbar"
-            android:id="@+id/TopValueCredits">
-            <TextView
-                android:id="@+id/tvRecentCredits"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:lineSpacingExtra="4dp"
-                android:text="@string/RecentCredit"
-                android:textSize="18dp"
-                android:textColor="#000000"/>
-            <TextView
-                android:id="@+id/tvRecentCreditsValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:lineSpacingExtra="4dp"
-                android:textSize="18dp"
-                android:textColor="#000000" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:id="@+id/LinearImages">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="150dp"
+                android:src="@drawable/pose"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/appbar"
+            android:layout_marginTop="10dp"
+            android:background="#272a95"
+            android:id="@+id/TopValueCredits"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvRecentCredits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/RecentCredit"
+                android:layout_marginRight="10dp"
+                android:textSize="20sp"
+                android:textColor="#fff"
+                android:fontFamily="@font/vazir_light"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tvContentCredits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="#fff"
+                android:fontFamily="@font/vazir_medium"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#272a95"
+            android:id="@+id/LinearValueIncome"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:id="@+id/tvTitleIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/IncomeFromAspino"
+                android:layout_marginRight="10dp"
+                android:textSize="20sp"
+                android:textColor="#fff"
+                android:fontFamily="@font/vazir_light"
+                android:layout_gravity="center"
+                android:gravity="left"
+                android:layout_weight="1"/>
+            <TextView
+                android:id="@+id/tvValueIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="#fff"
+                android:fontFamily="@font/vazir_medium"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/TopValueCreditsIncrise">
             <TextView
                 android:id="@+id/tvTitleIncriseCredit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/CurrencyInsertCredit"
-                android:textSize="18dp"
-                android:textColor="#000000" />
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/vazir"
+                android:text="لطفا یکی از روش های پرداخت از از طریق حساب بانکی یا درآمد شما در آسپینو یکی را انتخاب نمایید و سپس یکی از مبالغ پیش فرض یا مبلغ دلخواه خود را وارد و کیف پول خود را شارژ نمایید ."
+                android:textSize="16sp"
+                android:textColor="#000000"/>
             <EditText
                 android:id="@+id/etCurrencyInsertCredit"
                 android:layout_width="match_parent"
@@ -81,94 +153,132 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:id="@+id/LinearIncreseCredite"
+        android:layout_height="wrap_content"
+        android:id="@+id/LinearSelectIncreseCredite"
         android:layout_below="@+id/LinearMinCredit"
-        android:gravity="center">
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnIncresCredit"
-            android:background="@drawable/rounded_button"
-            android:layout_marginLeft="100dp"
-            android:layout_marginRight="100dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/cash"
-            android:textSize="22dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="#fff"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/btnFromBank"
+            android:background="@drawable/rounded_textview_currency2"
+            android:text="پرداخت مبلغ دلخواه
+از حساب بانکی"
+            android:textColor="#ffff"
+            android:fontFamily="@font/vazir"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/btnFromAspino"
+            android:background="@drawable/rounded_textview_currency1"
+            android:text="پرداخت از درآمد
+در آسپینو"
+            android:textColor="#272a95"
+            android:fontFamily="@font/vazir"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/LinearIncreseCredite"
+        android:layout_below="@+id/LinearSelectIncreseCredite"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/btnTwoThousand"
+            android:fontFamily="@font/vazir"
+            android:background="@drawable/rounded_textview_currency2"
+            android:text="20
+هزار تومان"
+            android:textColor="#ffff"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/btnFiftyThousand"
+            android:fontFamily="@font/vazir"
+            android:background="@drawable/rounded_textview_currency1"
+            android:text="50
+هزار تومان"
+            android:textColor="#272a95"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:id="@+id/btnOneHundredThousand"
+            android:fontFamily="@font/vazir"
+            android:background="@drawable/rounded_textview_currency1"
+            android:text="100
+هزار تومان"
+            android:textColor="#272a95"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="80dp"
-        android:layout_below="@+id/LinearMinCredit"
-        android:orientation="vertical">
-
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/LinearIncreseCredite"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/etInsertPriceUser"
+            android:inputType="numberDecimal"
+            android:hint="مبلغ دلخواه"
+            android:textColorHint="#737373"
+            android:fontFamily="@font/vazir_light"
+            android:gravity="center"
+            android:background="@drawable/rounded_textview_currency1"/>
         <TextView
             android:id="@+id/tvHistoryCredits"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="تومان"
             android:textSize="18dp"
-            android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="#000000"/>
-
-        <ListView
-            android:id="@+id/lstHistoryCredit"
+            android:layout_alignTop="@+id/etInsertPriceUser"
+            android:layout_alignBottom="@+id/etInsertPriceUser"
+            android:layout_alignLeft="@+id/etInsertPriceUser"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"/>
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="70dp">
-        </ListView>
-    </LinearLayout>
-    <!--<FrameLayout-->
-        <!--android:id="@+id/frame"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/background_actionbar" />-->
-
-    <!--<android.support.design.widget.BottomNavigationView-->
-        <!--android:id="@+id/bottomNavigationView"-->
-        <!--style="@style/BottomNavigation"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:menu="@menu/bottom_menu"-->
-        <!--android:layout_alignParentBottom="true"/>-->
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:gravity="center">-->
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/btnHome"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/rounded_button_bottom"-->
-            <!--android:drawableTop="@drawable/home"-->
-            <!--android:text="@string/home"/>-->
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/btnOrders"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/rounded_button_bottom"-->
-            <!--android:drawableTop="@drawable/history"-->
-            <!--android:text="@string/Orders"/>-->
-        <!--<Button-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:id="@+id/btnCredit"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/rounded_button_bottom"-->
-            <!--android:drawableTop="@drawable/credit"-->
-            <!--android:text="@string/credite"/>-->
-    <!--</LinearLayout>-->
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="90dp"
+                android:layout_marginLeft="90dp"
+                android:text="@string/cash"
+                android:textColor="#fff"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:textSize="22sp"
+                android:id="@+id/btnIncreseCredit"
+                android:background="@drawable/rounded_button_send"/>
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

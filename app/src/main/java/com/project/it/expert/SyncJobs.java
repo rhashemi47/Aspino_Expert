@@ -113,7 +113,7 @@ public class SyncJobs {
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
 	            	//Toast.makeText(this.activity.getApplicationContext(), "سرویس جدیدی اعلام نشده", Toast.LENGTH_LONG).show();
-					SyncServices syncservices=new SyncServices(this.activity,guid,hamyarcode,"1");
+					SyncServices syncservices=new SyncServices(this.activity,guid,hamyarcode,"1","0");
 					syncservices.AsyncExecute();
 	            }
 				else if(WsResponse.toString().compareTo("2") == 0)
@@ -289,7 +289,7 @@ public class SyncJobs {
 			syncGetServiceUserInfo.AsyncExecute();
 		}
 		db.close();
-		SyncServices syncservices=new SyncServices(this.activity,this.guid,this.hamyarcode,"1");
+		SyncServices syncservices=new SyncServices(this.activity,this.guid,this.hamyarcode,"1","0");
 		syncservices.AsyncExecute();
     }
 }

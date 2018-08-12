@@ -82,7 +82,19 @@
             android:name="com.project.it.expert.List_Dutys"
             android:noHistory="false"/>
         <activity
-            android:name="com.project.it.expert.List_Services"
+            android:name="com.project.it.expert.List_Orders"
+            android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.expert.Income"
+            android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.expert.KarnameMali"
+            android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.expert.CommentCustomer"
+            android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.expert.Id_Bank"
             android:noHistory="false"/>
         <service android:name="com.project.it.expert.ServiceGetNewJob">
 

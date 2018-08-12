@@ -52,7 +52,7 @@ public class Update {
     }
     public void getServices()
     {
-        SyncServices syncservices=new SyncServices(this.activity,this.phonenumber,this.acceptcode,"2");
+        SyncServices syncservices=new SyncServices(this.activity,this.phonenumber,this.acceptcode,"2","0");
         syncservices.AsyncExecute();
     }
     public void getJob()

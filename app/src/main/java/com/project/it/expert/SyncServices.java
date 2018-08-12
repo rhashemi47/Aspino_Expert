@@ -30,7 +30,7 @@ public class SyncServices {
 	private String WsResponse;
 	private String flag;
 	//private String acceptcode; 
-	private boolean CuShowDialog=true;
+	private boolean CuShowDialog=false;
 	//Contractor
 	public SyncServices(Activity activity, String phonenumber , String acceptcode,String flag,String CityCode) {
 		this.activity = activity;
@@ -169,7 +169,7 @@ public class SyncServices {
 	    //Set Name
 		CityCode.setName("CityCode");
 	    //Set Value
-		CityCode.setValue(CityCode);
+		CityCode.setValue(this.CityCode);
 	    //Set dataType
 		CityCode.setType(String.class);
 	    //Add the property to request object

@@ -19,7 +19,7 @@ public class ShamsiCalendar
   protected static final int TIMEZONE_RAW_OFFSET_HOUR=TIMEZONE_RAW_OFFSET/HOUR_MILLIS;
   protected static final int TIMEZONE_RAW_OFFSET_MINUTE=(TIMEZONE_RAW_OFFSET-(HOUR_MILLIS*TIMEZONE_RAW_OFFSET_HOUR))/MINUTE_MILLIS;
 //  protected static final Date MI_ORIGIN_DATE=new Date(new GregorianCalendar(2000,Calendar.MARCH,20,0,0,0).getTimeInMillis());
-  protected static final Date MI_ORIGIN_DATE=new Date(new GregorianCalendar(2000,Calendar.MARCH,20,0,0,0).getTime().getTime());
+  protected static final Date MI_ORIGIN_DATE=new Date(new GregorianCalendar(2000,Calendar.MARCH,22,0,0,0).getTime().getTime());
   protected static final int ORIGIN_WEEK_DAY=Calendar.MONDAY;
   protected static final String STANDARD_FORMAT_PATTERN="yyyy/MM/dd";
   public static final int SATURDAY=Calendar.SATURDAY;

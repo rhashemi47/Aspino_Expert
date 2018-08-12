@@ -4,67 +4,85 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.view.GestureDetector;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.mikepenz.materialdrawer.AccountHeader;
-import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import com.mikepenz.materialdrawer.Drawer;
-import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.holder.BadgeStyle;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
-import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
-import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
-import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.project.it.expert.Date.ChangeDate;
+import com.project.it.expert.viewbadger.BadgeView;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity{
     private String hamyarcode;
     private String guid;
+    private String StrToday;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private Drawer drawer=null;
     private String countMessage;
     private String countVisit;
-    private Button btnDuty;
-    private Button btnServices;
+    private TextView tvOrders;
+    private TextView tvDayOfWeek;
+    private TextView tvTitleMounth;
+    private TextView tvDayOfMounth;
+    private TextView tvToday;
+    private TextView tvUserName;
+    private TextView tvRateNumber;
+    private RatingBar RatingHamyar;
+    private ImageView imgHumberger;
+    private ImageView right_white_arrow;
+    private ImageView left_white_arrow;
+    private DrawerLayout mDrawer;
+    private LinearLayout LinearCallSupporter;
+    private LinearLayout LinearRole;
+    private LinearLayout LinearAboutAspino;
+    private LinearLayout LinearLogout;
+    private LinearLayout LinearIncome;
+    private LinearLayout LinearCredite;
+    private LinearLayout LinearBankID;
+    private LinearLayout LinearKarnameMali;
+    private LinearLayout LinearCommentCustomer;
+    private LinearLayout LinearOrders;
+    private LinearLayout LinearCertain;
+    private LinearLayout LinearSuggestions;
+    private LinearLayout LinearHome;
+    private LinearLayout LinearNotifications;
+    private ImageView imgUser;
+    private ir.hamsaa.persiandatepicker.util.PersianCalendar calNow;
+
+//    private Button btnServices;
 //    //private Button btnCredit;
 //    //private Button btnOrders;
 //    //private Button btnHome;
-    private boolean IsActive=true;
-    ArrayList<String> slides;
+//    ArrayList<String> slides;
     ImageView imageView;
-    Custom_ViewFlipper viewFlipper;
-    GestureDetector mGestureDetector;
+//    Custom_ViewFlipper viewFlipper;
+//    GestureDetector mGestureDetector;
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -73,23 +91,35 @@ public class MainMenu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
-        setContentView(R.layout.mainmenu);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.slide_menu_mainmenu);
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-        btnDuty=(Button)findViewById(R.id.btnDuty);
-        btnServices=(Button)findViewById(R.id.btnServices);
-        //****************************************************************
-        btnDuty.setTypeface(FontMitra);
-        btnServices.setTypeface(FontMitra);
-        //****************************************************************
-        btnDuty.setTextSize(18);
-        btnServices.setTextSize(18);
-        //****************************************************************
-//        btnCredit=(Button)findViewById(R.id.btnCredit);
-//        btnOrders=(Button)findViewById(R.id.btnOrders);
-//        btnHome=(Button)findViewById(R.id.btnHome);
-        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(MainMenu.this));
-        dbh=new DatabaseHelper(getApplicationContext());
+        tvOrders = (TextView) findViewById(R.id.tvOrders);
+        tvDayOfWeek = (TextView) findViewById(R.id.tvDayOfWeek);
+        tvTitleMounth = (TextView) findViewById(R.id.tvTitleMounth);
+        tvDayOfMounth = (TextView) findViewById(R.id.tvDayOfMounth);
+        tvToday = (TextView) findViewById(R.id.tvToday);
+        tvUserName = (TextView) findViewById(R.id.tvUserName);
+        imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
+        right_white_arrow = (ImageView) findViewById(R.id.right_white_arrow);
+        left_white_arrow = (ImageView) findViewById(R.id.left_white_arrow);
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        imgUser = (ImageView) findViewById(R.id.imgUser);
+        tvRateNumber = (TextView) findViewById(R.id.tvRateNumber);
+        RatingHamyar = (RatingBar) findViewById(R.id.RatingHamyar);
+        LinearIncome = (LinearLayout) findViewById(R.id.LinearIncome);
+        LinearCredite = (LinearLayout) findViewById(R.id.LinearCredite);
+        LinearBankID = (LinearLayout) findViewById(R.id.LinearBankID);
+        LinearKarnameMali = (LinearLayout) findViewById(R.id.LinearKarnameMali);
+        LinearCommentCustomer = (LinearLayout) findViewById(R.id.LinearCommentCustomer);
+        LinearOrders = (LinearLayout) findViewById(R.id.LinearOrders);
+        LinearCertain = (LinearLayout) findViewById(R.id.LinearCertain);
+        LinearSuggestions = (LinearLayout) findViewById(R.id.LinearSuggestions);
+        LinearHome = (LinearLayout) findViewById(R.id.LinearHome);
+        LinearNotifications = (LinearLayout) findViewById(R.id.LinearNotifications);
+        Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+        //***************************************************************************************
+        dbh = new DatabaseHelper(getApplicationContext());
         try {
 
             dbh.createDataBase();
@@ -108,202 +138,310 @@ public class MainMenu extends AppCompatActivity {
 
             throw sqle;
         }
-        db=dbh.getReadableDatabase();
-        Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'",null);
-        if(coursors.getCount()>0)
-        {
-            countMessage=String.valueOf(coursors.getCount());
+        db = dbh.getReadableDatabase();
+        Cursor coursors = db.rawQuery("SELECT * FROM messages WHERE IsReade='0' AND IsDelete='0'", null);
+        if (coursors.getCount() > 0) {
+            countMessage = String.valueOf(coursors.getCount());
         }
-        coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE Status='5' AND IsDelete='0'",null);
-        if(coursors.getCount()>0)
-        {
-            countVisit=String.valueOf(coursors.getCount());
+        coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE Status='5' AND IsDelete='0'", null);
+        if (coursors.getCount() > 0) {
+            countVisit = String.valueOf(coursors.getCount());
         }
-        try
-        {
+        try {
             hamyarcode = getIntent().getStringExtra("hamyarcode");
             guid = getIntent().getStringExtra("guid");
-            if(hamyarcode==null || guid==null)
+            if (hamyarcode == null || guid == null)
             {
 
-                Cursor cursors=null;
-                db=dbh.getReadableDatabase();
+                Cursor cursors = null;
+                db = dbh.getReadableDatabase();
                 cursors = db.rawQuery("SELECT * FROM login", null);
-                if(cursors.getCount()>0)
+                if (cursors.getCount() > 0)
                 {
                     cursors.moveToNext();
-                    String Result=cursors.getString(cursors.getColumnIndex("islogin"));
-                    if(Result.compareTo("0")==0)
+                    String Result = cursors.getString(cursors.getColumnIndex("islogin"));
+                    if (Result.compareTo("0") == 0)
                     {
-                        LoadActivity(Login.class,"hamyarcode","0","guid","0");
-                    }
-                    else
-                    {
-                        hamyarcode = cursors.getString(cursors.getColumnIndex("hamyarcode"));
-                        guid = cursors.getString(cursors.getColumnIndex("guid"));
-                        db=dbh.getReadableDatabase();
-                        coursors = db.rawQuery("SELECT * FROM UpdateApp",null);
-                        if(coursors.getCount()>0)
-                        {
-                            coursors.moveToNext();
-                            if(coursors.getString(coursors.getColumnIndex("Status")).compareTo("1")==0){
-                                String Query="UPDATE UpdateApp SET Status='0'";
-                                db=dbh.getWritableDatabase();
-                                db.execSQL(Query);
-                                //update();
-                            }
-                        }
+                        LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
                     }
                 }
                 else
                 {
-                    LoadActivity(Login.class,"hamyarcode","0","guid","0");
+                    LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
                 }
             }
-            else if(hamyarcode.compareTo("0")==0 || guid.compareTo("0")==0)
+            else if (hamyarcode.compareTo("0") == 0 || guid.compareTo("0") == 0)
             {
-                IsActive=false;
+//                IsActive = false;
             }
 
             db.close();
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             throw new Error("Error Opne Activity");
         }
+        //************************Profile*******************************************************
+
+        db=dbh.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Profile",null);
+        if(cursor.getCount()>0){
+            cursor.moveToNext();
+            tvUserName.setText(cursor.getString(cursor.getColumnIndex("Name")) + " " + cursor.getString(cursor.getColumnIndex("Fam")));
+            try
+            {
+                if(cursor.getString(cursor.getColumnIndex("Pic")).length()>0) {
+                    bmp = convertToBitmap(cursor.getString(cursor.getColumnIndex("Pic")));
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        float rating=Float.parseFloat("3.3");//todo give value From Database And WebService
+        tvRateNumber.setText(EnToFa("3.3"));
+        RatingHamyar.setRating(rating);
+        db.close();
+        imgUser.setImageBitmap(bmp);
+        //************************Calender*******************************************************
+        calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+        calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
+        tvDayOfWeek.setText(calNow.getPersianWeekDayName());
+        tvTitleMounth.setText(calNow.getPersianMonthName());
+        tvDayOfMounth.setText(EnToFa(String.valueOf(calNow.getPersianDay())));
+        String mounth,day;
+        if(calNow.getPersianMonth()<10)
+        {
+            mounth="0"+String.valueOf(calNow.getPersianMonth());
+        }
+        else
+        {
+            mounth="0"+String.valueOf(calNow.getPersianMonth());
+        }
+        if(calNow.getPersianDay()<10)
+        {
+            day="0"+String.valueOf(calNow.getPersianDay());
+        }
+        else
+        {
+            day=String.valueOf(calNow.getPersianDay());
+        }
+        StrToday=calNow.getPersianYear() + "/" + mounth + "/" + day;
+        //********************************************************************
+        LinearCallSupporter = (LinearLayout) findViewById(R.id.LinearCallSupporter);
+        LinearRole = (LinearLayout) findViewById(R.id.LinearRole);
+        LinearAboutAspino = (LinearLayout) findViewById(R.id.LinearAboutAspino);
+        LinearLogout = (LinearLayout) findViewById(R.id.LinearLogout);
+
+        LinearCallSupporter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db = dbh.getReadableDatabase();
+                Cursor cursor = db.rawQuery("SELECT * FROM Supportphone", null);
+                if (cursor.getCount() > 0) {
+                    cursor.moveToNext();
+                    dialContactPhone(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
+                }
+                db.close();
+            }
+        });
+        LinearRole.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(YourCommitment.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearAboutAspino.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(About.class,"hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logout();
+            }
+        });
+        LinearIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(Income.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearCredite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(Credit.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearBankID.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(Id_Bank.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearKarnameMali.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(KarnameMali.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearCommentCustomer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearOrders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(List_Orders.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearCertain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearSuggestions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoadActivity(MainMenu.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        LinearNotifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+            }
+        });
+        left_white_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mounth,day;
+                if(calNow.getPersianMonth()<10)
+                {
+                    mounth="0"+String.valueOf(calNow.getPersianMonth());
+                }
+                else
+                {
+                    mounth="0"+String.valueOf(calNow.getPersianMonth());
+                }
+                if(calNow.getPersianDay()<10)
+                {
+                    day="0"+String.valueOf(calNow.getPersianDay());
+                }
+                else
+                {
+                    day=String.valueOf(calNow.getPersianDay());
+                }
+                //***************************************
+                String DateMiladi= faToEn(ChangeDate.changeFarsiToMiladi(String.valueOf(calNow.getPersianYear()) + "/"
+                        + mounth + "/"
+                        + day));
+                String spMiladi[]=DateMiladi.split("/");
+                String Query="select DateTime('" + spMiladi[0] + "-" + spMiladi[1] + "-" + spMiladi[2]+"', 'LocalTime', '+1 Day') as result";
+                db=dbh.getReadableDatabase();
+                Cursor cursor=db.rawQuery(Query,null);
+                if(cursor.getCount()>0)
+                {
+                    cursor.moveToNext();
+                    String resultDate=cursor.getString(cursor.getColumnIndex("result"));
+                    String sp[]=resultDate.split(" ");
+                    String DateShamsi=faToEn(ChangeDate.changeMiladiToFarsi(sp[0].replace("-","/")));
+                    String spShamsi[]=DateShamsi.split("/");
+//                    ir.hamsaa.persiandatepicker.util.PersianCalendar calResult=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+                    calNow.setPersianDate(Integer.parseInt(spShamsi[0]),Integer.parseInt(spShamsi[1]),Integer.parseInt(spShamsi[2]));
+                    tvDayOfWeek.setText(calNow.getPersianWeekDayName());
+                    tvDayOfMounth.setText(EnToFa(spShamsi[2]));
+                    tvTitleMounth.setText(calNow.getPersianMonthName());
+                }
+            }
+        });
+        right_white_arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mounth,day;
+                if(calNow.getPersianMonth()<10)
+                {
+                    mounth="0"+String.valueOf(calNow.getPersianMonth());
+                }
+                else
+                {
+                    mounth="0"+String.valueOf(calNow.getPersianMonth());
+                }
+                if(calNow.getPersianDay()<10)
+                {
+                    day="0"+String.valueOf(calNow.getPersianDay());
+                }
+                else
+                {
+                    day=String.valueOf(calNow.getPersianDay());
+                }
+                //***************************************
+                String DateMiladi= faToEn(ChangeDate.changeFarsiToMiladi(String.valueOf(calNow.getPersianYear()) + "/"
+                        + mounth + "/"
+                        + day));
+                String spMiladi[]=DateMiladi.split("/");
+                String Query="select DateTime('" + spMiladi[0] + "-" + spMiladi[1] + "-" + spMiladi[2]+" 00:00:00', 'LocalTime', '-1 Day') as result";
+                db=dbh.getReadableDatabase();
+                Cursor cursor=db.rawQuery(Query,null);
+                if(cursor.getCount()>0)
+                {
+                    cursor.moveToNext();
+                    String resultDate=cursor.getString(cursor.getColumnIndex("result"));
+                    String sp[]=resultDate.split(" ");
+                    sp[0]=sp[0].replace("-","/");
+                    String DateShamsi=faToEn(ChangeDate.changeMiladiToFarsi(sp[0]));
+                    String spShamsi[]=DateShamsi.split("/");
+//                    ir.hamsaa.persiandatepicker.util.PersianCalendar calResult=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
+                    calNow.setPersianDate(Integer.parseInt(spShamsi[0]),Integer.parseInt(spShamsi[1]),Integer.parseInt(spShamsi[2]));
+                    tvDayOfWeek.setText(calNow.getPersianWeekDayName());
+                    tvDayOfMounth.setText(EnToFa(spShamsi[2]));
+                    tvTitleMounth.setText(calNow.getPersianMonthName());
+                }
+            }
+        });
+        tvToday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String spShamsi[]=StrToday.split("/");
+                calNow.setPersianDate(Integer.parseInt(spShamsi[0]),Integer.parseInt(spShamsi[1]),Integer.parseInt(spShamsi[2]));
+                tvDayOfWeek.setText(calNow.getPersianWeekDayName());
+                tvDayOfMounth.setText(EnToFa(spShamsi[2]));
+                tvTitleMounth.setText(calNow.getPersianMonthName());
+            }
+        });
+        //********************************************************************
+        BadgeView badge1 = new BadgeView(this, tvOrders);
+        badge1.setText("12");
+        badge1.setBadgePosition(BadgeView.POSITION_CENTER);
+        //****************************************************************
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(MainMenu.this));
+
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetLocation.class));
         startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
         //**************************************************************************
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        viewFlipper = (Custom_ViewFlipper) findViewById(R.id.vf);
-        db=dbh.getReadableDatabase();
-        coursors = db.rawQuery("SELECT * FROM Slider",null);
-        if(coursors.getCount()>0) {
-            Bitmap bpm[]=new Bitmap[coursors.getCount()];
-            String link[]=new String[coursors.getCount()];
-            for (int j=0;j<coursors.getCount();j++) {
-                coursors.moveToNext();
-                viewFlipper.setVisibility(View.VISIBLE);
-                //slides.add();
-                bpm[j]=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
-                link[j]=coursors.getString(coursors.getColumnIndex("Link"));
-            }
-            db.close();
-            int i = 0;
-            while(i<bpm.length)
-            {
-//                imageView = new  com.flaviofaria.kenburnsview.KenBurnsView(this);
-                imageView=new ImageView(getApplicationContext());
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                //ImageLoader.getInstance().displayImage(slides.get(i),imageView);
-                imageView.setImageBitmap(bpm[i]);
-                imageView.setTag(link[i]);
-//                imageView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        String link="";
-//                        link = ((ImageView)v).getTag().toString();
-//                        Toast.makeText(getBaseContext(), link, Toast.LENGTH_LONG).show();
-//                    }
-//                });
-                viewFlipper.addView(imageView);
-                i++;
-            }
-//            RandomTransitionGenerator randomTransitionGenerator = new RandomTransitionGenerator(3000,new FastOutLinearInInterpolator());
-//            imageView.setTransitionGenerator(randomTransitionGenerator);
-
-
-
-            Paint paint = new Paint();
-            paint.setColor(ContextCompat.getColor(this,R.color.colorPrimary));
-            viewFlipper.setPaintCurrent(paint);
-            paint = new Paint();
-
-            paint.setColor(ContextCompat.getColor(this,android.R.color.white));
-            viewFlipper.setPaintNormal(paint);
-
-            viewFlipper.setRadius(10);
-            viewFlipper.setMargin(5);
-
-            CustomGestureDetector customGestureDetector = new CustomGestureDetector();
-            mGestureDetector = new GestureDetector(MainMenu.this, customGestureDetector);
-
-            viewFlipper.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    mGestureDetector.onTouchEvent(motionEvent);
-                    return true;
-                }
-            });
-        }
-        else
-        {
-            viewFlipper.setVisibility(View.GONE);
-        }
-
-
-//        btnCredit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-//            }
-//        });
-//        btnOrders.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-//            }
-//        });
-//        btnHome.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//            }
-//        });
-        //****************************************************************************************
-        CreateMenu(toolbar);
-        //***************************************************************************************************************************
-        btnDuty.setOnClickListener(new View.OnClickListener() {
+        //**************************************************************************
+        imgHumberger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //goto Duty Page List
-                LoadActivity(List_Dutys.class, "guid",  guid, "hamyarcode", hamyarcode);
+                mDrawer.openDrawer(GravityCompat.START);
             }
         });
-        btnServices.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //goto Services Page List
-                LoadActivity(List_Services.class, "guid",  guid, "hamyarcode", hamyarcode);
-            }
-        });
-	}
-    class CustomGestureDetector extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-            // Swipe left (next)
-            if (e1.getX() > e2.getX()) {
-                viewFlipper.setInAnimation(MainMenu.this, R.anim.left_in);
-                viewFlipper.setOutAnimation(MainMenu.this, R.anim.left_out);
-
-                viewFlipper.showNext();
-            }else if (e1.getX() < e2.getX()) {
-                viewFlipper.setInAnimation(MainMenu.this, R.anim.right_in);
-                viewFlipper.setOutAnimation(MainMenu.this, R.anim.right_out);
-
-                viewFlipper.showPrevious();
-            }
-
-            viewFlipper.setInAnimation(MainMenu.this, R.anim.left_in);
-            viewFlipper.setOutAnimation(MainMenu.this, R.anim.left_out);
-
-            return super.onFling(e1, e2, velocityX, velocityY);
-        }
     }
+
 
     public void Logout() {
         //Exit All Activity And Kill Application
@@ -362,286 +500,41 @@ public class MainMenu extends AppCompatActivity {
 
         alertbox.show();
     }
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    private void CreateMenu(Toolbar toolbar){
-        Bitmap bmp=BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
-        String name="";
-        String family="";
-        db=dbh.getReadableDatabase();
-        Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
-        if(coursors.getCount()>0) {
-            coursors.moveToNext();
-            try
-            {
-                if(coursors.getString(coursors.getColumnIndex("Name")).compareTo("null")!=0){
-                    name = coursors.getString(coursors.getColumnIndex("Name"));
-                }
-                else
-                {
-                    name = "کاربر";
-                }
-
-            }
-            catch (Exception ex){
-                name = "کاربر";
-            }
-            try
-            {
-                if(coursors.getString(coursors.getColumnIndex("Fam")).compareTo("null")!=0){
-                    family = coursors.getString(coursors.getColumnIndex("Fam"));
-                }
-                else
-                {
-                    family = "مهمان";
-                }
-
-            }
-            catch (Exception ex){
-                family = "مهمان";
-            }
-            bmp=convertToBitmap(coursors.getString(coursors.getColumnIndex("Pic")));
-            db.close();
+    public void dialContactPhone(String phoneNumber) {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainMenu.this, new String[]{android.Manifest.permission.CALL_PHONE},REQUEST_CODE_ASK_PERMISSIONS);
+            return;
         }
-        else
-        {
-            name="کاربر";
-            family="مهمان";
-        }
-//        if(name.length()==0 || family.length()==0)
-//        {
-//            name="کاربر";
-//            family="مهمان";
-//        }
+        startActivity(callIntent);
+    }
 
-        int drawerGravity= Gravity.END;
-            Configuration config = getResources().getConfiguration();
-            if(config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                drawerGravity= Gravity.START;
-            }
-
-
-
-        // Create the AccountHeader
-        AccountHeader headerResult = new AccountHeaderBuilder()
-                .withActivity(this)
-                .withHeaderBackground(R.color.mdtp_dark_gray)
-//                .withHeaderBackground(R.drawable.menu_header)
-                .addProfiles(
-                        new ProfileDrawerItem().withName(name+" "+family).withIcon(bmp)// withIcon(getResources().getDrawable(R.drawable.personpic))
-                ).withSelectionListEnabledForSingleProfile(false)
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        return false;
-                    }
-                })
-                .build();
-        drawer= new DrawerBuilder()
-                .withActivity(this)
-                .withToolbar(toolbar)
-                .withAccountHeader(headerResult)
-                .withDrawerGravity(drawerGravity)
-                .withShowDrawerOnFirstLaunch(true)
-                .addDrawerItems(
-                        new SecondaryDrawerItem().withName(R.string.Profile).withIcon(R.drawable.profile).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.ListVisit).withIcon(R.drawable.job).withBadge(countVisit).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
-                        new SecondaryDrawerItem().withName(R.string.Yourcommitment).withIcon(R.drawable.yourcommitment).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.Ourcommitment).withIcon(R.drawable.ourcommitment).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.GiftBank).withIcon(R.drawable.gift).withSelectable(false).withEnabled(IsActive),
-                        new SecondaryDrawerItem().withName(R.string.Invite_friends).withIcon(R.drawable.about).withSelectable(false).withEnabled(IsActive),
-                        new SecondaryDrawerItem().withName(R.string.Contact).withIcon(R.drawable.contact).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.action_settings).withIcon(R.drawable.setting).withSelectable(false).withEnabled(IsActive),
-                        new SecondaryDrawerItem().withName(R.string.Help).withIcon(R.drawable.help).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.About).withIcon(R.drawable.about).withSelectable(false),
-                        new SecondaryDrawerItem().withName(R.string.Logout).withIcon(R.drawable.logout).withSelectable(false)
-                        // new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
-                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
-                        //new SecondaryDrawerItem().withName(R.string.Messages).withIcon(R.drawable.messages).withBadge(countMessage).withBadgeStyle(new BadgeStyle().withTextColor(Color.WHITE).withColorRes(R.color.md_red_700)).withSelectable(false).withEnabled(IsActive),
-                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
-                        //new SectionDrawerItem().withName("").withDivider(true).withTextColor(ContextCompat.getColor(this,R.color.md_grey_500)),
-                        //new SecondaryDrawerItem().withName(R.string.Exit).withIcon(R.drawable.exit).withSelectable(false),
-                )
-//                .addStickyDrawerItems(new PrimaryDrawerItem().withName(R.string.RelateUs).withSelectable(false).withEnabled(false),
-//                        new PrimaryDrawerItem().withName(R.string.telegram).withIcon(R.drawable.telegram).withSelectable(false),
-//                        new PrimaryDrawerItem().withName(R.string.instagram).withIcon(R.drawable.instagram).withSelectable(false))
-                .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
-                    @Override
-                    public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        switch (position){
-                            case 1://Profile
-                                db=dbh.getReadableDatabase();
-                                Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
-                                if(coursors.getCount()>0)
-                                {
-                                    coursors.moveToNext();
-                                    String Status_check=coursors.getString(coursors.getColumnIndex("Status"));
-                                    if(Status_check.compareTo("0")==0)
-                                    {
-                                        Cursor c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0)
-                                        {
-                                            c.moveToNext();
-                                            SyncProfile profile = new SyncProfile(MainMenu.this, c.getString(c.getColumnIndex("guid")), c.getString(c.getColumnIndex("hamyarcode")));
-                                            profile.AsyncExecute();
-                                        }
-                                    }
-                                    else
-                                    {
-                                        LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode);
-                                    }
-                                }
-
-                                db.close();
-                                break;
-                            case 2:
-                                db = dbh.getReadableDatabase();
-                                Cursor c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-                                    LoadActivity(List_Visits.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
-                                break;
-                            case 3:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(YourCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
-                                break;
-                            case 4:db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(OurCommitment.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
-                                break;
-//                            case 5:
-//                                db = dbh.getReadableDatabase();
-//                                c = db.rawQuery("SELECT * FROM login",null);
-//                                if(c.getCount()>0) {
-//                                    c.moveToNext();
-//
-//                                    LoadActivity(List_Messages.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-//                                }
-//                                db.close();
-//                                break;
-                            case 5:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(GiftBank.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
-                                break;
-                            case 6:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM Profile", null);
-                                if (c.getCount() > 0) {
-                                    c.moveToNext();
-                                    sharecode(c.getString(c.getColumnIndex("HamyarCodeForReagent")));
-                                    // LoadActivity(GiftBank.class, "karbarCode", c.getString(c.getColumnIndex("karbarCode")));
-                                }
-                                db.close();
-                                break;
-                            case 7:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-                                    LoadActivity(Contact.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                break;
-                            case 8:
-//                                Toast.makeText(MainMenu.this, "تنظیمات", Toast.LENGTH_SHORT).show();
-                                AlertDialog.Builder alertbox = new AlertDialog.Builder(MainMenu.this);
-                                // set the message to display
-                                alertbox.setMessage("تنظیمات پیش فاکتور");
-
-                                // set a negative/no button and create a listener
-                                alertbox.setPositiveButton("مراحل کاری", new DialogInterface.OnClickListener() {
-                                    // do something when the button is clicked
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        db=dbh.getReadableDatabase();
-                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0) {
-                                            c.moveToNext();
-
-                                            LoadActivity(StepJob.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                        }
-
-                                        db.close();
-                                        arg0.dismiss();
-                                    }
-                                });
-
-                                // set a positive/yes button and create a listener
-                                alertbox.setNegativeButton("ملزومات کاری", new DialogInterface.OnClickListener() {
-                                    // do something when the button is clicked
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        //Declare Object From Get Internet Connection Status For Check Internet Status
-                                        db=dbh.getReadableDatabase();
-                                        Cursor  c = db.rawQuery("SELECT * FROM login",null);
-                                        if(c.getCount()>0) {
-                                            c.moveToNext();
-
-                                            LoadActivity(StepJobDetaile.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                        }
-
-                                        db.close();
-                                        arg0.dismiss();
-
-                                    }
-                                });
-
-                                alertbox.show();
-                                break;
-                            case 9:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(Help.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
-                                break;
-                            case 10:
-                                db = dbh.getReadableDatabase();
-                                c = db.rawQuery("SELECT * FROM login",null);
-                                if(c.getCount()>0) {
-                                    c.moveToNext();
-
-                                    LoadActivity(About.class, "guid",  c.getString(c.getColumnIndex("guid")), "hamyarcode", c.getString(c.getColumnIndex("hamyarcode")));
-                                }
-                                db.close();
-                                break;
-//                            case 12:
-////                                Toast.makeText(MainMenu.this, "خروج از برنامه", Toast.LENGTH_SHORT).show();
-//                                ExitApplication();
-//                                break;
-                            case 11:
-//                                Toast.makeText(MainMenu.this, "خروج از کاربری", Toast.LENGTH_SHORT).show();
-                                Logout();
-                                break;
-//                            case 14:
-//                                Toast.makeText(MainMenu.this, "تلگرام", Toast.LENGTH_SHORT).show();
-//                                break;
-//                            case 15:
-//                                Toast.makeText(MainMenu.this, "اینستاگرام", Toast.LENGTH_SHORT).show();
-//                                break;
-                        }
-                        return true;
-                    }
-                })
-                .build();
+    public static String faToEn(String num) {
+        return num
+                .replace("۰", "0")
+                .replace("۱", "1")
+                .replace("۲", "2")
+                .replace("۳", "3")
+                .replace("۴", "4")
+                .replace("۵", "5")
+                .replace("۶", "6")
+                .replace("۷", "7")
+                .replace("۸", "8")
+                .replace("۹", "9");
+    }
+    public static String EnToFa(String num) {
+        return num
+                .replace("0", "۰")
+                .replace("1", "۱")
+                .replace("2", "۲")
+                .replace("3", "۳")
+                .replace("4", "۴")
+                .replace("5", "۵")
+                .replace("6", "۶")
+                .replace("7", "۷")
+                .replace("8", "۸")
+                .replace("9", "۹");
     }
     private void ExitApplication()
     {
@@ -680,17 +573,21 @@ public class MainMenu extends AppCompatActivity {
 
         alertbox.show();
     }
-
     @Override
-    public boolean onKeyDown( int keyCode, KeyEvent event )  {
-        if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-            //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
-            startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+    public void onBackPressed() {
+
+        if (mDrawer.isDrawerOpen(GravityCompat.START)) {
+
+            mDrawer.closeDrawer(GravityCompat.START);
+
+        } else {
+
+//			super.onBackPressed();
             ExitApplication();
         }
 
-        return super.onKeyDown( keyCode, event );
     }
+
     public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
     {
         Intent intent = new Intent(getApplicationContext(),Cls);

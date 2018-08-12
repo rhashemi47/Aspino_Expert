@@ -23,13 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog;
 import com.mohamadamin.persianmaterialdatetimepicker.utils.PersianCalendar;
 
@@ -722,7 +716,7 @@ public class ViewJob extends AppCompatActivity{
 //                {
 //                    Content+="وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری"));
 //                }
-//                catch (Exception ex)
+//                catch1 (Exception ex)
 //                {
 //                    //todo
 //                }
@@ -1070,7 +1064,7 @@ public class ViewJob extends AppCompatActivity{
             }
             else
             {
-                LoadActivity(List_Services.class, "guid", guid, "hamyarcode", hamyarcode);
+                LoadActivity(List_Orders.class, "guid", guid, "hamyarcode", hamyarcode);
             }
 
         }

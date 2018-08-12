@@ -2,6 +2,7 @@ package com.project.it.expert;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -193,9 +194,19 @@ public class SyncEducation {
 			value=res[i].split("##");			
 			db.execSQL("INSERT INTO education (key,title) VALUES('"+value[0] +"','"+value[1]+"')");		
 		}
-//		SyncServices syncservices=new SyncServices(this.activity,this.phonenumber,this.acceptcode,"0");
+//		SyncServices syncservices=new SyncServices(this.activity,this.phonenumber,this.acceptcode,"0","0");
 //		syncservices.AsyncExecute();
+		SyncGettHamyarCreditHistory syncGettHamyarCreditHistory =new SyncGettHamyarCreditHistory(this.activity,this.acceptcode,"0");
+		syncGettHamyarCreditHistory.AsyncExecute();
+		LoadActivity(Info_Person.class, "phonenumber",this.phonenumber,"acceptcode",this.acceptcode);
+//		LoadActivity(MainMenu.class, "guid",this.phonenumber,"hamyarcode",this.acceptcode);
 		db.close();
     }
-	
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+	{
+		Intent intent = new Intent(activity,Cls);
+		intent.putExtra(VariableName, VariableValue);
+		intent.putExtra(VariableName2, VariableValue2);
+		activity.startActivity(intent);
+	}
 }

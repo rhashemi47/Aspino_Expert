@@ -47,7 +47,7 @@
     <string name="Credits">اعتبارات</string>
     <string name="Delete">حذف</string>
     <string name="RefreshAcceptCode">دریافت مجدد کد تایید</string>
-
+    <string name="RefreshCode">ارسال مجدد کد فعالسازی</string>
     <string name="TextYourCommitment">تعهدات شما</string>
     <string name="TextOurCommitment">تعهدات ما</string>
     <string name="ListVisit">بازدیدهای ثبت شده</string>
@@ -67,7 +67,7 @@
     <string name="credite">اعتبارات</string>
     <string name="home">خانه</string>
     <string name="DutyItem">وظایف</string>
-    <string name="RecentCredit">اعتبار فعلی</string>
+    <string name="RecentCredit">اعتبار فعلی:</string>
     <string name="IncreseCredit">افزایش اعتبار</string>
     <string name="History">تاریخچه خدمات</string>
     <string name="RelateUs">به ما بپیوندید!</string>
@@ -75,7 +75,7 @@
     <string name="instagram">اینستاگرام</string>
     <string name="SignUp">ثبت نام</string>
     <string name="NotMessage">پیغامی موجود نیست</string>
-    <string name="Orders">درخواست ها</string>
+    <string name="Orders">سفارش ها</string>
     <string name="SendMessage">ارسال پیام</string>
     <string name="InfoContent">اطلاعات تماس</string>
     <string name="Call">برقراری تماس</string>
@@ -116,5 +116,34 @@
     <string name="ReceiveAnInterview">دریافت وقت مصاحبه</string>
     <string name="Rating">امتیاز دهی</string>
     <string name="SendRate">ثبت امتیاز</string>
+    <string name="Role">قوانین و مقررات</string>
+    <string name="AboutAspino">درباره آسپینو</string>
+    <string name="ShowDetaile">مشاهده جزئیات</string>
+    <string name="Income">درآمد</string>
+    <string name="Wallet">کیف پول</string>
+    <string name="Bank_ID">حساب بانکی</string>
+    <string name="Karname_Mali">کارنامه مالی</string>
+    <string name="Customer_Comment">نظرات مشتریان</string>
+    <string name="Home_Page">صفحه اصلی</string>
+    <string name="Offers">پیشنهاد ها</string>
+    <string name="SendOffer">ارسال پیشنهاد</string>
+    <string name="Info_Bank_ID">اطلاعات حساب بانکی</string>
+    <string name="ID_Shaba">شماره شبا :</string>
+    <string name="User_ID_Bank">نام صاحب حساب :</string>
+    <string name="Bank">بانک صادر کننده :</string>
+    <string name="SaveAndAccept">ثبت و تایید</string>
+    <string name="DetaileOrder">جزئیات سفارش</string>
+    <string name="Customer_Description_For_You">توضیحات مشتری برای شما :</string>
+    <string name="CodeOrder">کد سفارش :</string>
+    <string name="Date">تاریخ:</string>
+    <string name="Time">ساعت:</string>
+    <string name="Addres_Location">محدوده نشانی:</string>
+    <string name="StatusHesab">وضعیت حساب</string>
+    <string name="Currency">مبلغ:</string>
+    <string name="IncomeFromAspino">درآمد آسپینو :</string>
+    <string name="CustomersOrder">سفارش های مشتریان</string>
+    <string name="certain">قطعی</string>
+    <string name="Notification">اعلان ها</string>
+    <string name="Today">امروز</string>
 
 </resources>

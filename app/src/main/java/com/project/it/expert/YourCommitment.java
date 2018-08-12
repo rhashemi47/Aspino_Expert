@@ -63,6 +63,7 @@
             }
             catch (Exception e)
             {
+                db=dbh.getReadableDatabase();
                 Cursor coursors = db.rawQuery("SELECT * FROM login",null);
                 for(int i=0;i<coursors.getCount();i++){
                     coursors.moveToNext();

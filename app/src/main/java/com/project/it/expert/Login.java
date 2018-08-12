@@ -26,7 +26,7 @@ import static com.google.android.gms.wearable.DataMap.TAG;
 
 
 public class Login extends Activity {
-	Button btnEnter;
+//	Button btnEnter;
 	Button btnSignUp;
 	EditText etPhoneNumber;
 	DatabaseHelper dbh;
@@ -85,7 +85,7 @@ protected void onPause() {
    			throw sqle;
    		}
 		btnSignUp=(Button)findViewById(R.id.btnSignUp);
-		btnEnter=(Button)findViewById(R.id.btnEnter);
+//		btnEnter=(Button)findViewById(R.id.btnEnter);
         etPhoneNumber=(EditText)findViewById(R.id.etPhoneNumber);
         try {
 			CharSequence NumberPhone =	savedInstanceState.getCharSequence("savedText");
@@ -98,35 +98,35 @@ protected void onPause() {
 
         //set font for element
         etPhoneNumber.setTypeface(FontMitra);
-		btnEnter.setTypeface(FontMitra);
-		btnEnter.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-//				String Phone=etPhoneNumber.getText().toString();
-//				if(Phone.compareTo("")!=0) {
-//					InternetConnection ic = new InternetConnection(getApplicationContext());
-//					if (ic.isConnectingToInternet()) {
-//						String query = null;
-//						db = dbh.getWritableDatabase();
-//						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
-//						db.execSQL(query);
-//						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "0");
-//						sendCode.AsyncExecute();
-//						db.close();
-//					}
-//					else
-//					{
-//						Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
-//					}
-//				}
-//				else
-//				{
-//					Toast.makeText(getApplicationContext(), "لطفا شماره همراه خود را وارد نمایید.", Toast.LENGTH_LONG).show();
-//				}
-				Toast.makeText(Login.this, "برای استفاده از امکانات آسپینو باید ثبت نام کنید", Toast.LENGTH_LONG).show();
-				LoadActivity2(MainMenu.class, "guid", "0","hamyarcode","0");
-			}
-		});
+//		btnEnter.setTypeface(FontMitra);
+//		btnEnter.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View view) {
+////				String Phone=etPhoneNumber.getText().toString();
+////				if(Phone.compareTo("")!=0) {
+////					InternetConnection ic = new InternetConnection(getApplicationContext());
+////					if (ic.isConnectingToInternet()) {
+////						String query = null;
+////						db = dbh.getWritableDatabase();
+////						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
+////						db.execSQL(query);
+////						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "0");
+////						sendCode.AsyncExecute();
+////						db.close();
+////					}
+////					else
+////					{
+////						Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
+////					}
+////				}
+////				else
+////				{
+////					Toast.makeText(getApplicationContext(), "لطفا شماره همراه خود را وارد نمایید.", Toast.LENGTH_LONG).show();
+////				}
+//				Toast.makeText(Login.this, "برای استفاده از امکانات آسپینو باید ثبت نام کنید", Toast.LENGTH_LONG).show();
+//				LoadActivity2(MainMenu.class, "guid", "0","hamyarcode","0");
+//			}
+//		});
 		btnSignUp.setTypeface(FontMitra);
 		btnSignUp.setOnClickListener(new OnClickListener() {
 			

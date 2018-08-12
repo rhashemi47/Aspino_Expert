@@ -89,11 +89,11 @@ public class ServiceGetLocation extends Service {
                                                 String query = "INSERT INTO location (lat,lon,year,mon,day,hour,minute) VALUES("
                                                         +Double.toString(latitude)+","
                                                         +Double.toString(longitude)+","
-                                                        +Yearobj+","
-                                                        +Monthobj+","
-                                                        +Dayobj+","
-                                                        +Hourobj+","
-                                                        +Minuteobj;
+                                                        +PersianDigitConverter.EnglishNumber(Yearobj)+","
+                                                        +PersianDigitConverter.EnglishNumber(Monthobj)+","
+                                                        +PersianDigitConverter.EnglishNumber(Dayobj)+","
+                                                        +PersianDigitConverter.EnglishNumber(Hourobj)+","
+                                                        +PersianDigitConverter.EnglishNumber(Minuteobj)+")";
                                                 db = dbh.getWritableDatabase();
                                                 db.execSQL(query);
 

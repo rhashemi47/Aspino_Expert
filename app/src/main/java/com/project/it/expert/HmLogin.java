@@ -221,6 +221,7 @@ public class HmLogin {
 	
 	public void InsertDataFromWsToDb(String[] AllRecord)
     {
+
 		SyncEducation syncEducation=new SyncEducation(this.activity,this.phonenumber,this.acceptcode);
 		syncEducation.AsyncExecute();
     }
@@ -267,6 +268,8 @@ public class HmLogin {
 		syncCity.AsyncExecute();
 		SyncProfile syncProfile=new SyncProfile(this.activity,res[2].toString(), res[1].toString());
 		syncProfile.AsyncExecute();
+		SyncGettHamyarCreditHistory syncGettHamyarCreditHistory =new SyncGettHamyarCreditHistory(this.activity,this.acceptcode,"0");
+		syncGettHamyarCreditHistory.AsyncExecute();
 		db.close();
 
 	}

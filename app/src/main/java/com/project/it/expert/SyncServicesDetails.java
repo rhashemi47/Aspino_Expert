@@ -30,7 +30,7 @@ public class SyncServicesDetails {
 	private String CityCode;
 	private String WsResponse;
 	private String flag;
-	private boolean CuShowDialog=true;
+	private boolean CuShowDialog=false;
 	//Contractor
 	public SyncServicesDetails(Activity activity, String phonenumber, String acceptcode,String flag,String CityCode) {
 		this.activity = activity;

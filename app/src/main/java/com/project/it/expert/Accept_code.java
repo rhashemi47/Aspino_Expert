@@ -1,6 +1,7 @@
 package com.project.it.expert;
 
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -15,6 +16,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -24,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -33,21 +37,27 @@ import java.util.Locale;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Accept_code extends Activity {
-	String phonenumber;
-	EditText acceptcode;
+	private String phonenumber;
+	private String check_load;
+	private int counter=59;
 	private double lat;
 	private double lon;
 	private GPSTracker gps;
-	Button btnSendAcceptcode;
-	Button btnRefreshAcceptcode;
-	String check_load;
-	DatabaseHelper dbh;
-	SQLiteDatabase db;
+	private Handler mHandler;
+	boolean continue_or_stop = true;
+	boolean createthread=true;
+	private EditText acceptcode;
+	private Button btnSendAcceptcode;
+	private TextView tvRefreshCode;
+	private TextView tvTimer;
+	private TextView tvPhoneNumber;
+	private DatabaseHelper dbh;
+	private SQLiteDatabase db;
 	private IntentFilter intentFilter;
 	private BroadcastReceiver intentReciever=new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
-		acceptcode.setText(intent.getExtras().getString("sms"));
+			acceptcode.setText(intent.getExtras().getString("sms"));
 		}
 	};
 	@Override
@@ -58,6 +68,15 @@ public class Accept_code extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.accept_code);
+		try
+		{
+
+			phonenumber = getIntent().getStringExtra("phonenumber").toString();
+		}
+		catch (Exception ex)
+		{
+			phonenumber="0";
+		}
 		try
 		{
 			check_load=getIntent().getStringExtra("check_load");
@@ -111,17 +130,21 @@ public class Accept_code extends Activity {
 			lat = gps.getLatitude();
 			lon = gps.getLongitude();
 		}
-		Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//remive page title
+//		//Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/vazir.ttf");//set font for page
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//remive page title
 		acceptcode=(EditText)findViewById(R.id.etAcceptcode);
 		btnSendAcceptcode=(Button)findViewById(R.id.btnSendAcceptCode);
-		btnRefreshAcceptcode=(Button)findViewById(R.id.btnRefreshAcceptCode);
+		tvRefreshCode=(TextView) findViewById(R.id.tvRefreshCode);
+		tvTimer=(TextView) findViewById(R.id.tvTimer);
+		tvPhoneNumber=(TextView) findViewById(R.id.tvPhoneNumber);
+		tvPhoneNumber.setText(phonenumber + "ارسال خواهد شد");
 		//set font for element
-		acceptcode.setTypeface(FontMitra);
-		btnSendAcceptcode.setTypeface(FontMitra);
-		btnRefreshAcceptcode.setTypeface(FontMitra);
+//		acceptcode.setTypeface(FontMitra);
+		//Start Counter Second
+		startCountAnimation();
+//		btnSendAcceptcode.setTypeface(FontMitra);
 		btnSendAcceptcode.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				InternetConnection ic=new InternetConnection(getApplicationContext());
@@ -137,7 +160,7 @@ public class Accept_code extends Activity {
 				}
 			}
 		});
-		btnRefreshAcceptcode.setOnClickListener(new OnClickListener() {
+		tvRefreshCode.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				String query=null;
@@ -150,11 +173,9 @@ public class Accept_code extends Activity {
 					String Mobile;
 					Mobile=coursors.getString(coursors.getColumnIndex("Mobile"));
 					acceptcode.setText("");
-					SendAcceptCode sendCode=new SendAcceptCode(Accept_code.this,Mobile,"0");
+					SendAcceptCode sendCode=new SendAcceptCode(Accept_code.this,Mobile,check_load);
 					sendCode.AsyncExecute();
 				}
-
-				db.close();
 
 			}
 		});
@@ -169,30 +190,30 @@ public class Accept_code extends Activity {
 		});
 	}
 
-@Override
-public  void onResume() {
+	@Override
+	public  void onResume() {
 
-	super.onResume();
-	registerReceiver(intentReciever,intentFilter);
-}
-@Override
-public void onPause() {
+		super.onResume();
+		registerReceiver(intentReciever,intentFilter);
+	}
+	@Override
+	public void onPause() {
 
-	super.onPause();
-	unregisterReceiver(intentReciever);
-}
+		super.onPause();
+		unregisterReceiver(intentReciever);
+	}
 	@Override
 	public boolean onKeyDown( int keyCode, KeyEvent event )  {
 		if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-			LoadActivity(Login.class,"hamyarcode","0","guid","0");
+//			countDownTimer.cancel();
+			LoadActivity(Login.class,"karbarCode","0");
 		}
 		return super.onKeyDown( keyCode, event );
 	}
-	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
-		intent.putExtra(VariableName2, VariableValue2);
 		Accept_code.this.startActivity(intent);
 	}
 	public String checkInsert()
@@ -209,14 +230,12 @@ public void onPause() {
 	}
 	public void Send_AcceptCode()
 	{
-		phonenumber = getIntent().getStringExtra("phonenumber").toString();
+//		countDownTimer.cancel();
 		String query="UPDATE login SET Phone ='"+phonenumber+"', AcceptCode='"+acceptcode.getText().toString()+"'";
 		db=dbh.getWritableDatabase();
 		db.execSQL(query);
 		HmLogin hm=new HmLogin(Accept_code.this, phonenumber, acceptcode.getText().toString(),check_load,getStringLocation());
 		hm.AsyncExecute();
-
-		db.close();
 	}
 	private  String getStringLocation()
 	{
@@ -254,5 +273,62 @@ public void onPause() {
 		catch (Exception e){
 			return "";
 		}
+	}
+	public void startCountAnimation() {
+//		if(countDownTimer!=null) {
+//			countDownTimer.cancel();
+//		}
+//		countDownTimer=	new CountDownTimer(59000, 0) {
+//
+//			public void onTick(long millisUntilFinished) {
+//				tvTimer.setText(String.valueOf(millisUntilFinished / 1000));
+//				tvRefreshCode.setVisibility(View.GONE);
+//			}
+//
+//			public void onFinish() {
+//				tvRefreshCode.setVisibility(View.VISIBLE);
+//			}
+//		};
+//		countDownTimer.start();
+		continue_or_stop=true;
+		if(createthread) {
+			mHandler = new Handler();
+			new Thread(new Runnable() {
+				@Override
+				public void run() {
+					while (continue_or_stop) {
+						try {
+							Thread.sleep(1000); // every 60 seconds
+							mHandler.post(new Runnable() {
+								@Override
+								public void run() {
+									if(counter!=0)
+									{
+										counter-=1;
+										tvTimer.setText(String.valueOf(counter)+ " ثانیه");
+										tvRefreshCode.setVisibility(View.GONE);
+									}
+									else
+									{
+										continue_or_stop = false;
+										tvRefreshCode.setVisibility(View.VISIBLE);
+									}
+								}
+							});
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+					}
+				}
+			}).start();
+
+			createthread = false;
+
+		}
+	}
+	public void onDestroy() {
+		super.onDestroy();
+		// Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+		continue_or_stop=false;
 	}
 }

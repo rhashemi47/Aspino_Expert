@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ir.hamsaa.persiandatepicker.Listener;
+import ir.hamsaa.persiandatepicker.PersianDatePickerDialog;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class Info_Person extends Activity {
@@ -96,7 +99,7 @@ public class Info_Person extends Activity {
 		}			
 		fname=(EditText)findViewById(R.id.etFname);
 		lname=(EditText)findViewById(R.id.etLname);
-		etReagentCode=(EditText)findViewById(R.id.etReagentCode);
+		etReagentCode=(EditText)findViewById(R.id.etReagentCodeInsertInfo);
 		brithday=(EditText)findViewById(R.id.etBrithday);
 		spEducation=(Spinner)findViewById(R.id.spEdudation);
 		exExpertise=(ExpandableListView)findViewById(R.id.evExpertise);
@@ -198,51 +201,97 @@ public class Info_Person extends Activity {
             }
         });
         brithday.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
+										@Override
+										public void onClick(View view) {
+											PersianDatePickerDialog picker = new PersianDatePickerDialog(Info_Person.this);
+											picker.setPositiveButtonString("تایید");
+											picker.setNegativeButton("انصراف");
+											picker.setTodayButton("امروز");
+											picker.setTodayButtonVisible(true);
+											//  picker.setInitDate(initDate);
+											picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+											picker.setMinYear(1300);
+											picker.setActionTextColor(Color.GRAY);
+											//picker.setTypeFace(FontMitra);
+											picker.setListener(new Listener() {
 
-						PersianCalendar now = new PersianCalendar();
-						DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-								new DatePickerDialog.OnDateSetListener() {
-									@Override
-									public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-										brithday.setText(String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
-										yearStr=String.valueOf(year);
-										monStr=String.valueOf(monthOfYear+1);
-										dayStr=String.valueOf(dayOfMonth);
-									}
-								}, now.getPersianYear(),
-								now.getPersianMonth(),
-								now.getPersianDay());
-						datePickerDialog.setThemeDark(true);
-						datePickerDialog.show(getFragmentManager(), "tpd");
+												@Override
+												public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+													//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+													yearStr = String.valueOf(persianCalendar.getPersianYear());
+													if (persianCalendar.getPersianMonth() < 10) {
+														monStr = "0" + String.valueOf(persianCalendar.getPersianMonth());
+													} else {
+														monStr = String.valueOf(persianCalendar.getPersianMonth());
+													}
+													if (persianCalendar.getPersianDay() < 10) {
+														dayStr = "0" + String.valueOf(persianCalendar.getPersianDay());
+													} else {
+														dayStr = String.valueOf(persianCalendar.getPersianDay());
+													}
+													brithday.setText(yearStr + "/" + monStr + "/" + dayStr);
 
-					}
+												}
 
-		});
+												@Override
+												public void onDismissed() {
+
+												}
+											});
+											picker.show();
+										}
+									});
 		brithday.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				if(hasFocus)
-				{
-					PersianCalendar now = new PersianCalendar();
-					DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-							new DatePickerDialog.OnDateSetListener() {
-								@Override
-								public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-									brithday.setText(String.valueOf(year)+"/"+String.valueOf(monthOfYear+1)+"/"+String.valueOf(dayOfMonth));
-									yearStr=String.valueOf(year);
-									monStr=String.valueOf(monthOfYear+1);
-									dayStr=String.valueOf(dayOfMonth);
-								}
-							}, now.getPersianYear(),
-							now.getPersianMonth(),
-							now.getPersianDay());
-					datePickerDialog.setThemeDark(true);
-					datePickerDialog.show(getFragmentManager(), "tpd");
+				if (hasFocus) {
+					PersianDatePickerDialog picker = new PersianDatePickerDialog(Info_Person.this);
+					picker.setPositiveButtonString("تایید");
+					picker.setNegativeButton("انصراف");
+					picker.setTodayButton("امروز");
+					picker.setTodayButtonVisible(true);
+					//  picker.setInitDate(initDate);
+					picker.setMaxYear(PersianDatePickerDialog.THIS_YEAR);
+					picker.setMinYear(1300);
+					picker.setActionTextColor(Color.GRAY);
+					//picker.setTypeFace(FontMitra);
+					picker.setListener(new Listener() {
+
+						@Override
+						public void onDateSelected(ir.hamsaa.persiandatepicker.util.PersianCalendar persianCalendar) {
+							//Toast.makeText(getApplicationContext(), persianCalendar.getPersianYear() + "/" + persianCalendar.getPersianMonth() + "/" + persianCalendar.getPersianDay(), Toast.LENGTH_SHORT).show();
+							yearStr=String.valueOf(persianCalendar.getPersianYear());
+							if(persianCalendar.getPersianMonth()<10)
+							{
+								monStr="0"+String.valueOf(persianCalendar.getPersianMonth());
+							}
+							else
+							{
+								monStr=String.valueOf(persianCalendar.getPersianMonth());
+							}
+							if(persianCalendar.getPersianDay()<10)
+							{
+								dayStr="0"+String.valueOf(persianCalendar.getPersianDay());
+							}
+							else
+							{
+								dayStr=String.valueOf(persianCalendar.getPersianDay());
+							}
+							brithday.setText(yearStr + "/" + monStr + "/" + dayStr);
+
+						}
+
+						@Override
+						public void onDismissed() {
+
+						}
+					});
+					picker.show();
 				}
 			}
 		});
+
+
         spEducation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -285,7 +334,14 @@ public void insertHamyar() {
 			coursors.moveToNext();
 			education = coursors.getString(coursors.getColumnIndex("key"));
 			String ReagentCode=etReagentCode.getText().toString();
-			ReagentCode=ReagentCode.trim();
+			try
+			{
+				ReagentCode=ReagentCode.trim();
+			}
+			catch (Exception e)
+			{
+
+			}
 			if(ReagentCode.compareTo("")==0)
 			{
 				ReagentCode="0";
@@ -310,9 +366,10 @@ public void insertHamyar() {
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
-        db=dbh.getReadableDatabase();			
-		Cursor headers = db.rawQuery("SELECT * FROM services ",null);
-		//String head;
+		db=dbh.getReadableDatabase();
+		Cursor headers=null;
+		headers = db.rawQuery("SELECT * FROM services",null);
+		String head=String.valueOf(headers.getCount());
 		for(int i=0;i<headers.getCount();i++){
 			headers.moveToNext();
 			listDataHeader.add(headers.getString(headers.getColumnIndex("servicename")));
