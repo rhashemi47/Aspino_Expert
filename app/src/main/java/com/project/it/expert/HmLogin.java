@@ -259,18 +259,21 @@ public class HmLogin {
             cursors.moveToNext();
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
+		cursors.close();
+        db.close();
 
-		SyncMessage syncMessage=new SyncMessage(this.activity, res[2].toString(), res[1].toString(),LastMessageCode,LastHamyarUserServiceCode);
+		SyncMessage syncMessage=new SyncMessage(this.activity, res[2], res[1],LastMessageCode,LastHamyarUserServiceCode);
 		syncMessage.AsyncExecute();
 		SyncState syncState=new SyncState(this.activity);
 		syncState.AsyncExecute();
 		SyncCity syncCity=new SyncCity(this.activity,CityCodeLocation,phonenumber,acceptcode);
 		syncCity.AsyncExecute();
-		SyncProfile syncProfile=new SyncProfile(this.activity,res[2].toString(), res[1].toString());
+		SyncProfile syncProfile=new SyncProfile(this.activity, res[2], res[1]);
 		syncProfile.AsyncExecute();
+		SyncGetHamyarInCome syncGetHamyarInCome=new SyncGetHamyarInCome(activity.getApplicationContext(), res[2], res[1]);
+		syncGetHamyarInCome.AsyncExecute();
 		SyncGettHamyarCreditHistory syncGettHamyarCreditHistory =new SyncGettHamyarCreditHistory(this.activity,this.acceptcode,"0");
 		syncGettHamyarCreditHistory.AsyncExecute();
-		db.close();
 
 	}
 	public void setloginDeactive() 
@@ -279,9 +282,9 @@ public class HmLogin {
 		{
 			db = dbh.getWritableDatabase();
 			db.execSQL("DELETE FROM login");
-			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+res[1].toString()+"','"+res[2].toString()+"','1')";
+			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+ res[1] +"','"+ res[2] +"','1')";
 			db.execSQL(query);
-			SyncProfile syncProfile=new SyncProfile(this.activity,res[2].toString(), res[1].toString());
+			SyncProfile syncProfile=new SyncProfile(this.activity, res[2], res[1]);
 			syncProfile.AsyncExecute();
 			Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();
 

@@ -8,17 +8,19 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import java.io.IOException;
 
@@ -28,14 +30,20 @@ public class Pishnahad_Gheimat extends AppCompatActivity {
 	private String hamyarcode;
 	private String guid;
 	private DatabaseHelper dbh;
-	private TextView txtContent;
 	private SQLiteDatabase db;
+	private TextView tvOrderCode;
+	private TextView tvOrderDate;
+	private TextView tvOrderTime;
+	private TextView tvOrderAddress;
 //	//private Button btnCredit;
 //	//private Button btnOrders;
 //	//private Button btnHome;
 //	private GoogleMap map;
 //	private Typeface FontMitra;
 //	private LatLng point;
+private ViewPagerAdapter viewPagerAdapter;
+	private ViewPager view_pager;
+	private SmartTabLayout tabLayout;
 	private ImageView imgHumberger;
 	private ImageView imgBack;
 	private DrawerLayout mDrawer;
@@ -44,6 +52,8 @@ public class Pishnahad_Gheimat extends AppCompatActivity {
 	private LinearLayout LinearAboutAspino;
 	private LinearLayout LinearLogout;
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+	private String OrderCode;
+
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -55,6 +65,9 @@ protected void onCreate(Bundle savedInstanceState) {
 //	btnCredit=(Button)findViewById(R.id.btnCredit);
 //	btnOrders=(Button)findViewById(R.id.btnOrders);
 //	btnHome=(Button)findViewById(R.id.btnHome);
+ 	viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
+	view_pager=(ViewPager)findViewById(R.id.view_pager);
+	tabLayout=(SmartTabLayout) findViewById(R.id.tab_layout);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -91,9 +104,21 @@ protected void onCreate(Bundle savedInstanceState) {
 
 		db.close();
 	}
-	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-	txtContent=(TextView)findViewById(R.id.tvTextAbout);
-	txtContent.setTypeface(FontMitra);
+	try
+	{
+		OrderCode = getIntent().getStringExtra("OrderCode").toString();
+	}
+	catch (Exception ex)
+	{
+		OrderCode="0";
+	}
+	//********************************************************************
+	viewPagerAdapter.addFragment(new Fragment_Gheimat_final(),"قیمت");
+	viewPagerAdapter.addFragment(new Fragment_Gheimat_tavafoghi(),"توافقی");
+	//set adapter to view pager in class peigiri
+	view_pager.setAdapter(viewPagerAdapter);
+	//set tablayout to view pager for show diferent page cansel and done and run listView
+	tabLayout.setViewPager(view_pager);
 	//********************************************************************
 	imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
 	imgBack = (ImageView) findViewById(R.id.imgBack);
@@ -102,7 +127,10 @@ protected void onCreate(Bundle savedInstanceState) {
 	LinearRole = (LinearLayout) findViewById(R.id.LinearRole);
 	LinearAboutAspino = (LinearLayout) findViewById(R.id.LinearAboutAspino);
 	LinearLogout = (LinearLayout) findViewById(R.id.LinearLogout);
-
+	tvOrderCode= (TextView) findViewById(R.id.tvOrderCode);
+	tvOrderDate= (TextView) findViewById(R.id.tvOrderDate);
+	tvOrderTime= (TextView) findViewById(R.id.tvOrderTime);
+	tvOrderAddress= (TextView) findViewById(R.id.tvOrderAddress);
 	LinearCallSupporter.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -143,24 +171,37 @@ protected void onCreate(Bundle savedInstanceState) {
 	imgBack.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+//			LoadActivity2(Detail_Order.class, "guid", guid, "hamyarcode", hamyarcode);
+			onBackPressed();
 		}
 	});
 	//********************************************************************
+	db=dbh.getReadableDatabase();
+	Cursor cursors = db.rawQuery("SELECT * FROM BsUserServices WHERE Code='"+OrderCode+"'", null);
+	if(cursors.getCount()>0)
+	{
+		cursors.moveToNext();
+		tvOrderCode.setText(cursors.getString(cursors.getColumnIndex("Code")));
+		tvOrderDate.setText(cursors.getString(cursors.getColumnIndex("StartDate")));
+		tvOrderTime.setText(cursors.getString(cursors.getColumnIndex("StartTime")));
+		tvOrderAddress.setText(cursors.getString(cursors.getColumnIndex("AddressText")));
+	}
+	cursors.close();
+	db.close();
 }
-//@Override
-//public boolean onKeyDown( int keyCode, KeyEvent event )  {
-//    if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-//    	LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//    }
-//
-//    return super.onKeyDown( keyCode, event );
-//}
 public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
+		Pishnahad_Gheimat.this.startActivity(intent);
+	}
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
+	{
+		Intent intent = new Intent(getApplicationContext(),Cls);
+		intent.putExtra(VariableName, VariableValue);
+		intent.putExtra(VariableName2, VariableValue2);
+		intent.putExtra(VariableName3, VariableValue3);
 		Pishnahad_Gheimat.this.startActivity(intent);
 	}
 	public void dialContactPhone(String phoneNumber) {
@@ -238,8 +279,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 
 		} else {
 
-//			super.onBackPressed();
-			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+			LoadActivity2(Detail_Order.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID",OrderCode);
 		}
 
 	}

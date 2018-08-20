@@ -103,7 +103,7 @@
                 android:textSize="22sp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="50000"
+                android:inputType="phone"
                 android:id="@+id/etGheimat"
                 android:background="@drawable/rounded_edittext_gheimat"
                 android:layout_marginRight="100dp"

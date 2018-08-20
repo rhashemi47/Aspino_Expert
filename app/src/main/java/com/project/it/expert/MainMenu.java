@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -19,21 +20,22 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Fade;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 import com.mikepenz.materialdrawer.Drawer;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.it.expert.Date.ChangeDate;
 import com.project.it.expert.viewbadger.BadgeView;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
+
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainMenu extends AppCompatActivity{
@@ -81,7 +83,10 @@ public class MainMenu extends AppCompatActivity{
 //    //private Button btnHome;
 //    ArrayList<String> slides;
     ImageView imageView;
-//    Custom_ViewFlipper viewFlipper;
+    private String AppVersion;
+    private TextView tvShowIncome;
+
+    //    Custom_ViewFlipper viewFlipper;
 //    GestureDetector mGestureDetector;
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -93,7 +98,22 @@ public class MainMenu extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slide_menu_mainmenu);
+        setupWindowAnimations();
+        //****************************************************************
+        PackageInfo pInfo = null;
+        try {
+            pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        String version = pInfo.versionName;
+        if(version.length()>0) {
+            AppVersion = version;
+            WsDownLoadUpdate wsDownLoadUpdate=new WsDownLoadUpdate(MainMenu.this,AppVersion, PublicVariable.LinkFileTextCheckVersion,PublicVariable.DownloadAppUpdateLinkAPK);
+            wsDownLoadUpdate.AsyncExecute();
+        }
         Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
+        tvShowIncome = (TextView) findViewById(R.id.tvShowIncome);
         tvOrders = (TextView) findViewById(R.id.tvOrders);
         tvDayOfWeek = (TextView) findViewById(R.id.tvDayOfWeek);
         tvTitleMounth = (TextView) findViewById(R.id.tvTitleMounth);
@@ -117,7 +137,7 @@ public class MainMenu extends AppCompatActivity{
         LinearSuggestions = (LinearLayout) findViewById(R.id.LinearSuggestions);
         LinearHome = (LinearLayout) findViewById(R.id.LinearHome);
         LinearNotifications = (LinearLayout) findViewById(R.id.LinearNotifications);
-        Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+        
         //***************************************************************************************
         dbh = new DatabaseHelper(getApplicationContext());
         try {
@@ -172,7 +192,19 @@ public class MainMenu extends AppCompatActivity{
             }
             else if (hamyarcode.compareTo("0") == 0 || guid.compareTo("0") == 0)
             {
-//                IsActive = false;
+                Cursor cursors = null;
+                db = dbh.getReadableDatabase();
+                cursors = db.rawQuery("SELECT * FROM login", null);
+                if (cursors.getCount() > 0)
+                {
+                    cursors.moveToNext();
+                    String Result = cursors.getString(cursors.getColumnIndex("islogin"));
+                    if (Result.compareTo("1") == 0)
+                    {
+                        hamyarcode=cursors.getString(cursors.getColumnIndex("hamyarcode"));
+                        guid=cursors.getString(cursors.getColumnIndex("guid"));
+                    }
+                }
             }
 
             db.close();
@@ -180,12 +212,15 @@ public class MainMenu extends AppCompatActivity{
             throw new Error("Error Opne Activity");
         }
         //************************Profile*******************************************************
-
+        Bitmap bmp = null;
         db=dbh.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM Profile",null);
         if(cursor.getCount()>0){
             cursor.moveToNext();
             tvUserName.setText(cursor.getString(cursor.getColumnIndex("Name")) + " " + cursor.getString(cursor.getColumnIndex("Fam")));
+            float rating=Float.parseFloat(cursor.getString(cursor.getColumnIndex("Rate")));
+            tvRateNumber.setText(EnToFa(cursor.getString(cursor.getColumnIndex("Rate"))));
+            RatingHamyar.setRating(rating);
             try
             {
                 if(cursor.getString(cursor.getColumnIndex("Pic")).length()>0) {
@@ -194,12 +229,13 @@ public class MainMenu extends AppCompatActivity{
             }
             catch (Exception ex)
             {
-
+                bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
             }
         }
-        float rating=Float.parseFloat("3.3");//todo give value From Database And WebService
-        tvRateNumber.setText(EnToFa("3.3"));
-        RatingHamyar.setRating(rating);
+        else {
+            bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+        }
+
         db.close();
         imgUser.setImageBitmap(bmp);
         //************************Calender*******************************************************
@@ -427,9 +463,10 @@ public class MainMenu extends AppCompatActivity{
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(MainMenu.this));
 
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-        //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+        startService(new Intent(getBaseContext(), ServiceGetProfile.class));
         startService(new Intent(getBaseContext(), ServiceGetLocation.class));
         startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
+        startService(new Intent(getBaseContext(), ServiceGetIncome.class));
         //**************************************************************************
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -440,6 +477,31 @@ public class MainMenu extends AppCompatActivity{
                 mDrawer.openDrawer(GravityCompat.START);
             }
         });
+        db=dbh.getReadableDatabase();
+        Cursor cur=db.rawQuery("SELECT * FROM Income",null);
+        int intIncome=0;
+        for(int i=0;i<cur.getCount();i++)
+        {
+            intIncome=intIncome+Integer.parseInt(cur.getString(cur.getColumnIndex("Price")));
+        }
+        cur.close();
+        db.close();
+        tvShowIncome.setText(String.valueOf(intIncome));
+        db=dbh.getReadableDatabase();
+        cur=db.rawQuery("SELECT * FROM credits",null);
+        tvShowIncome.setText("0");
+        for(int i=0;i<cur.getCount();i++)
+        {
+            try {
+                tvShowIncome.setText(cur.getString(cur.getColumnIndex("Price")));
+            }
+            catch (Exception ex)
+            {
+                tvShowIncome.setText("0");
+            }
+        }
+        cur.close();
+        db.close();
     }
 
 
@@ -464,8 +526,9 @@ public class MainMenu extends AppCompatActivity{
                 //Declare Object From Get Internet Connection Status For Check Internet Status
                 stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                 stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-               // stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
+                stopService(new Intent(getBaseContext(), ServiceGetProfile.class));
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
+                stopService(new Intent(getBaseContext(), ServiceGetIncome.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
@@ -643,5 +706,12 @@ public class MainMenu extends AppCompatActivity{
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "عنوان");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
         startActivity(Intent.createChooser(sharingIntent, "اشتراک گذاری با"));
+    }
+    private void setupWindowAnimations() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade fade = new Fade();
+            fade.setDuration(1000);
+            getWindow().setEnterTransition(fade);
+        }
     }
 }

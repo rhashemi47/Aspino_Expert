@@ -139,15 +139,6 @@
                 android:text="لطفا یکی از روش های پرداخت از از طریق حساب بانکی یا درآمد شما در آسپینو یکی را انتخاب نمایید و سپس یکی از مبالغ پیش فرض یا مبلغ دلخواه خود را وارد و کیف پول خود را شارژ نمایید ."
                 android:textSize="16sp"
                 android:textColor="#000000"/>
-            <EditText
-                android:id="@+id/etCurrencyInsertCredit"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/rounded_edittext"
-                android:inputType="number"
-                android:textSize="18dp"
-                android:textColor="#000000"/>
         </LinearLayout>
 
     </LinearLayout>

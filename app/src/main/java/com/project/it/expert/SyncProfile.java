@@ -84,7 +84,8 @@ public class SyncProfile {
 		
 		public AsyncCallWS(Activity activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);
+		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -223,9 +224,12 @@ public class SyncProfile {
 					"IsEmrgency," +
 					"Status" +
 					",HamyarCodeForReagent" +
+					",ShabaNumber" +
+					",AccountNameOwner" +
+					",BankName" +
 					" )" +
 					"VALUES" +
-					"('"+value[0]+
+					"('"+ value[0]+
 					"','"+value[1]+
 					"','"+value[2]+
 					"','"+value[3]+
@@ -242,20 +246,15 @@ public class SyncProfile {
 					"','"+value[14]+
 					"','"+value[15]+
 					"','"+value[16]+
+					"','"+value[17]+
+					"','"+value[18]+
+					"','"+value[19]+
 					"')";
-			db.execSQL(query);
-
+		db.execSQL(query);
 		db.close();
-		//LoadActivity(Profile.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","0");
+		SyncGetRating syncGetRating=new SyncGetRating(activity.getApplicationContext(),guid,hamyarcode);
+		syncGetRating.AsyncExecute();
 		SyncProfilePic syncProfilePic=new SyncProfilePic(activity,guid,hamyarcode);
 		syncProfilePic.AsyncExecute();
     }
-//	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
-//	{
-//		Intent intent = new Intent(activity,Cls);
-//		intent.putExtra(VariableName, VariableValue);
-//		intent.putExtra(VariableName2, VariableValue2);
-//		intent.putExtra(VariableName3, VariableValue3);
-//		activity.startActivity(intent);
-//	}
 }

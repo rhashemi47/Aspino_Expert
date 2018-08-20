@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -16,9 +15,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -30,6 +32,10 @@ public class Id_Bank extends AppCompatActivity {
 	private DatabaseHelper dbh;
 	private TextView txtContent;
 	private SQLiteDatabase db;
+	private Button btnSaveCredite;
+	private com.bachors.prefixinput.EditText etID_Shaba;
+	private EditText etUser_ID_Bank;
+	private EditText etBank;
 //	//private Button btnCredit;
 //	//private Button btnOrders;
 //	//private Button btnHome;
@@ -52,9 +58,14 @@ public class Id_Bank extends AppCompatActivity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.slide_menu_id_bank);
+	btnSaveCredite=(Button)findViewById(R.id.btnSaveCredite);
+	etID_Shaba= (com.bachors.prefixinput.EditText) findViewById(R.id.etID_Shaba);
+	etUser_ID_Bank=(EditText)findViewById(R.id.etUser_ID_Bank);
+	etBank=(EditText)findViewById(R.id.etBank);
 //	btnCredit=(Button)findViewById(R.id.btnCredit);
 //	btnOrders=(Button)findViewById(R.id.btnOrders);
 //	btnHome=(Button)findViewById(R.id.btnHome);
+    etID_Shaba.setPrefix("IR");
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -143,16 +154,66 @@ protected void onCreate(Bundle savedInstanceState) {
 			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
 		}
 	});
+//	********************************************************
+    db=dbh.getReadableDatabase();
+    Cursor cursor=db.rawQuery("SELECT * FROM Profile",null);
+    if(cursor.getCount()>0)
+    {
+        cursor.moveToNext();
+        if(cursor.getString(cursor.getColumnIndex("ShabaNumber")).compareTo("نامشخص")!=0)
+        {
+            etID_Shaba.setText(cursor.getString(cursor.getColumnIndex("ShabaNumber")));
+        }
+        if(cursor.getString(cursor.getColumnIndex("AccountNameOwner")).compareTo("نامشخص")!=0)
+        {
+            etUser_ID_Bank.setText(cursor.getString(cursor.getColumnIndex("AccountNameOwner")));
+        }
+        if(cursor.getString(cursor.getColumnIndex("BankName")).compareTo("نامشخص")!=0)
+        {
+            etBank.setText(cursor.getString(cursor.getColumnIndex("BankName")));
+        }
+    }
+    cursor.close();
+    db.close();
+
 	//********************************************************************
+	btnSaveCredite.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			String Error="";
+			if(etID_Shaba.getText().length()>0)
+			{
+			    String sunStr=etID_Shaba.getText().subSequence(0,2).toString().toUpperCase();
+				if(sunStr.compareTo("IR")!=0)
+				{
+					Error=Error+"مقدار IR اول شماره شبای بانکی باید باشد" + "\n";
+				}
+			}
+			else
+			{
+				Error=Error + "لطفا شماره شبا بانکی خود را وارد نمایید" + "\n";
+			}
+			if(etUser_ID_Bank.getText().length()<=0)
+			{
+					Error=Error+"لطفا نام صاحب حساب را وارد نمایید" + "\n";
+			}
+			if(etBank.getText().length()<=0)
+			{
+					Error=Error+"لطفا نام بانک صادر کننده را وارد نمایید" + "\n";
+			}
+			if(Error.compareTo("")==0) {
+				SyncUpdateHamyarBankAccountInfo syncUpdateHamyarBankAccountInfo = new
+						SyncUpdateHamyarBankAccountInfo(Id_Bank.this, guid, hamyarcode, etID_Shaba.getText().toString()
+                        , etUser_ID_Bank.getText().toString(), etBank.getText().toString());
+				syncUpdateHamyarBankAccountInfo.AsyncExecute();
+			}
+			else
+			{
+				Toast.makeText(Id_Bank.this,Error,Toast.LENGTH_LONG).show();
+			}
+		}
+	});
 }
-//@Override
-//public boolean onKeyDown( int keyCode, KeyEvent event )  {
-//    if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-//    	LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//    }
-//
-//    return super.onKeyDown( keyCode, event );
-//}
 public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);

@@ -52,7 +52,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
+                <com.bachors.prefixinput.EditText
                     android:layoutDirection="ltr"
                     android:id="@+id/etPhoneNumber"
                     android:layout_width="match_parent"
@@ -64,11 +64,10 @@
                     android:textSize="20sp"
                     android:inputType="phone"
                     android:textStyle="normal"
-                    android:text="09"
                     android:layout_marginLeft="60dp"
                     android:layout_marginRight="60dp" />
                 <Button
-                    android:id="@+id/btnEnter"
+                    android:id="@+id/btnSignUp"
                     android:layout_width="45dp"
                     android:layout_height="40dp"
                     android:layout_alignTop="@+id/etPhoneNumber"

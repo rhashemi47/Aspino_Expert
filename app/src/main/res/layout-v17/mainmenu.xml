@@ -54,8 +54,7 @@
                     android:gravity="center"
                     android:textSize="18sp"
                     android:fontFamily="@font/vazir_medium"
-                    android:textColor="#fffdfd"
-                    android:text="هاشم مهدوی"/>
+                    android:textColor="#fffdfd"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,7 +74,6 @@
                         android:id="@+id/tvRateNumber"
                         android:textColor="#fffdfd"
                         android:fontFamily="@font/vazir"
-                        android:text="4.8"
                         android:layout_gravity="center"
                         android:gravity="center"/>
                     <RatingBar
@@ -83,7 +81,6 @@
                         android:layout_height="wrap_content"
                         android:numStars="5"
                         android:stepSize="0.1"
-                        android:rating="4.8"
                         android:id="@+id/RatingHamyar"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_marginLeft="20dp"
@@ -301,8 +298,8 @@
                 android:gravity="center"
                 android:background="@drawable/rounded_img">
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:src="@drawable/useravatar"
                     android:id="@+id/imgUser"
                     android:scaleType="centerCrop"/>
@@ -396,7 +393,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="25000"
+                        android:id="@+id/tvShowIncome"
                         android:textColor="#272727"
                         android:layout_weight="1"
                         android:fontFamily="@font/vazir"
@@ -446,7 +443,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="12500"
+                        android:id="@+id/tvShowCredite"
                         android:textColor="#272727"
                         android:fontFamily="@font/vazir"
                         android:textSize="16sp"

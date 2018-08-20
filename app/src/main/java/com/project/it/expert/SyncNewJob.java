@@ -297,8 +297,6 @@ public class SyncNewJob {
                         "','" + value[33] +
                         "')";
                 db.execSQL(query);
-
-                db.close();
                 SyncGetServiceUserInfo syncGetServiceUserInfo = new SyncGetServiceUserInfo(this.activity, value[0]);
                 syncGetServiceUserInfo.AsyncExecute();
                 if (notifocationEnable) {
@@ -308,15 +306,13 @@ public class SyncNewJob {
                     if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
                     {
                         coursors.moveToNext();
-                        runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i, value[0], ViewJob.class);
+                        runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i, value[0], Pishnahad_Gheimat.class);
                     }
-
-                    db.close();
                 }
             }
-
-            db_check.close();
         }
+        db_check.close();
+        db.close();
     }
 
     public void runNotification(String title,String detail,int id,String BsUserServicesID,Class<?> Cls)

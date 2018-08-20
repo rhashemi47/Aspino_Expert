@@ -2,7 +2,6 @@ package com.project.it.expert;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
@@ -299,9 +298,9 @@ public class SyncInsertHamyarLocation {
 
 	public void InsertDataFromWsToDb()
 	{
-		db=dbh.getWritableDatabase();
-		String query="DELETE location WHERE id="+rowID;
-		db.execSQL(query);
-		db.close();
+//		db=dbh.getWritableDatabase();
+//		String query="DELETE location WHERE id="+rowID;
+//		db.execSQL(query);
+//		db.close();
 	}
 }

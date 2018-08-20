@@ -9,19 +9,19 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.KeyEvent;
+import android.transition.Fade;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,15 +34,17 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class Credit extends Activity {
 	private String hamyarcode;
 	private String guid;
+	private String TypeCatch="0";
 	private DatabaseHelper dbh;
 	private TextView tvContentCredits;
 	private TextView tvValueIncome;
 	private SQLiteDatabase db;
 	private Button btnIncreseCredit;
-//	private ListView lstHistoryCredit;
-	//private Button btnCredit;
-	//private Button btnOrders;
-	//private Button btnHome;
+	private Button btnFromBank;
+	private Button btnFromAspino;
+	private Button btnTwoThousand;
+	private Button btnFiftyThousand;
+	private Button btnOneHundredThousand;
 	private ImageView imgHumberger;
 	private ImageView imgBack;
 	private DrawerLayout mDrawer;
@@ -51,7 +53,7 @@ public class Credit extends Activity {
 	private LinearLayout LinearAboutAspino;
 	private LinearLayout LinearLogout;
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
-	private EditText etCurrencyInsertCredit;
+	private EditText etInsertPriceUser;
 	private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -61,11 +63,14 @@ public class Credit extends Activity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.slide_menu_credite);
-//	btnCredit=(Button)findViewById(R.id.btnCredit);
-//	btnOrders=(Button)findViewById(R.id.btnOrders);
-//	btnHome=(Button)findViewById(R.id.btnHome);
+	setupWindowAnimations();
+	btnFromBank=(Button)findViewById(R.id.btnFromBank);
+	btnFromAspino=(Button)findViewById(R.id.btnFromAspino);
+	btnTwoThousand=(Button)findViewById(R.id.btnTwoThousand);
+	btnFiftyThousand=(Button)findViewById(R.id.btnFiftyThousand);
+	btnOneHundredThousand=(Button)findViewById(R.id.btnOneHundredThousand);
 	btnIncreseCredit=(Button)findViewById(R.id.btnIncreseCredit);
-	etCurrencyInsertCredit=(EditText)findViewById(R.id.etCurrencyInsertCredit);
+	etInsertPriceUser=(EditText)findViewById(R.id.etInsertPriceUser);
 	tvContentCredits=(TextView) findViewById(R.id.tvContentCredits);
 	tvValueIncome=(TextView) findViewById(R.id.tvValueIncome);
 	dbh=new DatabaseHelper(getApplicationContext());
@@ -104,8 +109,6 @@ protected void onCreate(Bundle savedInstanceState) {
 		db.close();
 	}
 
-//	btnIncreseCredit=(Button)findViewById(R.id.btnIncresCredit);
-//	lstHistoryCredit=(ListView) findViewById(R.id.lstHistoryCredit);
 	//********************************************************************
 	imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
 	imgBack = (ImageView) findViewById(R.id.imgBack);
@@ -177,7 +180,6 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 		else
 		{
-//			lstHistoryCredit.setVisibility(View.GONE);
 		}
 		if(Content.compareTo("")==0){
 			tvContentCredits.setText("0"+" ریال");
@@ -189,47 +191,12 @@ protected void onCreate(Bundle savedInstanceState) {
 	catch (Exception ex)
 	{
 		tvContentCredits.setText("0"+" ریال");
-//		lstHistoryCredit.setVisibility(View.GONE);
 	}
-//	try
-//	{
-//		Cursor coursors = db.rawQuery("SELECT * FROM credits", null);
-//		String Content="";
-//		for (int i=0;i<coursors.getCount();i++) {
-//			coursors.moveToNext();
-//			HashMap<String, String> map = new HashMap<String, String>();
-//			map.put("name","مبلغ: " +coursors.getString(coursors.getColumnIndex("Price"))+" ریال " +"\n"
-//			+"عملیات: " + coursors.getString(coursors.getColumnIndex("TransactionType"))+ "\n"
-//			+"نوع تراکنش: " + coursors.getString(coursors.getColumnIndex("PaymentMethod"))+ "\n"
-//			+"تاریخ: " + coursors.getString(coursors.getColumnIndex("TransactionDate"))+ "\n"
-//			+"شماره سند: " + coursors.getString(coursors.getColumnIndex("DocNumber"))+ "\n"
-//			+"توضیحات: " + coursors.getString(coursors.getColumnIndex("Description")));
-//			map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
-//			valuse.add(map);
-//		}
-//		AdapterCredit dataAdapter=new AdapterCredit(this,valuse,guid,hamyarcode);
-//		lstHistoryCredit.setAdapter(dataAdapter);
-//		if(valuse.size()==0){
-//			lstHistoryCredit.setVisibility(View.GONE);
-//			txtContent.setVisibility(View.VISIBLE);
-//			txtContent.setText("موردی جهت نمایش وجود ندارد");
-//		}
-//		else
-//		{
-//			lstHistoryCredit.setVisibility(View.VISIBLE);
-//			txtContent.setVisibility(View.GONE);
-//		}
-//	}
-//	catch (Exception ex){
-//		lstHistoryCredit.setVisibility(View.GONE);
-//		txtContent.setVisibility(View.VISIBLE);
-//		tvRecentCreditsValue.setText("موردی جهت نمایش وجود ندارد");
-//	}
 	btnIncreseCredit.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if(etCurrencyInsertCredit.getText().length()>0) {
-				SyncInsertHamyarCredit syncInsertHamyarCredit = new SyncInsertHamyarCredit(Credit.this,etCurrencyInsertCredit.getText().toString() , hamyarcode, "1", "10004", "تست");
+			if(etInsertPriceUser.getText().length()>0) {
+				SyncInsertHamyarCredit syncInsertHamyarCredit = new SyncInsertHamyarCredit(Credit.this,etInsertPriceUser.getText().toString() , hamyarcode, "1", "10004", "تست");
 				syncInsertHamyarCredit.AsyncExecute();
 			}
 			else
@@ -238,24 +205,63 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 		}
 	});
-//	btnCredit.setOnClickListener(new View.OnClickListener() {
-//		@Override
-//		public void onClick(View v) {
-//			LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-//		}
-//	});
-//	btnOrders.setOnClickListener(new View.OnClickListener() {
-//		@Override
-//		public void onClick(View v) {
-//			LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-//		}
-//	});
-//	btnHome.setOnClickListener(new View.OnClickListener() {
-//		@Override
-//		public void onClick(View v) {
-//			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//		}
-//	});
+	btnFromBank.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			btnFromBank.setBackgroundResource(R.drawable.rounded_textview_currency2);
+			btnFromAspino.setBackgroundResource(R.drawable.rounded_textview_currency1);
+			btnFromBank.setTextColor(Color.parseColor("#FFFFFF"));
+			btnFromAspino.setTextColor(Color.parseColor("#272a95"));
+
+			TypeCatch="0";
+		}
+	});
+	btnFromAspino.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			btnFromAspino.setBackgroundResource(R.drawable.rounded_textview_currency2);
+			btnFromBank.setBackgroundResource(R.drawable.rounded_textview_currency1);
+			btnFromAspino.setTextColor(Color.parseColor("#FFFFFFFF"));
+			btnFromBank.setTextColor(Color.parseColor("#272a95"));
+			TypeCatch="1";
+		}
+	});
+	btnTwoThousand.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			btnTwoThousand.setBackgroundResource(R.drawable.rounded_textview_currency2);
+			btnFiftyThousand.setBackgroundResource(R.drawable.rounded_textview_currency1);
+			btnOneHundredThousand.setBackgroundResource(R.drawable.rounded_textview_currency1);
+			btnTwoThousand.setTextColor(Color.parseColor("#FFFFFF"));
+			btnFiftyThousand.setTextColor(Color.parseColor("#272a95"));
+			btnOneHundredThousand.setTextColor(Color.parseColor("#272a95"));
+			etInsertPriceUser.setText("20000");
+		}
+	});
+	btnFiftyThousand.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			btnFiftyThousand.setBackgroundResource(R.drawable.rounded_textview_currency2);
+			btnTwoThousand.setBackgroundResource(R.drawable.rounded_textview_currency1);
+			btnOneHundredThousand.setBackgroundResource(R.drawable.rounded_textview_currency1);
+			btnFiftyThousand.setTextColor(Color.parseColor("#FFFFFF"));
+			btnTwoThousand.setTextColor(Color.parseColor("#272a95"));
+			btnOneHundredThousand.setTextColor(Color.parseColor("#272a95"));
+			etInsertPriceUser.setText("50000");
+		}
+	});
+	btnOneHundredThousand.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			btnOneHundredThousand.setBackgroundResource(R.drawable.rounded_textview_currency2);
+			btnFiftyThousand.setBackgroundResource(R.drawable.rounded_textview_currency1);
+			btnTwoThousand.setBackgroundResource(R.drawable.rounded_textview_currency1);
+			btnOneHundredThousand.setTextColor(Color.parseColor("#FFFFFF"));
+			btnFiftyThousand.setTextColor(Color.parseColor("#272a95"));
+			btnTwoThousand.setTextColor(Color.parseColor("#272a95"));
+			etInsertPriceUser.setText("100000");
+		}
+	});
 }
 	public void dialContactPhone(String phoneNumber) {
 		Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -343,5 +349,12 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
 		Credit.this.startActivity(intent);
+	}
+	private void setupWindowAnimations() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			Fade fade = new Fade();
+			fade.setDuration(1000);
+			getWindow().setEnterTransition(fade);
+		}
 	}
 }

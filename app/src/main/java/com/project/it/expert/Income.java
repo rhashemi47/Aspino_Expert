@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -18,9 +17,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -33,6 +35,8 @@ public class Income extends AppCompatActivity {
 //	//private Button btnCredit;
 //	//private Button btnOrders;
 //	//private Button btnHome;
+	private ListView lstIncome;
+ 	private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
 	private ImageView imgHumberger;
 	private ImageView imgBack;
 	private DrawerLayout mDrawer;
@@ -52,6 +56,7 @@ protected void onCreate(Bundle savedInstanceState) {
 //	btnCredit=(Button)findViewById(R.id.btnCredit);
 //	btnOrders=(Button)findViewById(R.id.btnOrders);
 //	btnHome=(Button)findViewById(R.id.btnHome);
+	lstIncome=(ListView)findViewById(R.id.lstIncome);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -141,6 +146,22 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 	});
 	//********************************************************************
+	db=dbh.getReadableDatabase();
+	String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+			"LEFT JOIN " +
+			"Servicesdetails ON " +
+			"Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode";
+	Cursor coursors = db.rawQuery(query, null);
+	for (int i = 0; i < coursors.getCount(); i++) {
+		coursors.moveToNext();
+		String Content = "";
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("name", Content);
+		map.put("Code", coursors.getString(coursors.getColumnIndex("Code")));
+		valuse.add(map);
+	}
+	AdapterIncome dataAdapter=new AdapterIncome(this,valuse);
+	lstIncome.setAdapter(dataAdapter);
 }
 public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{

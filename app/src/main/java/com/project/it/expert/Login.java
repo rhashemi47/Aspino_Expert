@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -28,15 +27,16 @@ import static com.google.android.gms.wearable.DataMap.TAG;
 public class Login extends Activity {
 //	Button btnEnter;
 	Button btnSignUp;
-	EditText etPhoneNumber;
+	com.bachors.prefixinput.EditText etPhoneNumber;
 	DatabaseHelper dbh;
 	SQLiteDatabase db;
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		Log.i(TAG, "onSaveInstanceState");
-		etPhoneNumber=(EditText)findViewById(R.id.etPhoneNumber);
+		etPhoneNumber=(com.bachors.prefixinput.EditText)findViewById(R.id.etPhoneNumber);
 		//CharSequence userText = textBox.getText();
+		etPhoneNumber.setPrefix("09");
 		outState.putCharSequence("savedText", etPhoneNumber.getText().toString());
 		super.onSaveInstanceState(outState);
 
@@ -44,7 +44,8 @@ public class Login extends Activity {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		Log.i(TAG, "onRestoreInstanceState");
-		etPhoneNumber=(EditText)findViewById(R.id.etPhoneNumber);
+		etPhoneNumber=(com.bachors.prefixinput.EditText)findViewById(R.id.etPhoneNumber);
+		etPhoneNumber.setPrefix("09");
 		CharSequence NumberPhone =	savedInstanceState.getCharSequence("savedText");
 		etPhoneNumber.setText(NumberPhone);
 		super.onRestoreInstanceState(savedInstanceState);
@@ -86,9 +87,11 @@ protected void onPause() {
    		}
 		btnSignUp=(Button)findViewById(R.id.btnSignUp);
 //		btnEnter=(Button)findViewById(R.id.btnEnter);
-        etPhoneNumber=(EditText)findViewById(R.id.etPhoneNumber);
+        etPhoneNumber=(com.bachors.prefixinput.EditText) findViewById(R.id.etPhoneNumber);
+        etPhoneNumber.setPrefix("09");
         try {
 			CharSequence NumberPhone =	savedInstanceState.getCharSequence("savedText");
+
 			etPhoneNumber.setText(NumberPhone);
 		}
 		catch (Exception ex)

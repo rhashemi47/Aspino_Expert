@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -16,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,9 +28,13 @@ public class Detail_Order extends AppCompatActivity {
 	private String hamyarcode;
 	private String guid;
 	private DatabaseHelper dbh;
-	private TextView txtContent;
 	private SQLiteDatabase db;
-//	//private Button btnCredit;
+ 	private Button btnSend;
+ 	private TextView tvOrderCode;
+ 	private TextView tvDateCode;
+ 	private TextView tvTimeOrder;
+ 	private TextView tvAddressOrder;
+ 	private TextView tvCustomerDescription;
 //	//private Button btnOrders;
 //	//private Button btnHome;
 //	private GoogleMap map;
@@ -44,6 +48,8 @@ public class Detail_Order extends AppCompatActivity {
 	private LinearLayout LinearAboutAspino;
 	private LinearLayout LinearLogout;
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
+	private String OrderCode;
+
 	@Override
 	protected void attachBaseContext(Context newBase) {
 		super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -52,9 +58,14 @@ public class Detail_Order extends AppCompatActivity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.slide_menu_detail_order);
-//	btnCredit=(Button)findViewById(R.id.btnCredit);
+	btnSend=(Button)findViewById(R.id.btnSend);
 //	btnOrders=(Button)findViewById(R.id.btnOrders);
 //	btnHome=(Button)findViewById(R.id.btnHome);
+	tvOrderCode=(TextView)findViewById(R.id.tvOrderCode);
+	tvDateCode=(TextView)findViewById(R.id.tvDateCode);
+	tvTimeOrder=(TextView)findViewById(R.id.tvTimeOrder);
+	tvAddressOrder=(TextView)findViewById(R.id.tvAddressOrder);
+	tvCustomerDescription=(TextView)findViewById(R.id.tvCustomerDescription);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -79,6 +90,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
 		guid = getIntent().getStringExtra("guid").toString();
 	}
+
 	catch (Exception e)
 	{
 		db=dbh.getReadableDatabase();
@@ -91,9 +103,14 @@ protected void onCreate(Bundle savedInstanceState) {
 
 		db.close();
 	}
-	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
-	txtContent=(TextView)findViewById(R.id.tvTextAbout);
-	txtContent.setTypeface(FontMitra);
+	try
+	{
+		OrderCode = getIntent().getStringExtra("BsUserServicesID").toString();
+	}
+	catch (Exception ex)
+	{
+		OrderCode="0";
+	}
 	//********************************************************************
 	imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
 	imgBack = (ImageView) findViewById(R.id.imgBack);
@@ -143,24 +160,44 @@ protected void onCreate(Bundle savedInstanceState) {
 	imgBack.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
+			LoadActivity(List_Orders.class, "guid", guid, "hamyarcode", hamyarcode);
+		}
+	});
+	btnSend.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			LoadActivity2(Pishnahad_Gheimat.class,"guid", guid, "hamyarcode", hamyarcode,"OrderCode",OrderCode);
 		}
 	});
 	//********************************************************************
+	db=dbh.getReadableDatabase();
+	Cursor cursors = db.rawQuery("SELECT * FROM BsUserServices WHERE Code='"+OrderCode+"'", null);
+	if(cursors.getCount()>0)
+	{
+		cursors.moveToNext();
+		tvOrderCode.setText(cursors.getString(cursors.getColumnIndex("Code")));
+		tvDateCode.setText(cursors.getString(cursors.getColumnIndex("StartDate")));
+		tvTimeOrder.setText(cursors.getString(cursors.getColumnIndex("StartTime")));
+		tvAddressOrder.setText(cursors.getString(cursors.getColumnIndex("AddressText")));
+		tvCustomerDescription.setText(cursors.getString(cursors.getColumnIndex("Description")));
+	}
+	cursors.close();
+	db.close();
+	//********************************************************************
 }
-//@Override
-//public boolean onKeyDown( int keyCode, KeyEvent event )  {
-//    if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-//    	LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//    }
-//
-//    return super.onKeyDown( keyCode, event );
-//}
 public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
+		Detail_Order.this.startActivity(intent);
+	}
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
+	{
+		Intent intent = new Intent(getApplicationContext(),Cls);
+		intent.putExtra(VariableName, VariableValue);
+		intent.putExtra(VariableName2, VariableValue2);
+		intent.putExtra(VariableName3, VariableValue3);
 		Detail_Order.this.startActivity(intent);
 	}
 	public void dialContactPhone(String phoneNumber) {
@@ -243,4 +280,6 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		}
 
 	}
+
+
 }

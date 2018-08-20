@@ -1,9 +1,9 @@
 <resources>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="app_name">آسپینو</string>
+    <string name="app_name">متخصص</string>
     <string name="update">به روز رسانی</string>
     <string name="action_settings">تنظیمات</string>
-    <string name="Logo_name">متخصص</string>
+    <!--<string name="Logo_name">متخصص</string>-->
     <string name="Phone_Number">شماره همراه</string>
     <string name="Send">ارسال</string>
     <string name="accep_code">کد تایید</string>

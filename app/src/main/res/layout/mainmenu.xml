@@ -54,8 +54,7 @@
                     android:gravity="center"
                     android:textSize="18sp"
                     android:fontFamily="@font/vazir_medium"
-                    android:textColor="#fffdfd"
-                    android:text="هاشم مهدوی"/>
+                    android:textColor="#fffdfd"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -75,21 +74,36 @@
                         android:id="@+id/tvRateNumber"
                         android:textColor="#fffdfd"
                         android:fontFamily="@font/vazir"
-                        android:text="4.8"
                         android:layout_gravity="center"
                         android:gravity="center"/>
                     <RatingBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:numStars="5"
-                        android:stepSize="1.0"
-                        android:rating="3"
+                        android:stepSize="0.1"
                         android:id="@+id/RatingHamyar"
                         style="?android:attr/ratingBarStyleSmall"
                         android:layout_marginLeft="20dp"
                         android:theme="@style/RatingBar"
                         android:layout_gravity="center"/>
                 </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:text="@string/Today"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/vazir_medium"
+                    android:textColor="#fffdfd"
+                    android:id="@+id/tvToday"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginRight="20dp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -106,6 +120,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:id="@+id/right_white_arrow"
                     android:layout_weight="1"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -150,6 +165,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_gravity="center"
                     android:gravity="center"
+                    android:id="@+id/left_white_arrow"
                     android:layout_weight="1"/>
             </LinearLayout>
             <LinearLayout
@@ -282,9 +298,10 @@
                 android:gravity="center"
                 android:background="@drawable/rounded_img">
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
                     android:src="@drawable/useravatar"
+                    android:id="@+id/imgUser"
                     android:scaleType="centerCrop"/>
             </LinearLayout>
             <LinearLayout
@@ -350,6 +367,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:id="@+id/LinearIncome"
                 android:layout_marginTop="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -389,16 +407,17 @@
                         android:layout_gravity="center"
                         android:src="@drawable/arrow_left"/>
                 </LinearLayout>
-                <!--<view-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:background="#dedede"/>-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dedede"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:id="@+id/LinearCredite"
                 android:layout_marginTop="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -438,16 +457,17 @@
                         android:layout_gravity="center"
                         android:src="@drawable/arrow_left"/>
                 </LinearLayout>
-                <!--<view-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:background="#dedede"/>-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dedede"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:id="@+id/LinearBankID"
                 android:layout_marginTop="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -487,16 +507,17 @@
                         android:layout_gravity="center"
                         android:src="@drawable/arrow_left"/>
                 </LinearLayout>
-                <!--<view-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:background="#dedede"/>-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dedede"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:id="@+id/LinearKarnameMali"
                 android:layout_marginTop="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -516,6 +537,7 @@
                         android:layout_gravity="center"
                         android:gravity="right"
                         android:layout_marginRight="10dp"
+                        android:textSize="16sp"
                         android:layout_weight="1"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -534,16 +556,17 @@
                         android:layout_gravity="center"
                         android:src="@drawable/arrow_left"/>
                 </LinearLayout>
-                <!--<view-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1dp"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:background="#dedede"/>-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#dedede"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:id="@+id/LinearCommentCustomer"
                 android:layout_marginTop="20dp">
                 <LinearLayout
                     android:layout_width="match_parent"

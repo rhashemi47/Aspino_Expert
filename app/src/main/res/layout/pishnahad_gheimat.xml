@@ -237,6 +237,8 @@
                     android:id="@+id/etSendMessage"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
+                    android:textDirection="rtl"
+                    android:layoutDirection="rtl"
                     android:background="@drawable/rounded_edittext_message"/>
             </LinearLayout>
         </LinearLayout>

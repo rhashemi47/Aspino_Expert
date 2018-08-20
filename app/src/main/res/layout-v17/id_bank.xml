@@ -80,7 +80,7 @@
             android:textColor="#333333"
             android:textSize="16sp"
             android:text="@string/ID_Shaba"/>
-        <EditText
+        <com.bachors.prefixinput.EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -88,8 +88,10 @@
             android:fontFamily="@font/vazir"
             android:textColor="#333333"
             android:textSize="16sp"
+            android:textDirection="ltr"
+            android:layoutDirection="ltr"
             android:paddingLeft="10dp"
-            android:text="IR"
+            android:inputType="phone"
             android:id="@+id/etID_Shaba"
             android:background="@drawable/rounded_edittext_id_bank"/>
     </LinearLayout>
@@ -170,6 +172,7 @@
             android:layout_marginRight="120dp"
             android:layout_marginLeft="120dp"
             android:text="@string/SaveAndAccept"
+            android:id="@+id/btnSaveCredite"
             android:textColor="#ffffff"
             android:fontFamily="@font/vazir"
             android:textSize="18sp"
