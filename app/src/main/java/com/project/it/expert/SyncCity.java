@@ -200,7 +200,7 @@ public class SyncCity {
 			db.execSQL("INSERT INTO City (Code,ParentCode,Name) VALUES('"+value[0] +"','"+value[1] +"','"+value[2]+"')");
 		}
 		db=dbh.getReadableDatabase();
-		Cursor cursor=db.rawQuery("SELECT * FROM City WHERE Name='"+CityCodeLocation+"'",null);
+		Cursor cursor=db.rawQuery("SELECT * FROM City WHERE Code='"+CityCodeLocation+"'",null);
 		if(cursor.getCount()>0)
 		{
 			cursor.moveToNext();

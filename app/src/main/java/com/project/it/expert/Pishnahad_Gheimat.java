@@ -16,9 +16,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
@@ -35,6 +37,7 @@ public class Pishnahad_Gheimat extends AppCompatActivity {
 	private TextView tvOrderDate;
 	private TextView tvOrderTime;
 	private TextView tvOrderAddress;
+	private Button Send;
 //	//private Button btnCredit;
 //	//private Button btnOrders;
 //	//private Button btnHome;
@@ -53,6 +56,7 @@ private ViewPagerAdapter viewPagerAdapter;
 	private LinearLayout LinearLogout;
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 	private String OrderCode;
+	private String Price="0";
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -68,6 +72,7 @@ protected void onCreate(Bundle savedInstanceState) {
  	viewPagerAdapter=new ViewPagerAdapter(getSupportFragmentManager());
 	view_pager=(ViewPager)findViewById(R.id.view_pager);
 	tabLayout=(SmartTabLayout) findViewById(R.id.tab_layout);
+	Send=(Button) findViewById(R.id.Send);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -117,8 +122,13 @@ protected void onCreate(Bundle savedInstanceState) {
 	viewPagerAdapter.addFragment(new Fragment_Gheimat_tavafoghi(),"توافقی");
 	//set adapter to view pager in class peigiri
 	view_pager.setAdapter(viewPagerAdapter);
-	//set tablayout to view pager for show diferent page cansel and done and run listView
 	tabLayout.setViewPager(view_pager);
+	tabLayout.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
+		@Override
+		public void onTabClicked(int position) {
+			Toast.makeText(Pishnahad_Gheimat.this,position,Toast.LENGTH_LONG).show();
+		}
+	});
 	//********************************************************************
 	imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
 	imgBack = (ImageView) findViewById(R.id.imgBack);
@@ -188,6 +198,16 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	cursors.close();
 	db.close();
+	//*********************************************************************
+	Send.setOnClickListener(new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			//todo Select Gheimat nahaei va tavafoghi
+
+			SyncInsertUserServicesHamyarRequest syncInsertUserServicesHamyarRequest =new SyncInsertUserServicesHamyarRequest(Pishnahad_Gheimat.this,guid,hamyarcode,OrderCode,Price);
+			syncInsertUserServicesHamyarRequest.AsyncExecute();
+		}
+	});
 }
 public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{

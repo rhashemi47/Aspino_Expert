@@ -18,7 +18,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import java.io.IOException;
 
-public class SyncSelecteJob {
+public class SyncInsertUserServicesHamyarRequest {
 
 	//Primary Variable
 	DatabaseHelper dbh;
@@ -30,14 +30,16 @@ public class SyncSelecteJob {
 	private String hamyarcode;
 	private String WsResponse;
 	private String UserServiceCode;
+	private String Price;
 	//private String acceptcode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncSelecteJob(Activity activity, String guid, String hamyarcode, String UserServiceCode) {
+	public SyncInsertUserServicesHamyarRequest(Activity activity, String guid, String hamyarcode, String UserServiceCode, String Price) {
 		this.activity = activity;
 		this.guid = guid;
 		this.UserServiceCode=UserServiceCode;
 		this.hamyarcode=hamyarcode;
+		this.Price=Price;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 
@@ -98,7 +100,7 @@ public class SyncSelecteJob {
         	String result = null;
         	try
         	{
-        		CallWsMethod("SendUserServiceHamyarAccept");
+        		CallWsMethod("InsertUserServicesHamyarRequest");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
@@ -110,42 +112,23 @@ public class SyncSelecteJob {
         protected void onPostExecute(String result) {
         	if(result == null)
         	{
-	            if(WsResponse.toString().compareTo("ER") == 0)
+	            if(WsResponse.compareTo("ER") == 0)
 	            {
 	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 	            }
-	            else if(WsResponse.toString().compareTo("0") == 0)
+	            else if(WsResponse.compareTo("0") == 0)
 	            {
 	            	Toast.makeText(this.activity.getApplicationContext(), "خطایی رخداده است", Toast.LENGTH_LONG).show();
 					//LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","1");
 	            }
-				else if(WsResponse.toString().compareTo("1") == 0)
-				{
-					Toast.makeText(this.activity.getApplicationContext(), "این سرویس برای شما رزور شد", Toast.LENGTH_LONG).show();
-					InsertDataFromWsToDb();
-				}
-				else if(WsResponse.toString().compareTo("2") == 0)
-				{
-					Toast.makeText(this.activity.getApplicationContext(), "متخصص شناسایی نشد!", Toast.LENGTH_LONG).show();
-				}
-				else if(WsResponse.toString().compareTo("3") == 0)
-				{
-					Toast.makeText(this.activity.getApplicationContext(), "این سرویس توسط شخص دیگری رزرو شده است!", Toast.LENGTH_LONG).show();
-
-				}
-				else if(WsResponse.toString().compareTo("4") == 0)
-				{
-					Toast.makeText(this.activity.getApplicationContext(), "این سرویس توسط شما رزرو شده است!", Toast.LENGTH_LONG).show();
-
-				}
-				else if(WsResponse.toString().compareTo("5") == 0)
+				else if(WsResponse.compareTo("1") == 0)
 				{
 					InsertDataFromWsToDb();
 				}
         	}
         	else
         	{
-        		//Toast.makeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
         	}
             try
             {
@@ -204,6 +187,16 @@ public class SyncSelecteJob {
 		UserServiceCodePI.setType(String.class);
 		//Add the property to request object
 		request.addProperty(UserServiceCodePI);
+		//*****************************************************
+		PropertyInfo PricePI = new PropertyInfo();
+		//Set Name
+		PricePI.setName("Price");
+		//Set Value
+		PricePI.setValue(this.Price);
+		//Set dataType
+		PricePI.setType(String.class);
+		//Add the property to request object
+		request.addProperty(PricePI);
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -237,7 +230,7 @@ public class SyncSelecteJob {
 		if(coursors.getCount()>0)
 		{
 			coursors.moveToNext();
-			query="INSERT INTO BsHamyarSelectServices (" +
+			query="INSERT INTO Suggestions (" +
 					"Code," +
 					"UserCode" +
 					",UserName" +
@@ -315,18 +308,17 @@ public class SyncSelecteJob {
 			db.execSQL(query);
 			query = "DELETE  FROM BsUserServices WHERE Code=" + coursors.getString(coursors.getColumnIndex("Code"));
 			db.execSQL(query);
-			Toast.makeText(this.activity.getApplicationContext(), "این سرویس توسط شما رزرو و بسته شد", Toast.LENGTH_LONG).show();
+			Toast.makeText(this.activity.getApplicationContext(), "پیشنهاد شما ارسال گردید", Toast.LENGTH_LONG).show();
 			db.close();
 		}
-		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
+		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"BsUserServicesID",UserServiceCode);
 	}
-	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)
+	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
 	{
 		Intent intent = new Intent(activity,Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
 		intent.putExtra(VariableName3, VariableValue3);
-		intent.putExtra(VariableName4, VariableValue4);
 		activity.startActivity(intent);
 	}
 }

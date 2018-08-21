@@ -865,8 +865,8 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                SyncSelecteJob syncSelecteJob=new SyncSelecteJob(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")));
-                syncSelecteJob.AsyncExecute();
+//                SyncInsertUserServicesHamyarRequest syncInsertUserServicesHamyarRequest =new SyncInsertUserServicesHamyarRequest(ViewJob.this,guid,hamyarcode,coursors.getString(coursors.getColumnIndex("Code")));
+//                syncInsertUserServicesHamyarRequest.AsyncExecute();
             }
         });
         btnCansel.setOnClickListener(new View.OnClickListener() {

@@ -130,14 +130,15 @@ public class HmLogin {
 	            }
 	            else if(res[0].toString().compareTo("2") == 0)//نیروی جدید می باشد و باید اطلاعات اولیه دریافت شود.
 	            {
-					if(check_load.compareTo("0")==0)
-					{
-						setloginDeactive();
-					}
-					else
-					{
-						InsertDataFromWsToDb(res);
-					}
+//					if(check_load.compareTo("0")==0)
+//					{
+//						setloginDeactive();
+//					}
+//					else
+//					{
+//						InsertDataFromWsToDb(res);
+//					}
+					Toast.makeText(this.activity.getApplicationContext(), "لطفا جهت ثبت نام به دفتر شرکت مراجعه فرمایید", Toast.LENGTH_LONG).show();
 	            }
 	            else if(res[0].toString().compareTo("3") == 0)
 	            {
@@ -286,12 +287,11 @@ public class HmLogin {
 			db.execSQL(query);
 			SyncProfile syncProfile=new SyncProfile(this.activity, res[2], res[1]);
 			syncProfile.AsyncExecute();
-			Toast.makeText(this.activity.getApplicationContext(), "شما فعال نشده اید", Toast.LENGTH_LONG).show();
 
 		}
 		else
 		{
-			Toast.makeText(this.activity.getApplicationContext(), "برای استفاده از امکانات آسپینو باید ثبت نام کنید", Toast.LENGTH_LONG).show();
+			Toast.makeText(this.activity.getApplicationContext(), "برای استفاده از امکانات آسپینو باید ثبت نام خود را تکمیل فرمایید", Toast.LENGTH_LONG).show();
 		}
 		LoadActivity(MainMenu.class, "guid", "0","hamyarcode","0");
 

@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -41,6 +42,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class MainMenu extends AppCompatActivity{
     private String hamyarcode;
     private String guid;
+    private boolean isActive=false;
     private String StrToday;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private DatabaseHelper dbh;
@@ -182,11 +184,19 @@ public class MainMenu extends AppCompatActivity{
                     String Result = cursors.getString(cursors.getColumnIndex("islogin"));
                     if (Result.compareTo("0") == 0)
                     {
+                        isActive=false;
                         LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
+                    }
+                    else
+                    {
+                        if(Result.compareTo("1") == 0 && cursors.getString(cursors.getColumnIndex("Status")).compareTo("0")==0)
+                        Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                        isActive=false;
                     }
                 }
                 else
                 {
+                    isActive=false;
                     LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
                 }
             }
@@ -198,11 +208,18 @@ public class MainMenu extends AppCompatActivity{
                 if (cursors.getCount() > 0)
                 {
                     cursors.moveToNext();
-                    String Result = cursors.getString(cursors.getColumnIndex("islogin"));
-                    if (Result.compareTo("1") == 0)
+                    String Result = cursors.getString(cursors.getColumnIndex("islogin") );
+                    if (Result.compareTo("1") == 0 && cursors.getString(cursors.getColumnIndex("Status")).compareTo("1")==0)
                     {
+                        cursors.moveToNext();
                         hamyarcode=cursors.getString(cursors.getColumnIndex("hamyarcode"));
                         guid=cursors.getString(cursors.getColumnIndex("guid"));
+                        isActive=true;
+                    }
+                    else
+                    {
+                        isActive=false;
+                        LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
                     }
                 }
             }
@@ -283,13 +300,18 @@ public class MainMenu extends AppCompatActivity{
         LinearRole.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(YourCommitment.class, "hamyarcode", hamyarcode, "guid", guid);
+//                LoadActivity(YourCommitment.class, "hamyarcode", hamyarcode, "guid", guid);
+                Intent urlCall = new Intent(Intent.ACTION_VIEW);
+                urlCall.setData(Uri.parse(PublicVariable.site));
+                startActivity(urlCall);
             }
         });
         LinearAboutAspino.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(About.class,"hamyarcode", hamyarcode, "guid", guid);
+                Intent urlCall = new Intent(Intent.ACTION_VIEW);
+                urlCall.setData(Uri.parse(PublicVariable.site));
+                startActivity(urlCall);
             }
         });
         LinearLogout.setOnClickListener(new View.OnClickListener() {
@@ -307,42 +329,83 @@ public class MainMenu extends AppCompatActivity{
         LinearCredite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(Credit.class, "hamyarcode", hamyarcode, "guid", guid);
+                if(isActive) {
+                    LoadActivity(Credit.class, "hamyarcode", hamyarcode, "guid", guid);
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                }
             }
         });
         LinearBankID.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(Id_Bank.class, "hamyarcode", hamyarcode, "guid", guid);
+                if(isActive) {
+                    LoadActivity(Id_Bank.class, "hamyarcode", hamyarcode, "guid", guid);
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         LinearKarnameMali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(KarnameMali.class, "hamyarcode", hamyarcode, "guid", guid);
+                if(isActive) {
+                    LoadActivity(KarnameMali.class, "hamyarcode", hamyarcode, "guid", guid);
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         LinearCommentCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+                if(isActive) {
+                    LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         LinearOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LoadActivity(List_Orders.class, "hamyarcode", hamyarcode, "guid", guid);
+                if(isActive) {
+                    LoadActivity(List_Orders.class, "hamyarcode", hamyarcode, "guid", guid);
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         LinearCertain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isActive) {
+                    //todo
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                }
                 //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
             }
         });
         LinearSuggestions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(isActive) {
+                   //todo
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                }
                 //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
             }
         });
@@ -355,6 +418,7 @@ public class MainMenu extends AppCompatActivity{
         LinearNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //todo
                 //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
             }
         });
