@@ -262,14 +262,11 @@ public class HmLogin {
         }
 		cursors.close();
         db.close();
-
 		SyncMessage syncMessage=new SyncMessage(this.activity, res[2], res[1],LastMessageCode,LastHamyarUserServiceCode);
 		syncMessage.AsyncExecute();
 		SyncState syncState=new SyncState(this.activity);
 		syncState.AsyncExecute();
-		SyncCity syncCity=new SyncCity(this.activity,CityCodeLocation,phonenumber,acceptcode);
-		syncCity.AsyncExecute();
-		SyncProfile syncProfile=new SyncProfile(this.activity, res[2], res[1]);
+		SyncProfile syncProfile=new SyncProfile(this.activity, res[2], res[1],phonenumber,acceptcode);
 		syncProfile.AsyncExecute();
 		SyncGetHamyarInCome syncGetHamyarInCome=new SyncGetHamyarInCome(activity.getApplicationContext(), res[2], res[1]);
 		syncGetHamyarInCome.AsyncExecute();
@@ -285,7 +282,7 @@ public class HmLogin {
 			db.execSQL("DELETE FROM login");
 			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+ res[1] +"','"+ res[2] +"','1')";
 			db.execSQL(query);
-			SyncProfile syncProfile=new SyncProfile(this.activity, res[2], res[1]);
+			SyncProfile syncProfile=new SyncProfile(this.activity, res[2], res[1],phonenumber,acceptcode);
 			syncProfile.AsyncExecute();
 
 		}

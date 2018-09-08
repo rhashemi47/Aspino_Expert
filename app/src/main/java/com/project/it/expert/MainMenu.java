@@ -187,11 +187,21 @@ public class MainMenu extends AppCompatActivity{
                         isActive=false;
                         LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
                     }
-                    else
-                    {
-                        if(Result.compareTo("1") == 0 && cursors.getString(cursors.getColumnIndex("Status")).compareTo("0")==0)
-                        Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
-                        isActive=false;
+                    else {
+                        db=dbh.getReadableDatabase();
+                        Cursor cursor = db.rawQuery("SELECT * FROM Profile", null);
+                        if (cursor.getCount() > 0) {
+                            cursor.moveToNext();
+                            String Status=cursor.getString(cursor.getColumnIndex("Status"));
+                            if (Result.compareTo("1") == 0 && Status.compareTo("0") == 0) {
+                                Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                                isActive = false;
+                            }
+                            else
+                            {
+                                isActive = true;
+                            }
+                        }
                     }
                 }
                 else
@@ -200,7 +210,7 @@ public class MainMenu extends AppCompatActivity{
                     LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
                 }
             }
-            else if (hamyarcode.compareTo("0") == 0 || guid.compareTo("0") == 0)
+            else
             {
                 Cursor cursors = null;
                 db = dbh.getReadableDatabase();
@@ -209,18 +219,20 @@ public class MainMenu extends AppCompatActivity{
                 {
                     cursors.moveToNext();
                     String Result = cursors.getString(cursors.getColumnIndex("islogin") );
-                    if (Result.compareTo("1") == 0 && cursors.getString(cursors.getColumnIndex("Status")).compareTo("1")==0)
-                    {
-                        cursors.moveToNext();
-                        hamyarcode=cursors.getString(cursors.getColumnIndex("hamyarcode"));
-                        guid=cursors.getString(cursors.getColumnIndex("guid"));
-                        isActive=true;
+                    Cursor cursor=db.rawQuery("SELECT * FROM Profile", null);
+                    if(cursor.getCount()>0) {
+                        cursor.moveToNext();
+                        if (Result.compareTo("1") == 0 && cursor.getString(cursor.getColumnIndex("Status")).compareTo("1") == 0) {
+
+                            hamyarcode = cursors.getString(cursors.getColumnIndex("hamyarcode"));
+                            guid = cursors.getString(cursors.getColumnIndex("guid"));
+                            isActive = true;
+                        } else {
+                            isActive = false;
+                            LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
+                        }
                     }
-                    else
-                    {
-                        isActive=false;
-                        LoadActivity(Login.class, "hamyarcode", "0", "guid", "0");
-                    }
+                    cursor.close();
                 }
             }
 

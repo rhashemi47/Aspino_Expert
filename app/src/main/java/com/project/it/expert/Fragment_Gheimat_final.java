@@ -3,10 +3,14 @@ package com.project.it.expert;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.io.IOException;
@@ -24,7 +28,7 @@ public class Fragment_Gheimat_final extends Fragment {
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
     private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
-    private String karbarCode;
+    private EditText etGheimat;
 
     public Fragment_Gheimat_final() {
         // Required empty public constructor
@@ -57,8 +61,54 @@ public class Fragment_Gheimat_final extends Fragment {
             throw sqle;
         }
 
+        etGheimat = (EditText)rootView.findViewById(R.id.etGheimat);
+        etGheimat.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                db=dbh.getWritableDatabase();
+                db.execSQL("DELETE FROM TempValue");
+                String query="INSERT INTO TempValue (value) VALUES('"+etGheimat.getText().toString()+"')";
+                db.execSQL(query);
+                db.close();
+            }
+        });
         return rootView;
 
     }
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        etGheimat = (EditText) view.findViewById(R.id.etGheimat);
+        etGheimat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                db=dbh.getWritableDatabase();
+                db.execSQL("DELETE FROM TempValue");
+                String query="INSERT INTO TempValue (value) VALUES('"+etGheimat.getText().toString()+"')";
+                db.execSQL(query);
+                db.close();
+            }
+        });
+    }
 }

@@ -164,15 +164,15 @@ public class SyncServicesDetails {
 	    //Add the property to request object
 	    request.addProperty(VerifyCode);
 	    //**********************************************
-	    PropertyInfo CityCode = new PropertyInfo();
+	    PropertyInfo CityCodePI = new PropertyInfo();
 	    //Set Name
-		CityCode.setName("CityCode");
+		CityCodePI.setName("CityCode");
 	    //Set Value
-		CityCode.setValue(CityCode);
+		CityCodePI.setValue(CityCode);
 	    //Set dataType
-		CityCode.setType(String.class);
+		CityCodePI.setType(String.class);
 	    //Add the property to request object
-	    request.addProperty(CityCode);
+	    request.addProperty(CityCodePI);
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);
@@ -208,16 +208,16 @@ public class SyncServicesDetails {
 			db.execSQL("INSERT INTO servicesdetails (code,servicename,type,name,NeedVisit) VALUES('"+value[0] + "','" +value[1] + "','" + value[2] +"','"+value[3]+"','"+value[4]+"')");
 		}
 		db.close();
-		if(this.flag.compareTo("0")==0)
-		{
-			LoadActivity(Info_Person.class, "phonenumber",this.phonenumber,"acceptcode",this.acceptcode);
-		}
-		else if (this.flag.compareTo("1")==0)
-		{
+//		if(this.flag.compareTo("0")==0)
+//		{
+//			LoadActivity(Info_Person.class, "phonenumber",this.phonenumber,"acceptcode",this.acceptcode);
+//		}
+//		else if (this.flag.compareTo("1")==0)
+//		{
 			SyncGettHamyarCreditHistory syncGettHamyarCreditHistory =new SyncGettHamyarCreditHistory(this.activity,this.acceptcode,"0");
 			syncGettHamyarCreditHistory.AsyncExecute();
 			LoadActivity(MainMenu.class, "guid",this.phonenumber,"hamyarcode",this.acceptcode);
-		}
+//		}
 
     }
 	

@@ -27,12 +27,16 @@ public class SyncProfile {
 	private String guid;
 	private String hamyarcode;
 	private String WsResponse;
+	private String phonenumber;
+	private String acceptcode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncProfile(Activity activity, String guid, String hamyarcode) {
+	public SyncProfile(Activity activity, String guid, String hamyarcode,String phonenumber,String acceptcode) {
 		this.activity = activity;
 		this.guid = guid;
 		this.hamyarcode=hamyarcode;
+		this.phonenumber=phonenumber;
+		this.acceptcode=acceptcode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -227,6 +231,7 @@ public class SyncProfile {
 					",ShabaNumber" +
 					",AccountNameOwner" +
 					",BankName" +
+					",City" +
 					" )" +
 					"VALUES" +
 					"('"+ value[0]+
@@ -249,9 +254,12 @@ public class SyncProfile {
 					"','"+value[17]+
 					"','"+value[18]+
 					"','"+value[19]+
+					"','"+value[20]+
 					"')";
 		db.execSQL(query);
 		db.close();
+		SyncCity syncCity=new SyncCity(this.activity,value[20],phonenumber,acceptcode);
+		syncCity.AsyncExecute();
 		SyncGetRating syncGetRating=new SyncGetRating(activity.getApplicationContext(),guid,hamyarcode);
 		syncGetRating.AsyncExecute();
 		SyncProfilePic syncProfilePic=new SyncProfilePic(activity,guid,hamyarcode);

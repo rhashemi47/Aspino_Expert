@@ -158,19 +158,19 @@ public class SyncInsertUserServicesHamyarRequest {
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
-	    PropertyInfo GuidPI = new PropertyInfo();
-	    //Set Name
-	    GuidPI.setName("GUID");
-	    //Set Value
-		GuidPI.setValue(this.guid);
-	    //Set dataType
-		GuidPI.setType(String.class);
-	    //Add the property to request object
-	    request.addProperty(GuidPI);
+//	    PropertyInfo GuidPI = new PropertyInfo();
+//	    //Set Name
+//	    GuidPI.setName("GUID");
+//	    //Set Value
+//		GuidPI.setValue(this.guid);
+//	    //Set dataType
+//		GuidPI.setType(String.class);
+//	    //Add the property to request object
+//	    request.addProperty(GuidPI);
 	    //*****************************************************
 		PropertyInfo HamyarCodePI = new PropertyInfo();
 		//Set Name
-		HamyarCodePI.setName("HamyarCode");
+		HamyarCodePI.setName("pHamyarCode");
 		//Set Value
 		HamyarCodePI.setValue(this.hamyarcode);
 		//Set dataType
@@ -180,7 +180,7 @@ public class SyncInsertUserServicesHamyarRequest {
 		//*****************************************************
 		PropertyInfo UserServiceCodePI = new PropertyInfo();
 		//Set Name
-		UserServiceCodePI.setName("UserServiceCode");
+		UserServiceCodePI.setName("BsUserServicesCode");
 		//Set Value
 		UserServiceCodePI.setValue(this.UserServiceCode);
 		//Set dataType

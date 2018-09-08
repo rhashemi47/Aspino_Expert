@@ -17,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -57,6 +58,8 @@ private ViewPagerAdapter viewPagerAdapter;
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 	private String OrderCode;
 	private String Price="0";
+	private int positionTab=0;
+	private EditText etGheimat;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -126,7 +129,8 @@ protected void onCreate(Bundle savedInstanceState) {
 	tabLayout.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
 		@Override
 		public void onTabClicked(int position) {
-			Toast.makeText(Pishnahad_Gheimat.this,position,Toast.LENGTH_LONG).show();
+//			Toast.makeText(getApplicationContext(),position,Toast.LENGTH_LONG).show();
+			positionTab=position;
 		}
 	});
 	//********************************************************************
@@ -203,9 +207,30 @@ protected void onCreate(Bundle savedInstanceState) {
 		@Override
 		public void onClick(View v) {
 			//todo Select Gheimat nahaei va tavafoghi
-
+		if(positionTab==0)
+		{
+			db=dbh.getReadableDatabase();
+			String query="SELECT * FROM TempValue";
+			Cursor cursor=db.rawQuery(query,null);
+			if(cursor.getCount()>0) {
+				cursor.moveToNext();
+				Price=cursor.getString(cursor.getColumnIndex("value"));
+				if (Price.compareTo("") == 0 || Price.compareTo("0") == 0) {
+					Toast.makeText(Pishnahad_Gheimat.this, "مقدار وارد شده صحیح نیست", Toast.LENGTH_LONG).show();
+				} else {
+					SyncInsertUserServicesHamyarRequest syncInsertUserServicesHamyarRequest = new SyncInsertUserServicesHamyarRequest(Pishnahad_Gheimat.this, guid, hamyarcode, OrderCode, Price);
+					syncInsertUserServicesHamyarRequest.AsyncExecute();
+				}
+			}
+			cursor.close();
+			db.close();
+		}
+		else
+		{
 			SyncInsertUserServicesHamyarRequest syncInsertUserServicesHamyarRequest =new SyncInsertUserServicesHamyarRequest(Pishnahad_Gheimat.this,guid,hamyarcode,OrderCode,Price);
 			syncInsertUserServicesHamyarRequest.AsyncExecute();
+		}
+
 		}
 	});
 }
