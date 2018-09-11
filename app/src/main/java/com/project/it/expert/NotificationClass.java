@@ -61,6 +61,7 @@ public class NotificationClass {
             intent.putExtra("hamyarcode", hamyarcode);
             intent.putExtra("tab", "1");
             intent.putExtra("BsUserServicesID", BsUserServicesID);
+            intent.putExtra("OrderCode", BsUserServicesID);
             PendingIntent pIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
             mBuilder.setContentIntent(pIntent);
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
