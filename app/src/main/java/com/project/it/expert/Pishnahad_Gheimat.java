@@ -60,6 +60,7 @@ private ViewPagerAdapter viewPagerAdapter;
 	private String Price="0";
 	private int positionTab=0;
 	private EditText etGheimat;
+	private String Table;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -94,6 +95,13 @@ protected void onCreate(Bundle savedInstanceState) {
 	} catch (SQLException sqle) {
 
 		throw sqle;
+	}
+	try {
+		Table=getIntent().getStringExtra("Table").toString();
+	}
+	catch (Exception ex)
+	{
+		Table="";
 	}
 	try
 	{
@@ -191,11 +199,11 @@ protected void onCreate(Bundle savedInstanceState) {
 	});
 	//********************************************************************
 	db=dbh.getReadableDatabase();
-	Cursor cursors = db.rawQuery("SELECT * FROM BsUserServices WHERE Code='"+OrderCode+"'", null);
+	Cursor cursors = db.rawQuery("SELECT * FROM BsUserServices WHERE Code_BsUserServices='"+OrderCode+"'", null);
 	if(cursors.getCount()>0)
 	{
 		cursors.moveToNext();
-		tvOrderCode.setText(cursors.getString(cursors.getColumnIndex("Code")));
+		tvOrderCode.setText(cursors.getString(cursors.getColumnIndex("Code_BsUserServices")));
 		tvOrderDate.setText(cursors.getString(cursors.getColumnIndex("StartDate")));
 		tvOrderTime.setText(cursors.getString(cursors.getColumnIndex("StartTime")));
 		tvOrderAddress.setText(cursors.getString(cursors.getColumnIndex("AddressText")));
@@ -241,12 +249,16 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		intent.putExtra(VariableName2, VariableValue2);
 		Pishnahad_Gheimat.this.startActivity(intent);
 	}
-	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue,
+							  String VariableName2, String VariableValue2,
+							  String VariableName3, String VariableValue3,
+							  String VariableName4, String VariableValue4)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
 		intent.putExtra(VariableName3, VariableValue3);
+		intent.putExtra(VariableName4, VariableValue4);
 		Pishnahad_Gheimat.this.startActivity(intent);
 	}
 	public void dialContactPhone(String phoneNumber) {
@@ -284,7 +296,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db = dbh.getWritableDatabase();
 				db.execSQL("DELETE FROM AmountCredit");
 				db.execSQL("DELETE FROM android_metadata");
-				db.execSQL("DELETE FROM BsHamyarSelectServices");
+				//db.execSQL("DELETE FROM BsHamyarSelectServices");
 				db.execSQL("DELETE FROM BsUserServices");
 				db.execSQL("DELETE FROM credits");
 				db.execSQL("DELETE FROM DateTB");
@@ -324,7 +336,10 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 
 		} else {
 
-			LoadActivity2(Detail_Order.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID",OrderCode);
+			LoadActivity2(Detail_Order.class, "guid", guid,
+					"hamyarcode", hamyarcode,
+					"BsUserServicesID",OrderCode,
+					"Table",Table);
 		}
 
 	}

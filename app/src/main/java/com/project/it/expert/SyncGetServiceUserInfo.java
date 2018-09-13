@@ -194,7 +194,7 @@ public class SyncGetServiceUserInfo {
 		NumberPhone=value[3].replace("@@","");
 		query="UPDATE BsUserServices SET " +
 				"UserPhone='" +NumberPhone+
-				"' WHERE Code='"+ UserServiceCode+"'";
+				"' WHERE Code_BsUserServices='"+ UserServiceCode+"'";
 			db.execSQL(query);
 
 		db.close();

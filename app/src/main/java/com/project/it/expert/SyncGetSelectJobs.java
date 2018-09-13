@@ -106,7 +106,7 @@ public class SyncGetSelectJobs {
 					//Toast.makeText(this.activity.getApplicationContext(), "سرویسی اعلام نشده", Toast.LENGTH_LONG).show();
 					//LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","1");
 					db=dbh.getReadableDatabase();
-					Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
+					Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_BsUserServices AS INT)),0)as code FROM BsUserServices", null);
 					String LastHamyarUserServiceCode = null;
 					if(cursors.getCount()>0)
 					{
@@ -212,81 +212,10 @@ public class SyncGetSelectJobs {
 		db = dbh.getWritableDatabase();
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
-			query = "INSERT INTO BsHamyarSelectServices (" +
-					"Code," +
-					"UserCode," +
-					"UserName," +
-					"UserFamily," +
-					"ServiceDetaileCode," +
-					"MaleCount," +
-					"FemaleCount," +
-					"StartDate," +
-					"EndDate," +
-					"AddressCode," +
-					"AddressText," +
-					"Lat," +
-					"Lng," +
-					"City," +
-					"State," +
-					"Description," +
-					"IsEmergency," +
-					"InsertUser," +
-					"InsertDate," +
-					"StartTime," +
-					"EndTime," +
-					"HamyarCount," +
-					"PeriodicServices," +
-					"EducationGrade," +
-					"FieldOfStudy," +
-					"StudentGender," +
-					"TeacherGender," +
-					"EducationTitle," +
-					"ArtField," +
-					"CarWashType," +
-					"CarType," +
-					"Language," +
-					"ArtFieldOther," +
-					"UserPhone" +
-					",IsDelete" +
-					",Status) VALUES('"
-					+ value[0] +
-					"','" + value[1] +
-					"','" + value[2] +
-					"','" + value[3] +
-					"','" + value[4] +
-					"','" + value[5] +
-					"','" + value[6] +
-					"','" + value[7] +
-					"','" + value[8] +
-					"','" + value[9] +
-					"','" + value[10] +
-					"','" + value[11] +
-					"','" + value[12] +
-					"','" + value[13] +
-					"','" + value[14] +
-					"','" + value[15] +
-					"','" + value[16] +
-					"','" + value[17] +
-					"','" + value[18] +
-					"','" + value[19] +
-					"','" + value[20] +
-					"','" + value[21] +
-					"','" + value[22] +
-					"','" + value[23] +
-					"','" + value[24] +
-					"','" + value[25] +
-					"','" + value[26] +
-					"','" + value[27] +
-					"','" + value[28] +
-					"','" + value[29] +
-					"','" + value[30] +
-					"','" + value[31] +
-					"','" + value[32] +
-					"','" + value[33] +
-					"','0','1')";
+			query = "UPDATE BsUserServices SET Status='1' WHERE Code_BsUserServices='" + value[0] + "'";
 			db.execSQL(query);
 		}
-		Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0) as code FROM BsUserServices", null);
+		Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_BsUserServices AS INT)),0) as code FROM BsUserServices", null);
 		if(cursors.getCount()>0)
 		{
 			cursors.moveToNext();

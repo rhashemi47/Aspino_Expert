@@ -49,6 +49,8 @@ public class Detail_Order extends AppCompatActivity {
 	private LinearLayout LinearLogout;
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 	private String OrderCode;
+	private String Table;
+	private boolean SuggetionFinal;
 
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -84,6 +86,13 @@ protected void onCreate(Bundle savedInstanceState) {
 	} catch (SQLException sqle) {
 
 		throw sqle;
+	}
+	try {
+		Table=getIntent().getStringExtra("Table").toString();
+	}
+	catch (Exception ex)
+	{
+		Table="";
 	}
 	try
 	{
@@ -166,20 +175,54 @@ protected void onCreate(Bundle savedInstanceState) {
 	btnSend.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			LoadActivity2(Pishnahad_Gheimat.class,"guid", guid, "hamyarcode", hamyarcode,"OrderCode",OrderCode);
+			if(SuggetionFinal)
+			{
+				LoadActivity2(Pishnahad_Gheimat_Final.class, "guid", guid,
+						"hamyarcode", hamyarcode,
+						"OrderCode", OrderCode,
+						"Table", Table);
+			}
+			else {
+				LoadActivity2(Pishnahad_Gheimat.class, "guid", guid,
+						"hamyarcode", hamyarcode,
+						"OrderCode", OrderCode,
+						"Table", Table);
+			}
 		}
 	});
 	//********************************************************************
 	db=dbh.getReadableDatabase();
-	Cursor cursors = db.rawQuery("SELECT * FROM BsUserServices WHERE Code='"+OrderCode+"'", null);
+	Cursor cursors = db.rawQuery("SELECT * FROM "+Table+" WHERE Code_"+Table+"='"+OrderCode+"'", null);
 	if(cursors.getCount()>0)
 	{
 		cursors.moveToNext();
-		tvOrderCode.setText(cursors.getString(cursors.getColumnIndex("Code")));
+		tvOrderCode.setText(cursors.getString(cursors.getColumnIndex("Code_"+Table)));
 		tvDateCode.setText(cursors.getString(cursors.getColumnIndex("StartDate")));
 		tvTimeOrder.setText(cursors.getString(cursors.getColumnIndex("StartTime")));
 		tvAddressOrder.setText(cursors.getString(cursors.getColumnIndex("AddressText")));
 		tvCustomerDescription.setText(cursors.getString(cursors.getColumnIndex("Description")));
+	}
+	cursors.close();
+	db.close();
+	//********************************************************************
+	//********************************************************************
+	db=dbh.getReadableDatabase();
+	cursors = db.rawQuery("SELECT * FROM SuggetionsInfo WHERE BsUserServicesCode='"+OrderCode+"'", null);
+	if(cursors.getCount()>0)
+	{
+		cursors.moveToNext();
+		if(cursors.getString(cursors.getColumnIndex("ConfirmByUser")).compareTo("0")==0) {
+			btnSend.setVisibility(View.GONE);
+		}
+		else {
+			btnSend.setVisibility(View.VISIBLE);
+			SuggetionFinal=true;
+		}
+	}
+	else
+	{
+		btnSend.setVisibility(View.VISIBLE);
+		SuggetionFinal=false;
 	}
 	cursors.close();
 	db.close();
@@ -192,12 +235,16 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 		intent.putExtra(VariableName2, VariableValue2);
 		Detail_Order.this.startActivity(intent);
 	}
-	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3)
+	public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue,
+							  String VariableName2, String VariableValue2,
+							  String VariableName3, String VariableValue3,
+							  String VariableName4, String VariableValue4)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		intent.putExtra(VariableName2, VariableValue2);
 		intent.putExtra(VariableName3, VariableValue3);
+		intent.putExtra(VariableName4, VariableValue4);
 		Detail_Order.this.startActivity(intent);
 	}
 	public void dialContactPhone(String phoneNumber) {
@@ -235,7 +282,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db = dbh.getWritableDatabase();
 				db.execSQL("DELETE FROM AmountCredit");
 				db.execSQL("DELETE FROM android_metadata");
-				db.execSQL("DELETE FROM BsHamyarSelectServices");
+				//db.execSQL("DELETE FROM BsHamyarSelectServices");
 				db.execSQL("DELETE FROM BsUserServices");
 				db.execSQL("DELETE FROM credits");
 				db.execSQL("DELETE FROM DateTB");

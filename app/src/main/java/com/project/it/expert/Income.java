@@ -147,17 +147,17 @@ protected void onCreate(Bundle savedInstanceState) {
 	});
 	//********************************************************************
 	db=dbh.getReadableDatabase();
-	String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+	String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
 			"LEFT JOIN " +
 			"Servicesdetails ON " +
-			"Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode";
+			"Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Code_BsUserServices in('1','2')";
 	Cursor coursors = db.rawQuery(query, null);
 	for (int i = 0; i < coursors.getCount(); i++) {
 		coursors.moveToNext();
 		String Content = "";
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("name", Content);
-		map.put("Code", coursors.getString(coursors.getColumnIndex("Code")));
+		map.put("Code", coursors.getString(coursors.getColumnIndex("Code_BsHamyarSelectServices")));
 		valuse.add(map);
 	}
 	AdapterIncome dataAdapter=new AdapterIncome(this,valuse);
@@ -205,7 +205,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db = dbh.getWritableDatabase();
 				db.execSQL("DELETE FROM AmountCredit");
 				db.execSQL("DELETE FROM android_metadata");
-				db.execSQL("DELETE FROM BsHamyarSelectServices");
+				//db.execSQL("DELETE FROM BsHamyarSelectServices");
 				db.execSQL("DELETE FROM BsUserServices");
 				db.execSQL("DELETE FROM credits");
 				db.execSQL("DELETE FROM DateTB");

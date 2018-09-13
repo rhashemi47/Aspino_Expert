@@ -207,8 +207,8 @@ public class SyncGetHamyarInCome {
 		db=dbh.getWritableDatabase();
 		for(int i=0;i<res.length;i++) {
 			value=res[i].split("##");
-			query = "INSERT INTO Income (Code," +
-					",ConfirmDate" +
+			query = "INSERT INTO Income (Code_Income," +
+					"ConfirmDate" +
 					",Price) VALUES('" + value[0] +
 					"','" + value[1] +
 					"','" + value[2] + "')";

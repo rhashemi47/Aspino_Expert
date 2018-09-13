@@ -1,23 +1,22 @@
 	package com.project.it.expert;
 
     import android.app.Activity;
-    import android.content.Context;
-    import android.content.Intent;
-    import android.database.Cursor;
-    import android.database.SQLException;
-    import android.database.sqlite.SQLiteDatabase;
-    import android.os.Bundle;
-    import android.view.KeyEvent;
-    import android.view.View;
-    import android.widget.Button;
-    import android.widget.ListView;
-    import android.widget.TextView;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
-    import java.io.IOException;
-    import java.util.ArrayList;
-    import java.util.HashMap;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-    import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
     public class List_Messages extends Activity {
         private String hamyarcode;
@@ -147,7 +146,7 @@
                     }
                     map.put("Title",coursors.getString(coursors.getColumnIndex("Title")));
                     map.put("Content",subStr+"\n"+coursors.getString(coursors.getColumnIndex("InsertDate")));
-                    map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
+                    map.put("Code",coursors.getString(coursors.getColumnIndex("Code_messages")));
                     map.put("IsReade",coursors.getString(coursors.getColumnIndex("IsReade")));
                     valuse.add(map);
                 }

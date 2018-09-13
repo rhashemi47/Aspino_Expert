@@ -218,9 +218,9 @@ public class SyncResumeJob {
     {
 		String query=null;
 		db=dbh.getWritableDatabase();
-		query="UPDATE  BsHamyarSelectServices" +
+		query="UPDATE  BsUserServices" +
 				" SET  Status='3' " +
-				"WHERE Code='"+UserServiceCode+"'";
+				"WHERE Code_BsUserServices='"+UserServiceCode+"'";
 		db.execSQL(query);
 		db.close();
 		LoadActivity(ViewJob.class,"guid", guid,"hamyarcode",hamyarcode,"tab","0","BsUserServicesID",UserServiceCode);

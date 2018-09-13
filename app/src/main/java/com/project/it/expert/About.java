@@ -15,20 +15,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 
@@ -208,7 +198,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db = dbh.getWritableDatabase();
 				db.execSQL("DELETE FROM AmountCredit");
 				db.execSQL("DELETE FROM android_metadata");
-				db.execSQL("DELETE FROM BsHamyarSelectServices");
+				//db.execSQL("DELETE FROM BsHamyarSelectServices");
 				db.execSQL("DELETE FROM BsUserServices");
 				db.execSQL("DELETE FROM credits");
 				db.execSQL("DELETE FROM DateTB");

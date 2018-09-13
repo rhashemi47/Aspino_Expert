@@ -92,7 +92,7 @@ public class SyncNewJob {
 
         public AsyncCallWS(Context activity) {
             this.activity = activity;
-            this.dialog = new ProgressDialog(activity);
+            this.dialog = new ProgressDialog(this.activity);
             this.dialog.setCanceledOnTouchOutside(false);
         }
 
@@ -223,10 +223,10 @@ public class SyncNewJob {
         for(int i=0;i<res.length;i++) {
             value = res[i].split("##");
             db_check = dbh.getReadableDatabase();
-            Cursor cursor = db_check.rawQuery("SELECT * FROM BsUserServices WHERE Code='" + value[0] + "'", null);
+            Cursor cursor = db_check.rawQuery("SELECT * FROM BsUserServices WHERE Code_BsUserServices='" + value[0] + "'", null);
             if (cursor.getCount() == 0) {
                 query = "INSERT INTO BsUserServices (" +
-                        "Code," +
+                        "Code_BsUserServices," +
                         "UserCode," +
                         "UserName," +
                         "UserFamily," +
@@ -301,7 +301,7 @@ public class SyncNewJob {
                 syncGetServiceUserInfo.AsyncExecute();
                 if (notifocationEnable) {
                     db = dbh.getReadableDatabase();
-                    query = "SELECT * FROM Servicesdetails  WHERE code=" + value[4];
+                    query = "SELECT * FROM Servicesdetails  WHERE code_Servicesdetails=" + value[4];
                     Cursor coursors = db.rawQuery(query, null);
                     if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
                     {

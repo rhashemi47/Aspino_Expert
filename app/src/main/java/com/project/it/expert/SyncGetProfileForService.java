@@ -206,7 +206,7 @@ public class SyncGetProfileForService {
 		db=dbh.getWritableDatabase();
 			value=WsResponse.split("##");
 			query="UPDATE Profile SET " +
-					"Code='" + value[0] + "' , " +
+					"Code_Profile='" + value[0] + "' , " +
 					"Name='" + value[1] + "' , " +
 					"Fam='" + value[2] + "' , " +
 					"BthDate='" + value[3] + "' , " +

@@ -195,7 +195,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db = dbh.getWritableDatabase();
 				db.execSQL("DELETE FROM AmountCredit");
 				db.execSQL("DELETE FROM android_metadata");
-				db.execSQL("DELETE FROM BsHamyarSelectServices");
+				//db.execSQL("DELETE FROM BsHamyarSelectServices");
 				db.execSQL("DELETE FROM BsUserServices");
 				db.execSQL("DELETE FROM credits");
 				db.execSQL("DELETE FROM DateTB");

@@ -255,14 +255,14 @@ public class SyncReadMessage {
     {
 		String query=null;
 		db=dbh.getReadableDatabase();
-		query="SELECT * FROM messages WHERE Code='"+messagecode+"'";
+		query="SELECT * FROM messages WHERE Code_messages='"+messagecode+"'";
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0) {
 			cursor.moveToNext();
 			db = dbh.getWritableDatabase();
 			query = "UPDATE  messages" +
 					" SET  IsReade='1' " +
-					"WHERE Code='" + messagecode + "'";
+					"WHERE Code_messages='" + messagecode + "'";
 			db.execSQL(query);
 		}
 		db.close();

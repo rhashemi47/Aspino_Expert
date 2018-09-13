@@ -136,7 +136,7 @@ public class ViewJob extends AppCompatActivity{
             String query="SELECT BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
-                    "Servicesdetails.code=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Code="+BsUserServicesID;
+                    "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Code_BsUserServices="+BsUserServicesID;
             coursors = db.rawQuery(query,null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
@@ -145,7 +145,7 @@ public class ViewJob extends AppCompatActivity{
                 String Content="";
                 try
                 {
-                    Content+="شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n";
+                    Content+="شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code_BsUserServices"))+"\n";
                 }
                 catch (Exception ex)
                 {
@@ -430,10 +430,10 @@ public class ViewJob extends AppCompatActivity{
         }
         else
         {
-            String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.* FROM BsHamyarSelectServices " +
+            String query = "SELECT BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
-                    "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE BsHamyarSelectServices.Code=" + BsUserServicesID;
+                    "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Code_BsUserServices=" + BsUserServicesID;
             coursors = db.rawQuery(query, null);
             for (int i = 0; i < coursors.getCount(); i++) {
                 coursors.moveToNext();
@@ -442,7 +442,7 @@ public class ViewJob extends AppCompatActivity{
                 String Content="";
                 try
                 {
-                    Content+="شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n";
+                    Content+="شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code_BsHamyarSelectServices"))+"\n";
                 }
                 catch (Exception ex)
                 {
@@ -990,10 +990,10 @@ public class ViewJob extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+                String query = "SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
-                        "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode AND BsHamyarSelectServices.Code=" + BsUserServicesID;
+                        "Servicesdetails.code=BsUserServices.ServiceDetaileCode AND BsUserServices.Code_BsUserServices=" + BsUserServicesID;
                 db=dbh.getReadableDatabase();
                 coursors = db.rawQuery(query, null);
                 if (coursors.getCount()>0) {
@@ -1022,10 +1022,10 @@ public class ViewJob extends AppCompatActivity{
                 db = dbh.getReadableDatabase();
                 Cursor cursorPhone;
                 if(tab.compareTo("0")==0){
-                     cursorPhone = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE Code='"+BsUserServicesID+"'", null);
+                     cursorPhone = db.rawQuery("SELECT * FROM BsUserServices WHERE Code_BsUserServices='"+BsUserServicesID+"'", null);
                 }
                 else {
-                     cursorPhone = db.rawQuery("SELECT * FROM BsUserServices WHERE Code='"+BsUserServicesID+"'", null);
+                     cursorPhone = db.rawQuery("SELECT * FROM BsUserServices WHERE Code_BsUserServices='"+BsUserServicesID+"'", null);
                 }
 
                 if (cursorPhone.getCount() > 0) {

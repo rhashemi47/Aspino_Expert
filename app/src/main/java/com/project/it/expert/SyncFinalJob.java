@@ -218,9 +218,9 @@ public class SyncFinalJob {
 	{
 		String query=null;
 		db=dbh.getWritableDatabase();
-		query="UPDATE  BsHamyarSelectServices" +
-				" SET IsDelete='1',Status='7' " +
-				"WHERE Code='"+UserServiceCode+"'";
+		query="UPDATE  BsUserServices" +
+				" SET Status='7' " +
+				"WHERE BsUserServices='"+UserServiceCode+"'";
 		db.execSQL(query);
 
 		db.close();

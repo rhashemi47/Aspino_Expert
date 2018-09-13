@@ -6,11 +6,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -87,7 +84,7 @@ public class ShowMessage extends Activity{
         String[] DateSp=null;
         code=getIntent().getStringExtra("Code").toString();
         db=dbh.getReadableDatabase();
-        query="SELECT * FROM messages WHERE Code='"+code+"'";
+        query="SELECT * FROM messages WHERE Code_messages='"+code+"'";
         Cursor cursor= db.rawQuery(query,null);
         if(cursor.getCount()>0) {
             cursor.moveToNext();
@@ -111,7 +108,7 @@ public class ShowMessage extends Activity{
                 String query=null;
                 query="UPDATE  messages" +
                         " SET  IsDelete='1' " +
-                        "WHERE Code='"+getIntent().getStringExtra("Code") + "'";
+                        "WHERE Code_messages='"+getIntent().getStringExtra("Code") + "'";
                 db.execSQL(query);
 
                 db.close();

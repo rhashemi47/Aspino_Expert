@@ -22,10 +22,10 @@
         private ListView lstOrder;
         private DatabaseHelper dbh;
         private SQLiteDatabase db;
-        //private Button btnCredit;
-        //private Button btnOrders;
-        //private Button btnHome;
+        private String Query;
         private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
+        private String Table;
+
         @Override
         protected void attachBaseContext(Context newBase) {
             super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
@@ -34,9 +34,6 @@
         protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.slide_menu_list_order);
-//            btnCredit=(Button)findViewById(R.id.btnCredit);
-//            btnOrders=(Button)findViewById(R.id.btnOrders);
-//            btnHome=(Button)findViewById(R.id.btnHome);
             lstOrder=(ListView)findViewById(R.id.lstOrder);
             dbh=new DatabaseHelper(getApplicationContext());
             try {
@@ -57,6 +54,20 @@
 
                 throw sqle;
             }
+            try {
+                Query=getIntent().getStringExtra("Query").toString();
+            }
+            catch (Exception ex)
+            {
+                Query="";
+            }
+            try {
+                Table=getIntent().getStringExtra("Table").toString();
+            }
+            catch (Exception ex)
+            {
+                Table="";
+            }
         try
         {
             hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
@@ -74,42 +85,20 @@
             db.close();
         }
             db=dbh.getReadableDatabase();
-            Cursor coursors = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
-                    "LEFT JOIN " +
-                    "Servicesdetails ON " +
-                    "Servicesdetails.code=BsUserServices.ServiceDetaileCode",null);
+            Cursor coursors = db.rawQuery(Query,null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
+                map.put("Code",coursors.getString(coursors.getColumnIndex("Code_"+Table)));
                 map.put("TitleOrder",coursors.getString(coursors.getColumnIndex("name")));
                 map.put("OrderDate",coursors.getString(coursors.getColumnIndex("StartDate")));
                 map.put("Addres",coursors.getString(coursors.getColumnIndex("AddressText")));
+                map.put("Table",Table);
                 valuse.add(map);
             }
             db.close();
             AdapterServices dataAdapter=new AdapterServices(this,valuse,guid,hamyarcode);
             lstOrder.setAdapter(dataAdapter);
-            
-
-//            btnCredit.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    LoadActivity(Credit.class, "guid",  guid, "hamyarcode", hamyarcode);
-//                }
-//            });
-//            btnOrders.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    LoadActivity(History.class, "guid", guid, "hamyarcode", hamyarcode);
-//                }
-//            });
-//            btnHome.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//                }
-//            });
     }
     @Override
     public boolean onKeyDown( int keyCode, KeyEvent event )  {

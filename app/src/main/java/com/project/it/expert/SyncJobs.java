@@ -219,7 +219,7 @@ public class SyncJobs {
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
 			query="INSERT INTO BsUserServices (" +
-			"Code"+
+			"Code_BsUserServices"+
 			",UserCode"+
 			",UserName"+
 			",UserFamily"+

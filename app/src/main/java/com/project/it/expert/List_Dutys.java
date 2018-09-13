@@ -1,22 +1,20 @@
 	package com.project.it.expert;
 
     import android.app.Activity;
-    import android.content.Context;
-    import android.content.Intent;
-    import android.database.Cursor;
-    import android.database.SQLException;
-    import android.database.sqlite.SQLiteDatabase;
-    import android.os.Bundle;
-    import android.view.KeyEvent;
-    import android.view.View;
-    import android.widget.Button;
-    import android.widget.ListView;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.widget.ListView;
 
-    import java.io.IOException;
-    import java.util.ArrayList;
-    import java.util.HashMap;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-    import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
     public class List_Dutys extends Activity {
         private String hamyarcode;
@@ -76,19 +74,19 @@
             db.close();
         }
             db=dbh.getReadableDatabase();
-            Cursor coursors = db.rawQuery("SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+            Cursor coursors = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
-                    "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode WHERE IsDelete='0'",null);
+                    "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Status='1'",null);
             for(int i=0;i<coursors.getCount();i++){
                 coursors.moveToNext();
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("name","شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code"))+"\n"+
+                map.put("name","شماره درخواست: "+coursors.getString(coursors.getColumnIndex("Code_BsHamyarSelectServices"))+"\n"+
                         "موضوع: "+coursors.getString(coursors.getColumnIndex("name"))+"\n"
                         +"نام متقاضی: "+coursors.getString(coursors.getColumnIndex("UserName"))+" "+coursors.getString(coursors.getColumnIndex("UserFamily"))+"\n"+
                         "تاریخ حضور: "+coursors.getString(coursors.getColumnIndex("StartDate"))+"\n"+"ساعت حضور: "+coursors.getString(coursors.getColumnIndex("StartTime"))+"\n"+
                         "وضعیت: "+((coursors.getString(coursors.getColumnIndex("IsEmergency")).compareTo("0")==1? "عادی":"فوری")));
-                map.put("Code",coursors.getString(coursors.getColumnIndex("BsHamyarSelectServices.Code")));
+                map.put("Code",coursors.getString(coursors.getColumnIndex("BsUserServices.Code_BsUserServices")));
                 map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
                 valuse.add(map);
             }

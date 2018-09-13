@@ -302,7 +302,7 @@ public class InsertHamyar {
 		db.execSQL("DELETE FROM Profile");
 		db.execSQL("INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+hamyarcode+"','"+guid+"','1')");
 		db.execSQL("INSERT INTO Profile " +
-				"(Code,Name,Fam,BthDate,ShSh,BirthplaceCode,Sader,StartDate,Address,Tel,Mobile,ReagentName,AccountNumber,HamyarNumber,IsEmrgency,Status) " +
+				"(Code_Profile,Name,Fam,BthDate,ShSh,BirthplaceCode,Sader,StartDate,Address,Tel,Mobile,ReagentName,AccountNumber,HamyarNumber,IsEmrgency,Status) " +
 				"VALUES" +
 				"('"
 				+hamyarcode+"','"

@@ -224,7 +224,7 @@ public class SyncMessage {
 		db=dbh.getWritableDatabase();
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
-			query="INSERT INTO messages (Code," +
+			query="INSERT INTO messages (Code_messages," +
 					"Title" +
 					",Content" +
 					",InsertDate,IsReade) VALUES('"+value[0]+

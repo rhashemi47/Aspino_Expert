@@ -73,7 +73,7 @@ public class ServiceGetNewJob extends Service {
                                         guid=coursors.getString(coursors.getColumnIndex("guid"));
                                         hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                     }
-                                    Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsUserServices", null);
+                                    Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_BsUserServices AS INT)),0)as code FROM BsUserServices", null);
                                     if(cursors.getCount()>0)
                                     {
                                         cursors.moveToNext();

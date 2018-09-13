@@ -207,7 +207,7 @@ public class SyncServices {
 		db.execSQL("DELETE FROM services");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");			
-			db.execSQL("INSERT INTO services (code,servicename) VALUES('"+value[0] +"','"+value[1]+"')");		
+			db.execSQL("INSERT INTO services (code_services,servicename) VALUES('"+value[0] +"','"+value[1]+"')");
 		}
 		db.close();
 		SyncServicesDetails syncservicesdetails=new SyncServicesDetails(this.activity,this.phonenumber,this.acceptcode,this.flag,CityCode);

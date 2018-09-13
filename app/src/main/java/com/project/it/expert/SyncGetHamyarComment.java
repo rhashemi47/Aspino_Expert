@@ -208,7 +208,7 @@ public class SyncGetHamyarComment {
 		db=dbh.getWritableDatabase();
 		for(int i=0;i<res.length;i++) {
 			value=res[i].split("##");
-			query = "INSERT INTO Comments (Code," +
+			query = "INSERT INTO Comments (Code_Comments," +
 					",Content" +
 					",InsertDate) VALUES('" + value[0] +
 					"','" + value[1] +

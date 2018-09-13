@@ -248,13 +248,13 @@ public class HmLogin {
 			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+res[1].toString()+"','"+res[2].toString()+"','1')";
 			db.execSQL(query);
 		}
-        cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM BsHamyarSelectServices", null);
-        if(cursors.getCount()>0)
-        {
-            cursors.moveToNext();
-            LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
-        }
-        cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code AS INT)),0)as code FROM messages", null);
+//        cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_BsHamyarSelectServices AS INT)),0)as code FROM BsHamyarSelectServices", null);
+//        if(cursors.getCount()>0)
+//        {
+//            cursors.moveToNext();
+//            LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
+//        }
+        cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_messages AS INT)),0)as code FROM messages", null);
         if(cursors.getCount()>0)
         {
             cursors.moveToNext();
@@ -262,7 +262,7 @@ public class HmLogin {
         }
 		cursors.close();
         db.close();
-		SyncMessage syncMessage=new SyncMessage(this.activity, res[2], res[1],LastMessageCode,LastHamyarUserServiceCode);
+		SyncMessage syncMessage=new SyncMessage(this.activity, res[2], res[1],LastMessageCode,"0");
 		syncMessage.AsyncExecute();
 		SyncState syncState=new SyncState(this.activity);
 		syncState.AsyncExecute();

@@ -197,7 +197,7 @@ public class SyncGettHamyarCreditHistory {
 		db.execSQL("DELETE FROM credits");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
-			query="INSERT INTO credits (Code,TransactionType,Price,TransactionDate,PaymentMethod,DocNumber,Description,InsertDate)" +
+			query="INSERT INTO credits (Code_credits,TransactionType,Price,TransactionDate,PaymentMethod,DocNumber,Description,InsertDate)" +
 					" VALUES('"+value[0] +
 					"','"+value[1]+
 					"','"+value[2]+

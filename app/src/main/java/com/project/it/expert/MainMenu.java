@@ -165,7 +165,7 @@ public class MainMenu extends AppCompatActivity{
         if (coursors.getCount() > 0) {
             countMessage = String.valueOf(coursors.getCount());
         }
-        coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices WHERE Status='5' AND IsDelete='0'", null);
+        coursors = db.rawQuery("SELECT * FROM BsUserServices WHERE Status='5'", null);
         if (coursors.getCount() > 0) {
             countVisit = String.valueOf(coursors.getCount());
         }
@@ -385,11 +385,18 @@ public class MainMenu extends AppCompatActivity{
 
             }
         });
+        //**************************************************************************
         LinearOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isActive) {
-                    LoadActivity(List_Orders.class, "hamyarcode", hamyarcode, "guid", guid);
+                    String Query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+                            "LEFT JOIN " +
+                            "Servicesdetails ON " +
+                            "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Suggetion='0'";
+                    LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
+                            "guid", guid,"Query",Query,
+                            "Table","BsUserServices");
                 }
                 else {
                     Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
@@ -401,24 +408,37 @@ public class MainMenu extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(isActive) {
-                    //todo
+                    String Query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+                            "LEFT JOIN " +
+                            "Servicesdetails ON " +
+                            "Servicesdetails.code_Servicesdetails=BsHamyarSelectServices.ServiceDetaileCode";
+                    LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
+                            "guid", guid,"Query",Query,
+                            "Table","BsHamyarSelectServices");
                 }
                 else {
                     Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
                 }
-                //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
             }
         });
         LinearSuggestions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isActive) {
-                   //todo
+                    String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM SuggetionsInfo " +
+                            "LEFT JOIN " +
+                            "BsUserServices ON " +
+                            "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
+                            " LEFT JOIN " +
+                            "Servicesdetails ON " +
+                            "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode";
+                    LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
+                            "guid", guid,"Query",Query,
+                            "Table","BsUserServices");
                 }
                 else {
                     Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
                 }
-                //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
             }
         });
         LinearHome.setOnClickListener(new View.OnClickListener() {
@@ -430,8 +450,12 @@ public class MainMenu extends AppCompatActivity{
         LinearNotifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo
-                //LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+                if(isActive) {
+                    LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+                }
+                else {
+                    Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
+                }
             }
         });
         left_white_arrow.setOnClickListener(new View.OnClickListener() {
@@ -543,6 +567,8 @@ public class MainMenu extends AppCompatActivity{
         startService(new Intent(getBaseContext(), ServiceGetLocation.class));
         startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
         startService(new Intent(getBaseContext(), ServiceGetIncome.class));
+        startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
+        startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
         //**************************************************************************
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -558,6 +584,7 @@ public class MainMenu extends AppCompatActivity{
         int intIncome=0;
         for(int i=0;i<cur.getCount();i++)
         {
+            cur.moveToNext();
             intIncome=intIncome+Integer.parseInt(cur.getString(cur.getColumnIndex("Price")));
         }
         cur.close();
@@ -605,10 +632,12 @@ public class MainMenu extends AppCompatActivity{
                 stopService(new Intent(getBaseContext(), ServiceGetProfile.class));
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
                 stopService(new Intent(getBaseContext(), ServiceGetIncome.class));
+                stopService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
+                stopService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
                 db = dbh.getWritableDatabase();
                 db.execSQL("DELETE FROM AmountCredit");
                 db.execSQL("DELETE FROM android_metadata");
-                db.execSQL("DELETE FROM BsHamyarSelectServices");
+                //db.execSQL("DELETE FROM BsHamyarSelectServices");
                 db.execSQL("DELETE FROM BsUserServices");
                 db.execSQL("DELETE FROM credits");
                 db.execSQL("DELETE FROM DateTB");
@@ -734,6 +763,18 @@ public class MainMenu extends AppCompatActivity{
         intent.putExtra(VariableName2, VariableValue2);
         this.startActivity(intent);
     }
+    public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue,
+                              String VariableName2, String VariableValue2,
+                              String VariableName3, String VariableValue3,
+                              String VariableName4, String VariableValue4)
+    {
+        Intent intent = new Intent(getApplicationContext(),Cls);
+        intent.putExtra(VariableName, VariableValue);
+        intent.putExtra(VariableName2, VariableValue2);
+        intent.putExtra(VariableName3, VariableValue3);
+        intent.putExtra(VariableName4, VariableValue4);
+        this.startActivity(intent);
+    }
 	  public Bitmap convertToBitmap(String base){
           Bitmap Bmp=null;
           try
@@ -753,6 +794,8 @@ public class MainMenu extends AppCompatActivity{
 
         super.onStart();
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
+        startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
     }
@@ -761,18 +804,23 @@ public class MainMenu extends AppCompatActivity{
         super.onStop();
        // stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
+        startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
     }
     protected void onPause() {
 
         super.onPause();
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
     }
     protected void onDestroy() {
 
         super.onDestroy();
         //stopService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
         startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
+        startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
+        startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
     }
     void sharecode(String shareStr)
     {

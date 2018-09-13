@@ -195,7 +195,7 @@ public class SyncGettHamyarIntroductionTime {
 		db=dbh.getWritableDatabase();
 		String ContentMessage="وقت مصاحبه برای شما در تاریخ "+ value[1] +" ساعت "+value[2]+" تعیین گردید. ";
 		query="INSERT INTO messages " +
-				"(Code," +
+				"(Code_messages," +
 				"Title," +
 				"Content," +
 				"InsertDate," +

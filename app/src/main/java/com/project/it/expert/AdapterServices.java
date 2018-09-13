@@ -22,6 +22,7 @@ public class AdapterServices extends BaseAdapter {
     private Activity activity;
     private String guid;
     private String hamyarcode;
+    private String Table;
 
     public AdapterServices(Activity activity, ArrayList<HashMap<String, String>> list, String guid, String hamyarcode) {
         super();
@@ -58,27 +59,23 @@ public class AdapterServices extends BaseAdapter {
         ViewHolder holder;
         LayoutInflater inflater = activity.getLayoutInflater();
         HashMap<String, String> map = list.get(position);
-//        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_item_order, null);
-            holder = new ViewHolder();
-            holder.tvTitleOrder = (TextView) convertView.findViewById(R.id.tvTitleOrder);
-            holder.tvOrderDate = (TextView) convertView.findViewById(R.id.tvOrderDate);
-            holder.tvAddres = (TextView) convertView.findViewById(R.id.tvAddres);
-            holder.LinearItemOrder = (LinearLayout) convertView.findViewById(R.id.LinearItemOrder);
-            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
+        convertView = inflater.inflate(R.layout.list_item_order, null);
+        holder = new ViewHolder();
+        holder.tvTitleOrder = (TextView) convertView.findViewById(R.id.tvTitleOrder);
+        holder.tvOrderDate = (TextView) convertView.findViewById(R.id.tvOrderDate);
+        holder.tvAddres = (TextView) convertView.findViewById(R.id.tvAddres);
+        holder.LinearItemOrder = (LinearLayout) convertView.findViewById(R.id.LinearItemOrder);
+        convertView.setTag(holder);
         String TitleOrder = map.get("TitleOrder");
         String OrderDate = map.get("OrderDate");
         String Addres = map.get("Addres");
         String Code = map.get("Code");
+        this.Table = map.get("Table");
         holder.tvTitleOrder.setText(TitleOrder);
         holder.tvAddres.setText(Addres);
         holder.tvOrderDate.setText(OrderDate);
         holder.LinearItemOrder.setTag(Code);
         holder.LinearItemOrder.setOnClickListener(TextViewItemOnclick);
-
         return convertView;
     }
 
@@ -92,6 +89,7 @@ public class AdapterServices extends BaseAdapter {
             intent.putExtra("guid",guid);
             intent.putExtra("hamyarcode",hamyarcode);
             intent.putExtra("BsUserServicesID",BsUserServicesID);
+            intent.putExtra("Table",Table);
             activity.startActivity(intent);
         }
     };

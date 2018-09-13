@@ -171,7 +171,7 @@ public class Profile extends Activity {
 		Cursor coursors = db.rawQuery("SELECT * FROM Profile",null);
 		if(coursors.getCount()>0){
 			coursors.moveToNext();
-			tvUserCode.setText(coursors.getString(coursors.getColumnIndex("Code")));
+			tvUserCode.setText(coursors.getString(coursors.getColumnIndex("Code_Profile")));
 			tvUserName.setText(coursors.getString(coursors.getColumnIndex("Name")));
 			tvUserFName.setText(coursors.getString(coursors.getColumnIndex("Fam")));
 			etBrithday.setText(coursors.getString(coursors.getColumnIndex("BthDate")));

@@ -211,7 +211,7 @@ public class SyncProfile {
 		db.execSQL("DELETE FROM Profile");
 			value=WsResponse.split("##");
 			query="INSERT INTO Profile " +
-					"(Code," +
+					"(Code_Profile," +
 					"Name," +
 					"Fam," +
 					"BthDate," +

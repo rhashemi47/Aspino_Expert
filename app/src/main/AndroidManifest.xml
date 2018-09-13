@@ -102,6 +102,9 @@
         <activity
             android:name="com.project.it.expert.Pishnahad_Gheimat"
             android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.expert.Pishnahad_Gheimat_Final"
+            android:noHistory="false"/>
         <service android:name="com.project.it.expert.ServiceGetNewJob">
 
         </service>
@@ -118,6 +121,12 @@
 
         </service>
         <service android:name="com.project.it.expert.ServiceGetIncome">
+
+        </service>
+        <service android:name="com.project.it.expert.ServiceGetAllHamyarRequest">
+
+        </service>
+        <service android:name="com.project.it.expert.ServiceGetSelectJob">
 
         </service>
         <meta-data

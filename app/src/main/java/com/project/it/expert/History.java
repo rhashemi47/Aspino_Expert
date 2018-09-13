@@ -1,24 +1,23 @@
 	package com.project.it.expert;
 
     import android.app.Activity;
-    import android.content.Context;
-    import android.content.Intent;
-    import android.database.Cursor;
-    import android.database.SQLException;
-    import android.database.sqlite.SQLiteDatabase;
-    import android.graphics.Typeface;
-    import android.os.Bundle;
-    import android.view.KeyEvent;
-    import android.view.View;
-    import android.widget.Button;
-    import android.widget.ListView;
-    import android.widget.TextView;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 
-    import java.io.IOException;
-    import java.util.ArrayList;
-    import java.util.HashMap;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-    import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
     public class History extends Activity {
         private String hamyarcode;
@@ -82,14 +81,14 @@
             String query = "SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
                     "LEFT JOIN " +
                     "Servicesdetails ON " +
-                    "Servicesdetails.code=BsHamyarSelectServices.ServiceDetaileCode";
+                    "Servicesdetails.code_servicesdetails=BsHamyarSelectServices.ServiceDetaileCode";
             Cursor coursors = db.rawQuery(query, null);
             for (int i = 0; i < coursors.getCount(); i++) {
                 coursors.moveToNext();
                 String Content = "";
                 HashMap<String, String> map = new HashMap<String, String>();
                 try {
-                    Content +="شماره درخواست: " + coursors.getString(coursors.getColumnIndex("Code")) + "\n";
+                    Content +="شماره درخواست: " + coursors.getString(coursors.getColumnIndex("Code_BsHamyarSelectServices")) + "\n";
                 }
                 catch (Exception ex) {
                     //todo
@@ -275,7 +274,7 @@
                     //todo
                 }
                 map.put("name",Content);
-                map.put("Code",coursors.getString(coursors.getColumnIndex("Code")));
+                map.put("Code",coursors.getString(coursors.getColumnIndex("Code_BsHamyarSelectServices")));
                 valuse.add(map);
             }
             if(valuse.size()==0)
