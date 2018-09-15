@@ -129,8 +129,6 @@ public class SyncGetSelectJobs2 {
 				}
 			} catch (Exception e) {
 			}
-
-			db.close();
 		}
 
 		@Override

@@ -47,7 +47,6 @@ public class MainMenu extends AppCompatActivity{
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private DatabaseHelper dbh;
     private SQLiteDatabase db;
-    private Drawer drawer=null;
     private String countMessage;
     private String countVisit;
     private TextView tvOrders;
@@ -408,13 +407,16 @@ public class MainMenu extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(isActive) {
-                    String Query="SELECT BsHamyarSelectServices.*,Servicesdetails.name FROM BsHamyarSelectServices " +
+                    String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM SuggetionsInfo " +
                             "LEFT JOIN " +
+                            "BsUserServices ON " +
+                            "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
+                            " LEFT JOIN " +
                             "Servicesdetails ON " +
-                            "Servicesdetails.code_Servicesdetails=BsHamyarSelectServices.ServiceDetaileCode";
+                            "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='1'";
                     LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
                             "guid", guid,"Query",Query,
-                            "Table","BsHamyarSelectServices");
+                            "Table","BsUserServices");
                 }
                 else {
                     Toast.makeText(MainMenu.this, "شما فعال نشده اید", Toast.LENGTH_LONG).show();
@@ -431,7 +433,7 @@ public class MainMenu extends AppCompatActivity{
                             "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
                             " LEFT JOIN " +
                             "Servicesdetails ON " +
-                            "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode";
+                            "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='0'";
                     LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
                             "guid", guid,"Query",Query,
                             "Table","BsUserServices");
