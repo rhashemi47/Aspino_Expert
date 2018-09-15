@@ -1,11 +1,11 @@
 package com.project.it.expert;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
@@ -23,21 +23,21 @@ public class SyncMessage {
 	SQLiteDatabase db;
 	PublicVariable PV;
     InternetConnection IC;
-	private Activity activity;
-	private String guid;
-	private String hamyarcode;
+	private Context activity;
+
+	private String GUID;
+	private String HamyarCode;
 	private String WsResponse;
 	private String LastMessageCode;
-	private String LastHamyarSelectUserServiceCode;
 	//private String acceptcode;
-	private boolean CuShowDialog=true;
+	private boolean CuShowDialog=false;
 	//Contractor
-	public SyncMessage(Activity activity, String guid, String hamyarcode, String LastMessageCode,String LastHamyarSelectUserServiceCode) {
+	public SyncMessage(Context activity, String GUID, String HamyarCode, String LastMessageCode) {
 		this.activity = activity;
-		this.guid = guid;
+
 		this.LastMessageCode=LastMessageCode;
-		this.hamyarcode=hamyarcode;
-		this.LastHamyarSelectUserServiceCode=LastHamyarSelectUserServiceCode;
+		this.GUID=GUID;
+		this.HamyarCode=HamyarCode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -78,18 +78,18 @@ public class SyncMessage {
 		}
 		else
 		{
-			Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
+			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
 	//Async Method
 	private class AsyncCallWS extends AsyncTask<String, Void, String> {
 		private ProgressDialog dialog;
-		private Activity activity;
+		private Context activity;
 		
-		public AsyncCallWS(Activity activity) {
+		public AsyncCallWS(Context activity) {
 		    this.activity = activity;
-		    this.dialog = new ProgressDialog(activity);		    		    this.dialog.setCanceledOnTouchOutside(false);
+		    this.dialog = new ProgressDialog(activity);		    this.dialog.setCanceledOnTouchOutside(false);
 		}
 		
         @Override
@@ -97,7 +97,7 @@ public class SyncMessage {
         	String result = null;
         	try
         	{
-        		CallWsMethod("GetHamyarMessages");
+        		CallWsMethod("GetMessagesForAll");
         	}
 	    	catch (Exception e) {
 	    		result = e.getMessage().toString();
@@ -111,19 +111,16 @@ public class SyncMessage {
         	{
 	            if(WsResponse.toString().compareTo("ER") == 0)
 	            {
-	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
+	            	//akeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
 	            {
-	            	//Toast.makeText(this.activity.getApplicationContext(), "پیام جدیدی اعلام نشده", Toast.LENGTH_LONG).show();
-					SyncGetSelectJobs Selectjobs=new SyncGetSelectJobs(this.activity, guid,hamyarcode,LastHamyarSelectUserServiceCode);
-					Selectjobs.AsyncExecute();
-					SyncUnit unit=new SyncUnit(this.activity,guid,hamyarcode);
-					unit.AsyncExecute();
+	            	//akeText(this.activity.getApplicationContext(), "پیام جدیدی اعلام نشده", Toast.LENGTH_LONG).show();
+
 	            }
-				else if(WsResponse.toString().compareTo("2") == 0)
+				else if(WsResponse.toString().compareTo("0") == 0)
 				{
-					Toast.makeText(this.activity.getApplicationContext(), "متخصص شناسایی نشد!", Toast.LENGTH_LONG).show();
+					//akeText(this.activity.getApplicationContext(), "کاربر شناسایی نشد!", Toast.LENGTH_LONG).show();
 				}
 	            else
 	            {
@@ -132,7 +129,7 @@ public class SyncMessage {
         	}
         	else
         	{
-        		//Toast.makeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
+        		//akeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
         	}
             try
             {
@@ -158,31 +155,29 @@ public class SyncMessage {
         
     }
 	
-
-	
 	public void CallWsMethod(String METHOD_NAME) {
 	    //Create request
 	    SoapObject request = new SoapObject(PV.NAMESPACE, METHOD_NAME);
-	    PropertyInfo GuidPI = new PropertyInfo();
-	    //Set Name
-	    GuidPI.setName("GUID");
-	    //Set Value
-		GuidPI.setValue(this.guid);
-	    //Set dataType
-		GuidPI.setType(String.class);
-	    //Add the property to request object
-	    request.addProperty(GuidPI);
-	    //*****************************************************
+		PropertyInfo GUIDPI = new PropertyInfo();
+		//Set Name
+		GUIDPI.setName("GUID");
+		//Set Value
+		GUIDPI.setValue(this.GUID);
+		//Set dataType
+		GUIDPI.setType(String.class);
+		//Add the property to request object
+		request.addProperty(GUIDPI);
+		//*****************************************************
 		PropertyInfo HamyarCodePI = new PropertyInfo();
 		//Set Name
 		HamyarCodePI.setName("HamyarCode");
 		//Set Value
-		HamyarCodePI.setValue(this.hamyarcode);
+		HamyarCodePI.setValue(this.HamyarCode);
 		//Set dataType
 		HamyarCodePI.setType(String.class);
 		//Add the property to request object
 		request.addProperty(HamyarCodePI);
-		//*****************************************************
+		//**********************************************
 		PropertyInfo LastMessageCodePI = new PropertyInfo();
 		//Set Name
 		LastMessageCodePI.setName("LastMessageCode");
@@ -220,6 +215,7 @@ public class SyncMessage {
 		String[] value;
 		String[] res;
 		String query=null;
+		boolean isFirst=IsFristInsert();
 		res=WsResponse.split("@@");
 		db=dbh.getWritableDatabase();
 		for(int i=0;i<res.length;i++){
@@ -227,19 +223,40 @@ public class SyncMessage {
 			query="INSERT INTO messages (Code_messages," +
 					"Title" +
 					",Content" +
-					",InsertDate,IsReade) VALUES('"+value[0]+
+					",InsertDate,IsReade,IsSend) VALUES('"+value[0]+
 					"','"+value[1]+
 					"','"+value[2]+
 					"','"+value[3]+
-					"','"+value[4]+"')";
+					"','"+value[4]+
+					"','0')";
 			db.execSQL(query);
+			db.close();
+			if(!isFirst && value[4].compareTo("0")==0) {
+				runNotification("بسپارینا", value[1], i, value[0], ShowMessage.class);
+			}
 		}
-
-		db.close();
-		SyncGetSelectJobs Selectjobs=new SyncGetSelectJobs(this.activity, guid,hamyarcode,LastHamyarSelectUserServiceCode);
-		Selectjobs.AsyncExecute();
-		SyncUnit unit=new SyncUnit(this.activity,guid,hamyarcode);
-		unit.AsyncExecute();
-
     }
+	public void runNotification(String title,String TitleMessage,int id,String MessageCode,Class<?> Cls)
+	{
+		//todo
+		NotificationClass notifi=new NotificationClass();
+		notifi.Notificationm(this.activity,title,TitleMessage,MessageCode,id,Cls);
+	}
+	public boolean IsFristInsert()
+	{
+		db=dbh.getReadableDatabase();
+		String query = "SELECT * FROM messages";
+		Cursor cursor= db.rawQuery(query,null);
+		if(cursor.getCount()>0)
+		{
+			db.close();
+			return false;
+		}
+		else
+		{
+			db.close();
+			return true;
+		}
+	}
+
 }

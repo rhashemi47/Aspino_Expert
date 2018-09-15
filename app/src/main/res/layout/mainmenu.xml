@@ -7,22 +7,6 @@
     android:orientation="vertical"
     android:background="#e8e8e8"
     android:layoutDirection="rtl">
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="245dp"-->
-    <!--android:layout_marginTop="-40dp"-->
-    <!--android:id="@+id/LinearSlidShow">-->
-
-    <!--<com.aspino.it.karbar.Custom_ViewFlipper-->
-    <!--android:id="@+id/vf"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="235dp"-->
-    <!--android:autoStart="true"-->
-    <!--android:flipInterval="5000"-->
-    <!--android:inAnimation="@anim/right_in"-->
-    <!--android:outAnimation="@anim/left_out"/>-->
-    <!--</LinearLayout>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -345,7 +329,6 @@
                             android:textSize="14sp"
                             android:fontFamily="@font/vazir"
                             android:id="@+id/tvSabegheKar"
-                            android:text="5 ماه"
                             android:layout_gravity="center"
                             android:gravity="center"/>
                     </LinearLayout>

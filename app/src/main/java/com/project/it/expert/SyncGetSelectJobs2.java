@@ -115,7 +115,7 @@ public class SyncGetSelectJobs2 {
 				if (WsResponse.toString().compareTo("ER") == 0) {
 //					Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 
-				} else if (WsResponse.toString().compareTo("2") == 0) {
+				} else if (WsResponse.toString().compareTo("0") == 0) {
 //					Toast.makeText(this.activity.getApplicationContext(), "متخصص شناسایی نشد!", Toast.LENGTH_LONG).show();
 				} else {
 					InsertDataFromWsToDb(WsResponse);

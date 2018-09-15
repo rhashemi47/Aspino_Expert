@@ -67,7 +67,6 @@ public class Accept_code extends Activity {
 		setContentView(R.layout.accept_code);
 		try
 		{
-
 			phonenumber = getIntent().getStringExtra("phonenumber").toString();
 		}
 		catch (Exception ex)
@@ -209,6 +208,11 @@ public class Accept_code extends Activity {
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue)
 	{
+
+		if(intentReciever.isOrderedBroadcast())
+		{
+			intentReciever.abortBroadcast();
+		}
 		Intent intent = new Intent(getApplicationContext(),Cls);
 		intent.putExtra(VariableName, VariableValue);
 		Accept_code.this.startActivity(intent);
@@ -228,6 +232,10 @@ public class Accept_code extends Activity {
 	public void Send_AcceptCode()
 	{
 //		countDownTimer.cancel();
+		if(intentReciever.isOrderedBroadcast())
+		{
+			intentReciever.abortBroadcast();
+		}
 		String query="UPDATE login SET Phone ='"+phonenumber+"', AcceptCode='"+acceptcode.getText().toString()+"'";
 		db=dbh.getWritableDatabase();
 		db.execSQL(query);

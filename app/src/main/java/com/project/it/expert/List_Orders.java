@@ -1,26 +1,24 @@
 	package com.project.it.expert;
 
     import android.app.Activity;
-    import android.content.Context;
-    import android.content.Intent;
-    import android.database.Cursor;
-    import android.database.SQLException;
-    import android.database.sqlite.SQLiteDatabase;
-    import android.os.Bundle;
-    import android.support.v4.view.GravityCompat;
-    import android.support.v4.widget.DrawerLayout;
-    import android.view.KeyEvent;
-    import android.view.View;
-    import android.widget.ImageView;
-    import android.widget.LinearLayout;
-    import android.widget.ListView;
-    import android.widget.Toast;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
-    import java.io.IOException;
-    import java.util.ArrayList;
-    import java.util.HashMap;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-    import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
     public class List_Orders extends Activity {
         private String hamyarcode;
@@ -186,14 +184,14 @@
             LinearHome.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LoadActivity(List_Orders.class, "hamyarcode", hamyarcode, "guid", guid);
+                    LoadActivity(MainMenu.class, "hamyarcode", hamyarcode, "guid", guid);
                 }
             });
             LinearNotifications.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                    
-                        LoadActivity(CommentCustomer.class, "hamyarcode", hamyarcode, "guid", guid);
+                        LoadActivity(List_Messages.class, "hamyarcode", hamyarcode, "guid", guid);
                     }
             });
     }
@@ -207,7 +205,7 @@
             } else {
 
 //			super.onBackPressed();
-                List_Orders.this.LoadActivity(List_Orders.class, "guid", guid, "hamyarcode", hamyarcode);
+                List_Orders.this.LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
 
         }

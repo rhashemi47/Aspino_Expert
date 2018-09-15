@@ -225,7 +225,8 @@ public class SyncGetProfileForService {
 					"HamyarCodeForReagent='" + value[16]+ "' , " +
 					"ShabaNumber='" + value[17]+ "' , " +
 					"AccountNameOwner='" + value[18]+ "' , " +
-					"BankName='" + value[19]+ "'";
+					"BankName='" + value[19]+ "' , " +
+					"DateStart='" + value[20]+ "'";
 		db.execSQL(query);
 		db.close();
 		SyncGetRating syncGetRating=new SyncGetRating(activity,guid,hamyarcode);

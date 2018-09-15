@@ -1,8 +1,5 @@
 package com.project.it.expert;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +11,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @SuppressLint("NewApi")
 public class AdapterMessage extends BaseAdapter {
@@ -48,7 +48,6 @@ public class AdapterMessage extends BaseAdapter {
     private class ViewHolder {
         TextView txtValues;
         TextView txtContent;
-        ImageView imgIcon;
     }
 
     // @Override
@@ -61,11 +60,10 @@ public class AdapterMessage extends BaseAdapter {
             Typeface faceh = Typeface.createFromAsset(activity.getAssets(), "font/BMitra.ttf");
             convertView = inflater.inflate(R.layout.list_item_message, null);
             holder = new ViewHolder();
-            holder.imgIcon = (ImageView)convertView.findViewById(R.id.imgIcon);
             holder.txtValues = (TextView) convertView.findViewById(R.id.txtTitleMail);
             holder.txtContent = (TextView) convertView.findViewById(R.id.txtContentMail);
-            holder.txtValues.setTypeface(faceh);
-            holder.txtValues.setTextSize(18);
+//            holder.txtValues.setTypeface(faceh);
+//            holder.txtValues.setTextSize(18);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -73,24 +71,11 @@ public class AdapterMessage extends BaseAdapter {
         String name = map.get("Title");
         String code = map.get("Code");
         String content = map.get("Content");
-        String readIcon = map.get("IsReade");
-        if(readIcon.compareTo("0")==0)
-        {
-            holder.txtValues.setTextColor(R.color.md_red_A700);
-            holder.imgIcon.setImageResource(R.drawable.munread);
-        }
-        else
-        {
-            holder.txtValues.setTextColor(R.color.md_green_500);
-            holder.imgIcon.setImageResource(R.drawable.mread);
-        }
-        holder.imgIcon.setTag(code);
-        holder.imgIcon.setOnClickListener(ImageItemOnclick);
         holder.txtValues.setText(name);
         holder.txtContent.setText(content);
         holder.txtValues.setTag(code);
-        holder.txtValues.setOnClickListener(TextViewItemOnclick);
-        holder.txtContent.setOnClickListener(TextViewItemOnclick);
+//        holder.txtValues.setOnClickListener(TextViewItemOnclick);
+//        holder.txtContent.setOnClickListener(TextViewItemOnclick);
 
         return convertView;
     }

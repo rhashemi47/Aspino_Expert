@@ -223,8 +223,8 @@ public class HmLogin {
 	public void InsertDataFromWsToDb(String[] AllRecord)
     {
 
-		SyncEducation syncEducation=new SyncEducation(this.activity,this.phonenumber,this.acceptcode);
-		syncEducation.AsyncExecute();
+//		SyncEducation syncEducation=new SyncEducation(this.activity,this.phonenumber,this.acceptcode);
+//		syncEducation.AsyncExecute();
     }
 	public void setlogin() 
 	{
@@ -262,7 +262,7 @@ public class HmLogin {
         }
 		cursors.close();
         db.close();
-		SyncMessage syncMessage=new SyncMessage(this.activity, res[2], res[1],LastMessageCode,"0");
+		SyncMessage syncMessage=new SyncMessage(this.activity.getApplicationContext(), res[2], res[1],LastMessageCode);
 		syncMessage.AsyncExecute();
 		SyncState syncState=new SyncState(this.activity);
 		syncState.AsyncExecute();
