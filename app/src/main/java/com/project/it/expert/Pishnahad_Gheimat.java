@@ -134,11 +134,27 @@ protected void onCreate(Bundle savedInstanceState) {
 	//set adapter to view pager in class peigiri
 	view_pager.setAdapter(viewPagerAdapter);
 	tabLayout.setViewPager(view_pager);
-	tabLayout.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
+//	tabLayout.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
+//		@Override
+//		public void onTabClicked(int position) {
+////			Toast.makeText(getApplicationContext(),position,Toast.LENGTH_LONG).show();
+//			positionTab=position;
+//		}
+//	});
+	tabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 		@Override
-		public void onTabClicked(int position) {
-//			Toast.makeText(getApplicationContext(),position,Toast.LENGTH_LONG).show();
+		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 			positionTab=position;
+		}
+
+		@Override
+		public void onPageSelected(int position) {
+			positionTab=position;
+		}
+
+		@Override
+		public void onPageScrollStateChanged(int state) {
+//			positionTab=state;
 		}
 	});
 	//********************************************************************

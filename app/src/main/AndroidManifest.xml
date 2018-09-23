@@ -14,7 +14,7 @@
             android:name="com.project.it.expert.MainMenu"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.NoActionBar"
-            android:noHistory="false" >
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

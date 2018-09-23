@@ -345,11 +345,11 @@ public class MainMenu extends AppCompatActivity{
             }
             catch (Exception ex)
             {
-                bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+                bmp= BitmapFactory.decodeResource(getResources(),R.drawable.logo1);
             }
         }
         else {
-            bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
+            bmp= BitmapFactory.decodeResource(getResources(),R.drawable.logo1);
         }
 
         db.close();

@@ -345,7 +345,6 @@
                             android:textSize="14sp"
                             android:fontFamily="@font/vazir"
                             android:id="@+id/tvSabegheKar"
-                            android:text="5 ماه"
                             android:layout_gravity="center"
                             android:gravity="center"/>
                     </LinearLayout>

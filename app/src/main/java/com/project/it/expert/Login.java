@@ -178,7 +178,7 @@ protected void onPause() {
 	private void ExitApplication()
 	{
 		//Exit All Activity And Kill Application
-		AlertDialog.Builder alertbox = new AlertDialog.Builder(Login.this);
+		AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
 		// set the message to display
 		alertbox.setMessage("آیا می خواهید از برنامه خارج شوید ؟");
 
@@ -195,7 +195,17 @@ protected void onPause() {
 			// do something when the button is clicked
 			public void onClick(DialogInterface arg0, int arg1) {
 				//Declare Object From Get Internet Connection Status For Check Internet Status
-				System.exit(0);
+				//System.exit(0);
+				Intent startMain = new Intent(Intent.ACTION_MAIN);
+
+				startMain.addCategory(Intent.CATEGORY_HOME);
+
+				startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+				startActivity(startMain);
+
+				finish();
+
 				arg0.dismiss();
 
 			}
