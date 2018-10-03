@@ -40,41 +40,43 @@ public class ServiceGetProfile extends Service {
                     // TODO Auto-generated method stub
                     while (continue_or_stop) {
                         try {
-                            Thread.sleep(6000); // every 60 seconds
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                            if (PublicVariable.thread_Profile) {
+                                Thread.sleep(6000); // every 60 seconds
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
+                                        }
+
+                                        try {
+
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                        }
+                                        db.close();
+                                        SyncGetProfileForService syncGetProfileForService = new SyncGetProfileForService(getApplicationContext(), guid, hamyarcode);
+                                        syncGetProfileForService.AsyncExecute();
                                     }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-                                        guid=coursors.getString(coursors.getColumnIndex("guid"));
-                                        hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                    }
-                                    db.close();
-                                    SyncGetProfileForService syncGetProfileForService=new SyncGetProfileForService(getApplicationContext(),guid,hamyarcode);
-                                    syncGetProfileForService.AsyncExecute();
-                                }
-                            });
+                                });
+                            }
                         } catch (Exception e) {
                             // TODO: handle exception
                         }

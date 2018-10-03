@@ -34,7 +34,7 @@ public class SyncGetHamyarInCome {
 		this.hamyarcode=hamyarcode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-		
+		PublicVariable.thread_Income=false;
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -104,6 +104,7 @@ public class SyncGetHamyarInCome {
         protected void onPostExecute(String result) {
         	if(result == null)
         	{
+				PublicVariable.thread_Income=true;
 	            if(WsResponse.toString().compareTo("ER") == 0)
 	            {
 	            	//Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();

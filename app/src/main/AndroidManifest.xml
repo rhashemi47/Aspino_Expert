@@ -111,9 +111,6 @@
         <service android:name="com.project.it.expert.ServiceGetNewJobNotNotifi">
 
         </service>
-        <service android:name="com.project.it.expert.ServiceGetLocation">
-
-        </service>
         <service android:name="com.project.it.expert.ServiceGetSliderPic">
 
         </service>

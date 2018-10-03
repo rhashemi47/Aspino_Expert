@@ -42,49 +42,50 @@ public class ServiceSyncMessage extends Service {
                     // TODO Auto-generated method stub
                     while (continue_or_stop) {
                         try {
-                            Thread.sleep(6000); // every 6 seconds
-                            mHandler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dbh=new DatabaseHelper(getApplicationContext());
-                                    try {
+                            if (PublicVariable.thread_Message) {
+                                Thread.sleep(6000); // every 6 seconds
+                                mHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        dbh = new DatabaseHelper(getApplicationContext());
+                                        try {
 
-                                        dbh.createDataBase();
+                                            dbh.createDataBase();
 
-                                    } catch (IOException ioe) {
+                                        } catch (IOException ioe) {
 
-                                        throw new Error("Unable to create database");
+                                            throw new Error("Unable to create database");
 
+                                        }
+
+                                        try {
+
+                                            dbh.openDataBase();
+
+                                        } catch (SQLException sqle) {
+
+                                            throw sqle;
+                                        }
+
+                                        db = dbh.getReadableDatabase();
+                                        Cursor coursors = db.rawQuery("SELECT * FROM login", null);
+                                        for (int i = 0; i < coursors.getCount(); i++) {
+                                            coursors.moveToNext();
+                                            hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
+                                            guid = coursors.getString(coursors.getColumnIndex("guid"));
+                                        }
+                                        db = dbh.getReadableDatabase();
+                                        coursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_messages AS INT)),0)as code FROM messages", null);
+                                        if (coursors.getCount() > 0) {
+                                            coursors.moveToNext();
+                                            LastMessageCode = coursors.getString(coursors.getColumnIndex("code"));
+                                        }
+                                        db.close();
+                                        SyncMessage syncMessage = new SyncMessage(getApplicationContext(), guid, hamyarcode, LastMessageCode);
+                                        syncMessage.AsyncExecute();
                                     }
-
-                                    try {
-
-                                        dbh.openDataBase();
-
-                                    } catch (SQLException sqle) {
-
-                                        throw sqle;
-                                    }
-
-                                    db=dbh.getReadableDatabase();
-                                    Cursor coursors = db.rawQuery("SELECT * FROM login",null);
-                                    for(int i=0;i<coursors.getCount();i++){
-                                        coursors.moveToNext();
-                                        hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
-                                        guid = coursors.getString(coursors.getColumnIndex("guid"));
-                                    }
-                                    db=dbh.getReadableDatabase();
-                                    coursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_messages AS INT)),0)as code FROM messages", null);
-                                    if(coursors.getCount()>0)
-                                    {
-                                        coursors.moveToNext();
-                                        LastMessageCode=coursors.getString(coursors.getColumnIndex("code"));
-                                    }
-                                    db.close();
-                                    SyncMessage syncMessage=new SyncMessage(getApplicationContext(), guid,hamyarcode,LastMessageCode);
-                                    syncMessage.AsyncExecute();
-                                }
-                            });
+                                });
+                            }
                         } catch (Exception e) {
                             // TODO: handle exception
                         }

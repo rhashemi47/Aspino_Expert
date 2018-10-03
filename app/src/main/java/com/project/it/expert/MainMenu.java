@@ -659,7 +659,7 @@ public class MainMenu extends AppCompatActivity{
         if(isActive)
         {
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-            startService(new Intent(getBaseContext(), ServiceGetLocation.class));
+            //startService(new Intent(getBaseContext(), ServiceGetLocation.class));
             startService(new Intent(getBaseContext(), ServiceGetIncome.class));
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
@@ -725,7 +725,7 @@ public class MainMenu extends AppCompatActivity{
             // do something when the button is clicked
             public void onClick(DialogInterface arg0, int arg1) {
                 //Declare Object From Get Internet Connection Status For Check Internet Status
-                stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
+                //stopService(new Intent(getBaseContext(), ServiceGetLocation.class));
                 stopService(new Intent(getBaseContext(), ServiceGetNewJob.class));
                 stopService(new Intent(getBaseContext(), ServiceGetProfile.class));
                 stopService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
@@ -895,7 +895,7 @@ public class MainMenu extends AppCompatActivity{
         if(isActive)
         {
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-            startService(new Intent(getBaseContext(), ServiceGetLocation.class));
+            //startService(new Intent(getBaseContext(), ServiceGetLocation.class));
             startService(new Intent(getBaseContext(), ServiceGetIncome.class));
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
@@ -911,7 +911,7 @@ public class MainMenu extends AppCompatActivity{
         if(isActive)
         {
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-            startService(new Intent(getBaseContext(), ServiceGetLocation.class));
+            //startService(new Intent(getBaseContext(), ServiceGetLocation.class));
             startService(new Intent(getBaseContext(), ServiceGetIncome.class));
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
@@ -925,7 +925,7 @@ public class MainMenu extends AppCompatActivity{
         if(isActive)
         {
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-            startService(new Intent(getBaseContext(), ServiceGetLocation.class));
+            //startService(new Intent(getBaseContext(), ServiceGetLocation.class));
             startService(new Intent(getBaseContext(), ServiceGetIncome.class));
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
@@ -939,7 +939,7 @@ public class MainMenu extends AppCompatActivity{
         if(isActive)
         {
             startService(new Intent(getBaseContext(), ServiceGetNewJob.class));
-            startService(new Intent(getBaseContext(), ServiceGetLocation.class));
+            //startService(new Intent(getBaseContext(), ServiceGetLocation.class));
             startService(new Intent(getBaseContext(), ServiceGetIncome.class));
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));

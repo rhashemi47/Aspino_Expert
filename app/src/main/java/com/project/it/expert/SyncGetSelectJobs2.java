@@ -33,17 +33,15 @@ public class SyncGetSelectJobs2 {
 	private String WsResponse;
 	private String LastHamyarSelectUserServiceCode;
 	private boolean CuShowDialog=false;
-	private boolean notifocationEnable;
 	//Contractor
 	public SyncGetSelectJobs2(Context activity, String guid, String hamyarcode, String LastHamyarSelectUserServiceCode) {
 		this.activity = activity;
 		this.guid = guid;
 		this.LastHamyarSelectUserServiceCode=LastHamyarSelectUserServiceCode;
 		this.hamyarcode=hamyarcode;
-		this.notifocationEnable=notifocationEnable;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
-
+		PublicVariable.thread_SelectJob=false;
 		dbh=new DatabaseHelper(this.activity.getApplicationContext());
 		try {
 
@@ -112,10 +110,13 @@ public class SyncGetSelectJobs2 {
 		@Override
 		protected void onPostExecute(String result) {
 			if (result == null) {
+				PublicVariable.thread_SelectJob=true;
 				if (WsResponse.toString().compareTo("ER") == 0) {
 //					Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 
 				} else if (WsResponse.toString().compareTo("0") == 0) {
+//					Toast.makeText(this.activity.getApplicationContext(), "متخصص شناسایی نشد!", Toast.LENGTH_LONG).show();
+				} else if (WsResponse.toString().compareTo("2") == 0) {
 //					Toast.makeText(this.activity.getApplicationContext(), "متخصص شناسایی نشد!", Toast.LENGTH_LONG).show();
 				} else {
 					InsertDataFromWsToDb(WsResponse);

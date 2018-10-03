@@ -146,5 +146,13 @@
     <string name="Notification">اعلان ها</string>
     <string name="Today">امروز</string>
     <string name="Alerts">اعلان ها</string>
+    <string name="Final_Price">هزینه نهایی:</string>
+    <string name="Toman">تومان</string>
+    <string name="ShowMap">مشاهده نقشه</string>
+    <string name="SaveVisit">ثبت بازدید</string>
+    <string name="EditPrice">اصلاح قیمت</string>
+    <string name="ServiDetaile">جزئیات سفارش مشتری</string>
+    <string name="StartJob">شروع به کار</string>
+    <string name="Call2">تماس</string>
 
 </resources>

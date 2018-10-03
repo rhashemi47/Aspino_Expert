@@ -43,7 +43,7 @@ public class SyncNewJob {
         this.notifocationEnable=notifocationEnable;
         IC = new InternetConnection(this.activity.getApplicationContext());
         PV = new PublicVariable();
-
+        PublicVariable.thread_NewJob=false;
         dbh=new DatabaseHelper(this.activity.getApplicationContext());
         try {
 
@@ -113,6 +113,7 @@ public class SyncNewJob {
         protected void onPostExecute(String result) {
             if(result == null)
             {
+                PublicVariable.thread_NewJob=true;
                 if(WsResponse.toString().compareTo("ER") == 0)
                 {
                     //Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
