@@ -18,4 +18,5 @@ public class PublicVariable {
 	public static final String Recive_NumberPhone = "+9810005152290920";
 	public static String Telegram="https://t.me/aspino_team";
 	public static String Instagram="http://instagram.com/Aspino_team";
+	public static boolean theard_GetUserServiceStartDate=true;
 }
