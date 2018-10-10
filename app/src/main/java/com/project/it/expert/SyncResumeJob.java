@@ -223,7 +223,7 @@ public class SyncResumeJob {
 				"WHERE Code_BsUserServices='"+UserServiceCode+"'";
 		db.execSQL(query);
 		db.close();
-		LoadActivity(ViewJob.class,"guid", guid,"hamyarcode",hamyarcode,"tab","0","BsUserServicesID",UserServiceCode);
+		LoadActivity(Joziat_Sefaresh.class,"guid", guid,"hamyarcode",hamyarcode,"tab","0","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)
 	{

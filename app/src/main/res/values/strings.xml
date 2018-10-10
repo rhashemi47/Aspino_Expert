@@ -154,5 +154,6 @@
     <string name="ServiDetaile">جزئیات سفارش مشتری</string>
     <string name="StartJob">شروع به کار</string>
     <string name="Call2">تماس</string>
+    <string name="CustomersCertains">سفارشات قطعی</string>
 
 </resources>

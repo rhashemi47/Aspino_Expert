@@ -198,7 +198,7 @@ db.close();
            // String item = ((TextView)v).getTag().toString();
             String BsUserServicesID="";
             BsUserServicesID = ((TextView)v).getTag().toString();
-            Intent intent = new Intent(activity.getApplicationContext(),ViewJob.class);
+            Intent intent = new Intent(activity.getApplicationContext(),Joziat_Sefaresh.class);
             intent.putExtra("guid",guid);
             intent.putExtra("hamyarcode",hamyarcode);
             intent.putExtra("BsUserServicesID",BsUserServicesID);

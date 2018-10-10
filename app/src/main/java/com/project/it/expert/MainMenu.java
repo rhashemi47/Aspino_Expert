@@ -507,7 +507,7 @@ public class MainMenu extends AppCompatActivity{
                             " LEFT JOIN " +
                             "Servicesdetails ON " +
                             "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='1'";
-                    LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
+                    LoadActivity2(List_Sertains.class, "hamyarcode", hamyarcode,
                             "guid", guid,"Query",Query,
                             "Table","BsUserServices");
                 }

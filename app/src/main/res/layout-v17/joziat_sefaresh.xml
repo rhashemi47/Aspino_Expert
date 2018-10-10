@@ -28,6 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:id="@+id/tvUserNameOrder"
                     android:textSize="18sp"
                     android:titleTextColor="#000f"/>
             </LinearLayout>
@@ -53,9 +54,10 @@
         android:gravity="center"
         android:layout_marginTop="-70dp">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/imgHamyar"
+                android:id="@+id/imgUser"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
+                android:src="@drawable/logo1"
                 android:layout_gravity="center"
                 android:gravity="center" />
         </LinearLayout>
@@ -63,9 +65,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="-110dp"
-            android:orientation="vertical"
-            android:layout_marginRight="30dp"
-            android:gravity="center">
+        android:orientation="vertical"
+        android:layout_marginRight="30dp"
+        android:id="@+id/LinearCallUser"
+        android:gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -75,21 +78,22 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/vazir"
                 android:text="@string/Call2"/>
-        <ImageView
-            android:id="@+id/imgCall"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:src="@drawable/call"/>
+            <ImageView
+                android:id="@+id/imgCall"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/call"/>
         </LinearLayout>
         <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-80dp"
-        android:layout_marginRight="150dp"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-80dp"
+            android:layout_marginRight="150dp"
+            android:orientation="vertical"
+            android:id="@+id/LinearMessageUser"
+            android:layout_gravity="center">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -99,13 +103,13 @@
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/vazir"
                 android:text="@string/Message"/>
-        <ImageView
-            android:id="@+id/imgMessage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:src="@drawable/message"/>
+            <ImageView
+                android:id="@+id/imgMessage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:src="@drawable/message"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -396,57 +400,11 @@
                 android:fontFamily="@font/vazir"
                 android:layout_marginLeft="10dp"/>
         </LinearLayout>
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:background="#acacac">-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="#fff"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:text="@string/Discount"-->
-                <!--android:id="@+id/tvTitleDiscountService"-->
-                <!--android:layout_marginLeft="10dp"/>-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="#fff"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:id="@+id/tvContetnDiscountService"-->
-                <!--android:layout_marginLeft="10dp"/>-->
-        <!--</LinearLayout>-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:background="#6a33d7">-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="#fff"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:text="@string/FinalCurrency"-->
-                <!--android:id="@+id/tvTitleFinalCurrency"-->
-                <!--android:layout_marginLeft="10dp"/>-->
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textColor="#fff"-->
-                <!--android:layout_marginRight="10dp"-->
-                <!--android:id="@+id/tvContetnFinalCurrency"-->
-                <!--android:layout_marginLeft="10dp"/>-->
-        <!--</LinearLayout>-->
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/LinearButtonBottom"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="match_parent"
@@ -457,7 +415,7 @@
             android:textColor="#fff"
             android:layout_marginBottom="5dp"
             android:textSize="18sp"
-            android:id="@+id/btnCachFactor"
+            android:id="@+id/btnStartJob"
             android:fontFamily="@font/vazir"
             android:background="@drawable/rounded_button2"/>
     </LinearLayout>

@@ -413,7 +413,7 @@ public class Save_Per_Factor extends Activity {
             db.execSQL(query);
 
             db.close();
-            Save_Per_Factor.this.LoadActivity_Select(ViewJob.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab);
+            Save_Per_Factor.this.LoadActivity_Select(Joziat_Sefaresh.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab);
         }
 
         return super.onKeyDown( keyCode, event );

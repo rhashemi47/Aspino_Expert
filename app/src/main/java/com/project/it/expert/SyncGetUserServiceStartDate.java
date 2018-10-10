@@ -192,7 +192,7 @@ public class SyncGetUserServiceStartDate {
 						value[5] + "')";
 				db.execSQL(query);
 				String message = "برای سرویس به شماره: " + value[1] + "اعلام شروع به کار تایید شده است";
-				runNotification("بسپارینا", message, i, value[1], ViewJob.class);
+				runNotification("بسپارینا", message, i, value[1], Joziat_Sefaresh.class);
 			}
 			catch (Exception ex)
 			{

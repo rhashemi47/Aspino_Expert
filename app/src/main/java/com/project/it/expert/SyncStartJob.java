@@ -29,12 +29,14 @@ public class SyncStartJob {
 	private String hamyarcode;
 	private String WsResponse;
 	private String UserServiceCode;
+	private String UserID;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncStartJob(Activity activity, String guid, String hamyarcode, String BsUserServiceCode) {
+	public SyncStartJob(Activity activity, String guid, String hamyarcode, String BsUserServiceCode, String UserID) {
 		this.activity = activity;
 		this.guid = guid;
 		this.UserServiceCode=BsUserServiceCode;
+		this.UserID=UserID;
 		this.hamyarcode=hamyarcode;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
@@ -113,6 +115,11 @@ public class SyncStartJob {
 	            	Toast.makeText(this.activity.getApplicationContext(), "خطا در ارتباط با سرور", Toast.LENGTH_LONG).show();
 	            }
 	            else if(WsResponse.toString().compareTo("0") == 0)
+	            {
+	            	Toast.makeText(this.activity.getApplicationContext(), "خطایی رخداده است", Toast.LENGTH_LONG).show();
+					//LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","1");
+	            }
+	            else if(WsResponse.toString().compareTo("ERROR") == 0)
 	            {
 	            	Toast.makeText(this.activity.getApplicationContext(), "خطایی رخداده است", Toast.LENGTH_LONG).show();
 					//LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode,"updateflag","1");
@@ -213,7 +220,17 @@ public class SyncStartJob {
 
 	public void InsertDataFromWsToDb()
 	{
-		Toast.makeText(this.activity.getApplicationContext(), "پس از تایید کاربر شروع به کار محاسبه خواهد شد", Toast.LENGTH_LONG).show();
+
+		db=dbh.getWritableDatabase();
+		String Query="DELETE FROM StartDateService WHERE BsUserServiceCode='"+UserServiceCode+"'";
+		db.execSQL(Query);
+		Query="INSERT INTO StartDateService (UserCode,BsUserServiceCode) VALUES('"+UserID+"','"+UserServiceCode+"')";
+		db.execSQL(Query);
+		if(db.isOpen())
+		{
+			db.close();
+		}
+		Toast.makeText(this.activity.getApplicationContext(), "برای این سرویس شروع به کار ثبت گردید", Toast.LENGTH_LONG).show();
 		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

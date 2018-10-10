@@ -29,16 +29,14 @@ public class SyncFinalJob {
 	private String hamyarcode;
 	private String WsResponse;
 	private String UserServiceCode;
-	private String RowID;
 	//private String acceptcode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncFinalJob(Activity activity, String guid, String hamyarcode, String UserServiceCode, String rowid) {
+	public SyncFinalJob(Activity activity, String guid, String hamyarcode, String UserServiceCode) {
 		this.activity = activity;
 		this.guid = guid;
 		this.UserServiceCode=UserServiceCode;
 		this.hamyarcode=hamyarcode;
-		this.RowID=rowid;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 		
@@ -121,7 +119,7 @@ public class SyncFinalJob {
 	            }
 				else if(WsResponse.toString().compareTo("1") == 0)
 				{
-					Toast.makeText(this.activity.getApplicationContext(), "کار پایان یافت", Toast.LENGTH_LONG).show();
+
 					InsertDataFromWsToDb();
 				}
 				else if(WsResponse.toString().compareTo("2") == 0)
@@ -220,10 +218,10 @@ public class SyncFinalJob {
 		db=dbh.getWritableDatabase();
 		query="UPDATE  BsUserServices" +
 				" SET Status='7' " +
-				"WHERE BsUserServices='"+UserServiceCode+"'";
+				"WHERE Code_BsUserServices='"+UserServiceCode+"'";
 		db.execSQL(query);
-
 		db.close();
+		Toast.makeText(this.activity.getApplicationContext(), "کار پایان یافت", Toast.LENGTH_LONG).show();
 		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

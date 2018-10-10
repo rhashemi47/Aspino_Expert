@@ -58,7 +58,7 @@
             android:name="com.project.it.expert.YourCommitment"
             android:noHistory="false"/>
         <activity
-            android:name="com.project.it.expert.ViewJob"
+            android:name="com.project.it.expert.Joziat_Sefaresh"
             android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.StepJobDetaile"
@@ -104,6 +104,12 @@
             android:noHistory="false"/>
         <activity
             android:name="com.project.it.expert.Pishnahad_Gheimat_Final"
+            android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.expert.List_Sertains"
+            android:noHistory="false"/>
+        <activity
+            android:name="com.project.it.expert.Map"
             android:noHistory="false"/>
         <service android:name="com.project.it.expert.ServiceGetNewJob">
 
