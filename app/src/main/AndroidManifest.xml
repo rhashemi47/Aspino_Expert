@@ -137,7 +137,7 @@
         </service>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDnC52D6OdJODkWQpG-7SXrqhZk4ZLRV9M" />
+            android:value="AIzaSyDzlg_PGiriwn7yipo2xDLeLwIJ8mD6EMs" />
 
         <meta-data
             android:name="com.google.android.gms.version"

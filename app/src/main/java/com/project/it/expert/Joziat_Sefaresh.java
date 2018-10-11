@@ -283,7 +283,11 @@ public class Joziat_Sefaresh extends AppCompatActivity{
             @Override
             public void onClick(View v)
             {
-                LoadActivity(Map.class,"guid",guid,"hamyarcode",hamyarcode);
+                LoadActivity3(Map.class,"guid",guid,
+                        "hamyarcode",hamyarcode,
+                        "latStr",latStr,
+                        "lonStr",lonStr,
+                        "BsUserServicesID",BsUserServicesID);
             }
         });
 //        btnCansel.setOnClickListener(new View.OnClickListener() {
@@ -503,6 +507,20 @@ public class Joziat_Sefaresh extends AppCompatActivity{
         intent.putExtra(VariableName2, VariableValue2);
         intent.putExtra(VariableName3, VariableValue3);
         intent.putExtra(VariableName4, VariableValue4);
+        Joziat_Sefaresh.this.startActivity(intent);
+    }
+    public void LoadActivity3(Class<?> Cls, String VariableName, String VariableValue,
+                              String VariableName2, String VariableValue2,
+                              String VariableName3, String VariableValue3,
+                              String VariableName4, String VariableValue4,
+                              String VariableName5, String VariableValue5)
+    {
+        Intent intent = new Intent(getApplicationContext(),Cls);
+        intent.putExtra(VariableName, VariableValue);
+        intent.putExtra(VariableName2, VariableValue2);
+        intent.putExtra(VariableName3, VariableValue3);
+        intent.putExtra(VariableName4, VariableValue4);
+        intent.putExtra(VariableName5, VariableValue5);
         Joziat_Sefaresh.this.startActivity(intent);
     }
     public void GetTime()

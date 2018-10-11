@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -63,10 +62,14 @@ public class Map extends AppCompatActivity {
             hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
             guid = getIntent().getStringExtra("guid").toString();
             BsUserServicesID = getIntent().getStringExtra("BsUserServicesID").toString();
+            lat = Float.valueOf(getIntent().getStringExtra("latStr").toString());
+            lon = Float.valueOf(getIntent().getStringExtra("lonStr").toString());
         }
         catch (Exception e)
         {
             Toast.makeText(Map.this,"خطا در بارگزاری اطلاعات",Toast.LENGTH_LONG).show();
+            lat=0;
+            lon=0;
         }
         dbh = new DatabaseHelper(getApplicationContext());
         try {
@@ -209,39 +212,22 @@ public class Map extends AppCompatActivity {
                 }
                 map.setMyLocationEnabled(true);
                 LatLng point;
-                lat=35.691063;
-                lon=51.407941;
                 point = new LatLng(lat, lon);
-                db = dbh.getReadableDatabase();
-                Cursor coursors = db.rawQuery("SELECT * FROM Profile", null);
-                if (coursors.getCount() > 0) {
-                    coursors.moveToNext();
-                    String latStr = coursors.getString(coursors.getColumnIndex("Lat"));
-                    String lonStr = coursors.getString(coursors.getColumnIndex("Lon"));
-                    lat = Double.parseDouble(latStr);
-                    lon = Double.parseDouble(lonStr);
-                    if (latStr.compareTo("0")!=0 && lonStr.compareTo("0")!=0) {
-                        point = new LatLng(lat, lon);
-                    }
-                }
-                db.close();
-                map.addMarker(new MarkerOptions().position(point).title("سرویس").icon(BitmapDescriptorFactory.fromResource(R.drawable.pointer)));
+                map.addMarker(new MarkerOptions().position(point).title("محل سرویس دهی").icon(BitmapDescriptorFactory.fromResource(R.drawable.pointer)));
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(point, 17));
 
 
                 map.getUiSettings().setZoomControlsEnabled(true);
                 map.getUiSettings().setMyLocationButtonEnabled(true);
-                map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        String str = latLng.toString();
-                        //  Toast.makeText(getApplicationContext(),str,Toast.LENGTH_LONG).show();
-                        map.clear();
-                        map.addMarker(new MarkerOptions().position(latLng).title("محل سرویس دهی").icon(BitmapDescriptorFactory.fromResource(R.drawable.pointer)));
-                        lat=latLng.latitude;
-                        lon=latLng.longitude;
-                    }
-                });
+//                map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//                    @Override
+//                    public void onMapClick(LatLng latLng) {
+//                        map.clear();
+//                        map.addMarker(new MarkerOptions().position(latLng).title("محل سرویس دهی").icon(BitmapDescriptorFactory.fromResource(R.drawable.pointer)));
+//                        lat=latLng.latitude;
+//                        lon=latLng.longitude;
+//                    }
+//                });
             }
         });
     }
