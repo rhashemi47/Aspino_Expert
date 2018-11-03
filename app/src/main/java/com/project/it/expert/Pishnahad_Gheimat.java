@@ -60,6 +60,7 @@ private ViewPagerAdapter viewPagerAdapter;
 	private String Price="0";
 	private int positionTab=0;
 	private EditText etGheimat;
+	private EditText etSendMessage;
 	private String Table;
 
 	@Override
@@ -77,6 +78,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	view_pager=(ViewPager)findViewById(R.id.view_pager);
 	tabLayout=(SmartTabLayout) findViewById(R.id.tab_layout);
 	Send=(Button) findViewById(R.id.Send);
+	etSendMessage=(EditText) findViewById(R.id.etSendMessage);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
 
@@ -230,31 +232,32 @@ protected void onCreate(Bundle savedInstanceState) {
 	Send.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			//todo Select Gheimat nahaei va tavafoghi
-		if(positionTab==0)
-		{
-			db=dbh.getReadableDatabase();
-			String query="SELECT * FROM TempValue";
-			Cursor cursor=db.rawQuery(query,null);
-			if(cursor.getCount()>0) {
-				cursor.moveToNext();
-				Price=cursor.getString(cursor.getColumnIndex("value"));
-				if (Price.compareTo("") == 0 || Price.compareTo("0") == 0) {
-					Toast.makeText(Pishnahad_Gheimat.this, "مقدار وارد شده صحیح نیست", Toast.LENGTH_LONG).show();
+			if(etSendMessage.getText().toString().length()==0)
+			{
+				Toast.makeText(Pishnahad_Gheimat.this,"لطفا فیلد توضیحات را پر فرمایید",Toast.LENGTH_LONG).show();
+			}
+			else {
+				if (positionTab == 0) {
+					db = dbh.getReadableDatabase();
+					String query = "SELECT * FROM TempValue";
+					Cursor cursor = db.rawQuery(query, null);
+					if (cursor.getCount() > 0) {
+						cursor.moveToNext();
+						Price = cursor.getString(cursor.getColumnIndex("value"));
+						if (Price.compareTo("") == 0 || Price.compareTo("0") == 0) {
+							Toast.makeText(Pishnahad_Gheimat.this, "مقدار وارد شده صحیح نیست", Toast.LENGTH_LONG).show();
+						} else {
+							SyncInsertUserServicesHamyarRequest syncInsertUserServicesHamyarRequest = new SyncInsertUserServicesHamyarRequest(Pishnahad_Gheimat.this, guid, hamyarcode, OrderCode, etSendMessage.getText().toString(), Price);
+							syncInsertUserServicesHamyarRequest.AsyncExecute();
+						}
+					}
+					cursor.close();
+					db.close();
 				} else {
-					SyncInsertUserServicesHamyarRequest syncInsertUserServicesHamyarRequest = new SyncInsertUserServicesHamyarRequest(Pishnahad_Gheimat.this, guid, hamyarcode, OrderCode, Price);
+					SyncInsertUserServicesHamyarRequest syncInsertUserServicesHamyarRequest = new SyncInsertUserServicesHamyarRequest(Pishnahad_Gheimat.this, guid, hamyarcode, OrderCode,etSendMessage.getText().toString(), Price);
 					syncInsertUserServicesHamyarRequest.AsyncExecute();
 				}
 			}
-			cursor.close();
-			db.close();
-		}
-		else
-		{
-			SyncInsertUserServicesHamyarRequest syncInsertUserServicesHamyarRequest =new SyncInsertUserServicesHamyarRequest(Pishnahad_Gheimat.this,guid,hamyarcode,OrderCode,Price);
-			syncInsertUserServicesHamyarRequest.AsyncExecute();
-		}
-
 		}
 	});
 }

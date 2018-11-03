@@ -30,15 +30,22 @@ public class SyncInsertUserServicesHamyarRequest {
 	private String WsResponse;
 	private String UserServiceCode;
 	private String Price;
+	private String Description;
 	//private String acceptcode;
 	private boolean CuShowDialog=true;
 	//Contractor
-	public SyncInsertUserServicesHamyarRequest(Activity activity, String guid, String hamyarcode, String UserServiceCode, String Price) {
+	public SyncInsertUserServicesHamyarRequest(Activity activity,
+											   String guid,
+											   String hamyarcode,
+											   String UserServiceCode,
+											   String Description,
+											   String Price) {
 		this.activity = activity;
 		this.guid = guid;
 		this.UserServiceCode=UserServiceCode;
 		this.hamyarcode=hamyarcode;
 		this.Price=Price;
+		this.Description=Description;
 		IC = new InternetConnection(this.activity.getApplicationContext());
 		PV = new PublicVariable();
 
@@ -187,6 +194,16 @@ public class SyncInsertUserServicesHamyarRequest {
 		PricePI.setType(String.class);
 		//Add the property to request object
 		request.addProperty(PricePI);
+		//*****************************************************
+		PropertyInfo DescriptionPI = new PropertyInfo();
+		//Set Name
+		DescriptionPI.setName("Description");
+		//Set Value
+		DescriptionPI.setValue(this.Description);
+		//Set dataType
+		DescriptionPI.setType(String.class);
+		//Add the property to request object
+		request.addProperty(DescriptionPI);
 	    //Create envelope
 	    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
 	            SoapEnvelope.VER11);

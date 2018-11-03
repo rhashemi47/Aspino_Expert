@@ -55,6 +55,7 @@ public class Accept_code extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			acceptcode.setText(intent.getExtras().getString("sms"));
+			intentReciever.abortBroadcast();
 		}
 	};
 	@Override
