@@ -229,7 +229,7 @@ public class HmLogin {
 	public void setlogin() 
 	{
 	    String LastHamyarUserServiceCode=null;
-		db = dbh.getReadableDatabase();
+		try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();};
 		Cursor cursors = db.rawQuery("SELECT * FROM login", null);
 		if(cursors.getCount()>0)
 		{
@@ -246,7 +246,7 @@ public class HmLogin {
 			db = dbh.getWritableDatabase();
 			db.execSQL("DELETE FROM login");
 			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+res[1].toString()+"','"+res[2].toString()+"','1')";
-			db.execSQL(query);
+			db.execSQL(query);if(db.isOpen()){db.close();}
 		}
 //        cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_BsHamyarSelectServices AS INT)),0)as code FROM BsHamyarSelectServices", null);
 //        if(cursors.getCount()>0)
@@ -254,6 +254,7 @@ public class HmLogin {
 //            cursors.moveToNext();
 //            LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
 //        }
+		db = dbh.getReadableDatabase();
         cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_messages AS INT)),0)as code FROM messages", null);
         if(cursors.getCount()>0)
         {
@@ -261,7 +262,7 @@ public class HmLogin {
 			LastMessageCode=cursors.getString(cursors.getColumnIndex("code"));
         }
 		cursors.close();
-        db.close();
+        if(db.isOpen()){db.close();}
 		SyncMessage syncMessage=new SyncMessage(this.activity.getApplicationContext(), res[2], res[1],LastMessageCode);
 		syncMessage.AsyncExecute();
 		SyncState syncState=new SyncState(this.activity);
@@ -281,7 +282,7 @@ public class HmLogin {
 			db = dbh.getWritableDatabase();
 			db.execSQL("DELETE FROM login");
 			String query="INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+ res[1] +"','"+ res[2] +"','1')";
-			db.execSQL(query);
+			db.execSQL(query);if(db.isOpen()){db.close();}
 			SyncProfile syncProfile=new SyncProfile(this.activity, res[2], res[1],phonenumber,acceptcode);
 			syncProfile.AsyncExecute();
 

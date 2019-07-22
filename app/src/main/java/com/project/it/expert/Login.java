@@ -112,10 +112,10 @@ protected void onPause() {
 ////						String query = null;
 ////						db = dbh.getWritableDatabase();
 ////						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
-////						db.execSQL(query);
+////						db.execSQL(query);if(db.isOpen()){db.close();}
 ////						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "0");
 ////						sendCode.AsyncExecute();
-////						db.close();
+////						if(db.isOpen()){db.close();}
 ////					}
 ////					else
 ////					{
@@ -142,10 +142,10 @@ protected void onPause() {
 						String query = null;
 						db = dbh.getWritableDatabase();
 						query = "INSERT INTO Profile (Mobile) VALUES ('" + etPhoneNumber.getText().toString() + "')";
-						db.execSQL(query);
+						db.execSQL(query);if(db.isOpen()){db.close();}
 						SendAcceptCode sendCode = new SendAcceptCode(Login.this, etPhoneNumber.getText().toString(), "1");
 						sendCode.AsyncExecute();
-						db.close();
+						if(db.isOpen()){db.close();}
 					}
 					else
 					{

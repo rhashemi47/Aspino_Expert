@@ -64,7 +64,7 @@ import java.util.HashMap;
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
-            db.close();
+            if(db.isOpen()){db.close();}
         }
         db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
@@ -91,7 +91,7 @@ import java.util.HashMap;
             AdapterVisit dataAdapter=new AdapterVisit(List_Visits.this,valuse,guid,hamyarcode);
             lvVisit.setAdapter(dataAdapter);
         }
-            db.close();
+            if(db.isOpen()){db.close();}
 //            btnCredit.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {

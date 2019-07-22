@@ -189,14 +189,13 @@ public class SyncGetServiceUserInfo {
 		String[] value;
 		String query=null;
 		String NumberPhone;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		value=WsResponse.split("##");
 		NumberPhone=value[3].replace("@@","");
 		query="UPDATE BsUserServices SET " +
-				"UserPhone='" +NumberPhone+
-				"' WHERE Code_BsUserServices='"+ UserServiceCode+"'";
-			db.execSQL(query);
+				"UserPhone='" + NumberPhone + "', Read='0' WHERE Code_BsUserServices='"+ UserServiceCode+"'";
+			db.execSQL(query);if(db.isOpen()){db.close();}
 
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 }

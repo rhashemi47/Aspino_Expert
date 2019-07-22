@@ -73,7 +73,7 @@ public class Contact extends Activity {
 				guid=coursors.getString(coursors.getColumnIndex("guid"));
 				hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 			}
-			db.close();
+			if(db.isOpen()){db.close();}
 		}
 		btnCallSupporter.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -90,13 +90,13 @@ public class Contact extends Activity {
 					}
 
 				}
-				db = dbh.getReadableDatabase();
+				try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();};
 				Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
 				if (cursorPhone.getCount() > 0) {
 					cursorPhone.moveToNext();
 					dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
 				}
-				db.close();
+				if(db.isOpen()){db.close();}
 			}
 		});
 //		btnCredit.setOnClickListener(new View.OnClickListener() {

@@ -193,7 +193,7 @@ public class SyncCity {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM City");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
@@ -212,7 +212,7 @@ public class SyncCity {
 		{
 			Toast.makeText(this.activity,"امکان ثبت سرویس در موقیت مکانی شما وجود ندارد",Toast.LENGTH_LONG).show();
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 	
 }

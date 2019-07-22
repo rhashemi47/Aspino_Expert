@@ -63,7 +63,7 @@ public class ServiceGetUserServiceStartDate extends Service {
 
                                             throw sqle;
                                         }
-                                        db = dbh.getReadableDatabase();
+                                       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                                         Cursor coursors = db.rawQuery("SELECT * FROM BsHamyarSelectServices A WHERE A.Status='1' AND " +
                                                 "A.Code NOT IN (SELECT BsUserServiceCode FROM StartDateService)", null);
                                         for (int i = 0; i < coursors.getCount(); i++) {
@@ -73,7 +73,7 @@ public class ServiceGetUserServiceStartDate extends Service {
                                             SyncGetUserServiceStartDate syncGetUserServiceStartDate = new SyncGetUserServiceStartDate(getApplicationContext(), pUserServiceCode);
                                             syncGetUserServiceStartDate.AsyncExecute();
                                         }
-                                        db.close();
+                                        if(db.isOpen()){db.close();}
                                     }
                                 }
                             });

@@ -1,17 +1,14 @@
 	package com.project.it.expert;
 
     import android.app.Activity;
-    import android.content.Intent;
-    import android.database.Cursor;
-    import android.database.SQLException;
-    import android.database.sqlite.SQLiteDatabase;
-    import android.os.Bundle;
-    import android.support.annotation.NonNull;
-    import android.support.design.widget.BottomNavigationView;
-    import android.view.KeyEvent;
-    import android.view.MenuItem;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.KeyEvent;
 
-    import java.io.IOException;
+import java.io.IOException;
 
     public class Setting extends Activity {
         private String hamyarcode;
@@ -56,10 +53,10 @@
                 }
             }
             String Query="UPDATE UpdateApp SET Status='1'";
-            db=dbh.getWritableDatabase();
-            db.execSQL(Query);
+            try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
+            db.execSQL(Query);if(db.isOpen()){db.close();}
 
-            db.close();
+            if(db.isOpen()){db.close();}
 //            BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 //
 //            bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

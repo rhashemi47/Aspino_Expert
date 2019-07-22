@@ -64,14 +64,14 @@ public class ServiceGetIncome extends Service {
 
                                             throw sqle;
                                         }
-                                        db = dbh.getReadableDatabase();
+                                       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                                         Cursor coursors = db.rawQuery("SELECT * FROM login", null);
                                         for (int i = 0; i < coursors.getCount(); i++) {
                                             coursors.moveToNext();
                                             guid = coursors.getString(coursors.getColumnIndex("guid"));
                                             hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                         }
-                                        db.close();
+                                        if(db.isOpen()){db.close();}
                                         SyncGetHamyarInCome syncGetHamyarInCome = new SyncGetHamyarInCome(getApplicationContext(), guid, hamyarcode);
                                         syncGetHamyarInCome.AsyncExecute();
                                     }

@@ -192,7 +192,7 @@ public class SyncGettHamyarIntroductionTime {
 		PersianCalendar calNow=new PersianCalendar();
 		calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth()+1,calNow.getPersianDay());
 		String strNow=String.valueOf(calNow.getPersianYear())+String.valueOf(calNow.getPersianMonth())+String.valueOf(calNow.getPersianDay());
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		String ContentMessage="وقت مصاحبه برای شما در تاریخ "+ value[1] +" ساعت "+value[2]+" تعیین گردید. ";
 		query="INSERT INTO messages " +
 				"(Code_messages," +
@@ -212,8 +212,8 @@ public class SyncGettHamyarIntroductionTime {
 				"','"+"0"+
 				"','"+"1"+
 				"')";
-		db.execSQL(query);
-		db.close();
+		db.execSQL(query);if(db.isOpen()){db.close();}
+		if(db.isOpen()){db.close();}
 		Toast.makeText(this.activity.getApplicationContext(),ContentMessage,Toast.LENGTH_LONG);
 	}
 }

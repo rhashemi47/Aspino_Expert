@@ -221,14 +221,14 @@ public class SyncStartJob {
 	public void InsertDataFromWsToDb()
 	{
 
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		String Query="DELETE FROM StartDateService WHERE BsUserServiceCode='"+UserServiceCode+"'";
-		db.execSQL(Query);
+		db.execSQL(Query);if(db.isOpen()){db.close();}
 		Query="INSERT INTO StartDateService (UserCode,BsUserServiceCode) VALUES('"+UserID+"','"+UserServiceCode+"')";
-		db.execSQL(Query);
+		db.execSQL(Query);if(db.isOpen()){db.close();}
 		if(db.isOpen())
 		{
-			db.close();
+			if(db.isOpen()){db.close();}
 		}
 		Toast.makeText(this.activity.getApplicationContext(), "برای این سرویس شروع به کار ثبت گردید", Toast.LENGTH_LONG).show();
 		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);

@@ -215,9 +215,9 @@ public class UpdateProfile {
 	
 	public void InsertDataFromWsToDb()
     {
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("UPDATE Profile SET ReagentName='"+ReagentCode+"'");
-		db.close();
+		if(db.isOpen()){db.close();}
 		Toast.makeText(this.activity, "ثبت شد", Toast.LENGTH_SHORT).show();
     }
 }

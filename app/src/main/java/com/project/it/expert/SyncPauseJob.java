@@ -217,13 +217,13 @@ public class SyncPauseJob {
 	public void InsertDataFromWsToDb()
     {
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		query="UPDATE  BsUserServices" +
 				" SET  Status='2' " +
 				"WHERE Code_BsUserServices='"+UserServiceCode+"'";
-		db.execSQL(query);
+		db.execSQL(query);if(db.isOpen()){db.close();}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 		LoadActivity(Joziat_Sefaresh.class,"guid", guid,"hamyarcode",hamyarcode,"tab","0","BsUserServicesID",UserServiceCode);
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

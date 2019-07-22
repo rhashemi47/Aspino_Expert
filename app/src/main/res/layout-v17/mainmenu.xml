@@ -182,6 +182,8 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:src="@drawable/smile"
+                    android:id="@+id/imgSmile"
+                    android:visibility="gone"
                     android:layout_marginLeft="5dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -191,7 +193,7 @@
                     android:textSize="16sp"
                     android:fontFamily="@font/vazir_medium"
                     android:textColor="#fffdfd"
-                    android:text="وقت استراحته امروز سفارشی برای انجام ندارید"/>
+                    android:id="@+id/tvCountSelectService"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout

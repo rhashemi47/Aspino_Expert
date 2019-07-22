@@ -30,6 +30,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nex3z.notificationbadge.NotificationBadge;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.project.it.expert.Date.ChangeDate;
@@ -59,10 +60,12 @@ public class MainMenu extends AppCompatActivity{
     private TextView tvUserName;
     private TextView tvRateNumber;
     private TextView tvSabegheKar;
+    private TextView tvCountSelectService;
     private RatingBar RatingHamyar;
     private ImageView imgHumberger;
     private ImageView right_white_arrow;
     private ImageView left_white_arrow;
+    private ImageView imgSmile;
     private DrawerLayout mDrawer;
     private LinearLayout LinearCallSupporter;
     private LinearLayout LinearRole;
@@ -79,6 +82,10 @@ public class MainMenu extends AppCompatActivity{
     private LinearLayout LinearHome;
     private LinearLayout LinearNotifications;
     private LinearLayout LinearCheckIsOrder;
+    private NotificationBadge badgeOrders;
+    private NotificationBadge badgeCertain;
+    private NotificationBadge badgeOffers;
+    private NotificationBadge badgeNotification;
     private ImageView imgUser;
     private ir.hamsaa.persiandatepicker.util.PersianCalendar calNow;
 
@@ -131,6 +138,7 @@ public class MainMenu extends AppCompatActivity{
         tvDateMessage = (TextView) findViewById(R.id.tvDateMessage);
         tvContentMessage = (TextView) findViewById(R.id.tvContentMessage);
         tvUserName = (TextView) findViewById(R.id.tvUserName);
+        tvCountSelectService = (TextView) findViewById(R.id.tvCountSelectService);
         tvCountOrder = (TextView) findViewById(R.id.tvCountOrder);
         tvSabegheKar = (TextView) findViewById(R.id.tvSabegheKar);
         imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
@@ -138,6 +146,7 @@ public class MainMenu extends AppCompatActivity{
         left_white_arrow = (ImageView) findViewById(R.id.left_white_arrow);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         imgUser = (ImageView) findViewById(R.id.imgUser);
+        imgSmile = (ImageView) findViewById(R.id.imgSmile);
         tvRateNumber = (TextView) findViewById(R.id.tvRateNumber);
         RatingHamyar = (RatingBar) findViewById(R.id.RatingHamyar);
         LinearIncome = (LinearLayout) findViewById(R.id.LinearIncome);
@@ -151,6 +160,10 @@ public class MainMenu extends AppCompatActivity{
         LinearHome = (LinearLayout) findViewById(R.id.LinearHome);
         LinearNotifications = (LinearLayout) findViewById(R.id.LinearNotifications);
         LinearCheckIsOrder = (LinearLayout) findViewById(R.id.LinearCheckIsOrder);
+        badgeOrders=(NotificationBadge) findViewById(R.id.badgeOrders);
+        badgeCertain=(NotificationBadge) findViewById(R.id.badgeCertain);
+        badgeOffers=(NotificationBadge) findViewById(R.id.badgeOffers);
+        badgeNotification=(NotificationBadge) findViewById(R.id.badgeNotification);
 
         //***************************************************************************************
         dbh = new DatabaseHelper(getApplicationContext());
@@ -172,7 +185,7 @@ public class MainMenu extends AppCompatActivity{
 
             throw sqle;
         }
-        db = dbh.getReadableDatabase();
+       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
         Cursor coursors = db.rawQuery("SELECT * FROM messages ORDER BY Code_messages desc", null);
         if (coursors.getCount() > 0) {
 //            countMessage = String.valueOf(coursors.getCount());
@@ -189,15 +202,15 @@ public class MainMenu extends AppCompatActivity{
         {
             tvCountOrder.setText("0");
         }
-        coursors = db.rawQuery("SELECT * FROM BsUserServices WHERE Status='1'", null);
-        if (coursors.getCount() > 0) {
-            coursors.moveToNext();
-            LinearCheckIsOrder.setVisibility(View.GONE);
-        }
-        else
-        {
-            LinearCheckIsOrder.setVisibility(View.VISIBLE);
-        }
+//        coursors = db.rawQuery("SELECT * FROM BsUserServices WHERE Status='1'", null);
+//        if (coursors.getCount() > 0) {
+//            coursors.moveToNext();
+//            LinearCheckIsOrder.setVisibility(View.GONE);
+//        }
+//        else
+//        {
+//            LinearCheckIsOrder.setVisibility(View.VISIBLE);
+//        }
         coursors = db.rawQuery("SELECT * FROM Profile", null);
         if (coursors.getCount() > 0) {
             coursors.moveToNext();
@@ -214,7 +227,7 @@ public class MainMenu extends AppCompatActivity{
             {
 
                 Cursor cursors = null;
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 cursors = db.rawQuery("SELECT * FROM login", null);
                 if (cursors.getCount() > 0)
                 {
@@ -251,7 +264,7 @@ public class MainMenu extends AppCompatActivity{
             else
             {
                 Cursor cursors = null;
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 cursors = db.rawQuery("SELECT * FROM login", null);
                 if (cursors.getCount() > 0)
                 {
@@ -274,7 +287,7 @@ public class MainMenu extends AppCompatActivity{
                 }
             }
 
-            db.close();
+            if(db.isOpen()){db.close();}
         } catch (Exception e) {
             throw new Error("Error Opne Activity");
         }
@@ -291,7 +304,7 @@ public class MainMenu extends AppCompatActivity{
                                 @Override
                                 public void run() {
                                     Cursor cursors = null;
-                                    db = dbh.getReadableDatabase();
+                                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                                     cursors = db.rawQuery("SELECT * FROM login", null);
                                     if (cursors.getCount() > 0)
                                     {
@@ -313,7 +326,7 @@ public class MainMenu extends AppCompatActivity{
                                     }
                                     if(db.isOpen())
                                     {
-                                        db.close();
+                                        if(db.isOpen()){db.close();}
                                     }
                                     if(!cursors.isClosed())
                                     {
@@ -352,14 +365,11 @@ public class MainMenu extends AppCompatActivity{
             bmp= BitmapFactory.decodeResource(getResources(),R.drawable.logo1);
         }
 
-        db.close();
+        if(db.isOpen()){db.close();}
         imgUser.setImageBitmap(bmp);
         //************************Calender*******************************************************
         calNow=new ir.hamsaa.persiandatepicker.util.PersianCalendar();
         calNow.setPersianDate(calNow.getPersianYear(),calNow.getPersianMonth(),calNow.getPersianDay());
-        tvDayOfWeek.setText(calNow.getPersianWeekDayName());
-        tvTitleMounth.setText(calNow.getPersianMonthName());
-        tvDayOfMounth.setText(EnToFa(String.valueOf(calNow.getPersianDay())));
         String mounth,day;
         if(calNow.getPersianMonth()<10)
         {
@@ -367,7 +377,7 @@ public class MainMenu extends AppCompatActivity{
         }
         else
         {
-            mounth="0"+String.valueOf(calNow.getPersianMonth());
+            mounth=String.valueOf(calNow.getPersianMonth());
         }
         if(calNow.getPersianDay()<10)
         {
@@ -377,7 +387,37 @@ public class MainMenu extends AppCompatActivity{
         {
             day=String.valueOf(calNow.getPersianDay());
         }
+        tvDayOfWeek.setText(calNow.getPersianWeekDayName());
+        tvTitleMounth.setText(calNow.getPersianMonthName());
+        tvDayOfMounth.setText(EnToFa(String.valueOf(day)));
         StrToday=calNow.getPersianYear() + "/" + mounth + "/" + day;
+        String Query="SELECT SuggetionsInfo.*,BsUserServices.* FROM BsUserServices " +
+                "LEFT JOIN  " +
+                "SuggetionsInfo ON  " +
+                "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode" +
+                " WHERE SuggetionsInfo.ConfirmByUser='1' AND StartDate='"+StrToday+"'";
+        try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
+        Cursor cursorCountSelectService=db.rawQuery(Query,null);
+        if(cursorCountSelectService.getCount()>0)
+        {
+            cursorCountSelectService.moveToNext();
+            imgSmile.setVisibility(View.GONE);
+            tvCountSelectService.setText("سرویس در درست اجرا: "+cursorCountSelectService.getCount());
+        }
+        else
+        {
+            imgSmile.setVisibility(View.VISIBLE);
+            tvCountSelectService.setText("وقت استراحته امروز سفارشی برای انجام ندارید");
+        }
+        if(!cursorCountSelectService.isClosed())
+        {
+            cursorCountSelectService.close();
+        }
+        if(db.isOpen())
+        {
+            db.close();
+        }
+
         //********************************************************************
         LinearCallSupporter = (LinearLayout) findViewById(R.id.LinearCallSupporter);
         LinearRole = (LinearLayout) findViewById(R.id.LinearRole);
@@ -387,13 +427,13 @@ public class MainMenu extends AppCompatActivity{
         LinearCallSupporter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 Cursor cursor = db.rawQuery("SELECT * FROM Supportphone", null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToNext();
                     dialContactPhone(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
                 }
-                db.close();
+                if(db.isOpen()){db.close();}
             }
         });
         LinearRole.setOnClickListener(new View.OnClickListener() {
@@ -478,6 +518,70 @@ public class MainMenu extends AppCompatActivity{
             }
         });
         //**************************************************************************
+        Query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+                "LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Suggetion='0'  AND Read='0' ORDER BY BsUserServices.Code_BsUserServices DESC";
+        if(!db.isOpen()) {
+
+            db = dbh.getReadableDatabase();
+        }
+        coursors = db.rawQuery(Query,null);
+        if(coursors.getCount()>0)
+        {
+            badgeOrders.setVisibility(View.VISIBLE);
+            badgeOrders.setNumber(coursors.getCount());
+        }
+        if(db.isOpen()){db.close();}
+        Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
+                "LEFT JOIN " +
+                "SuggetionsInfo  ON " +
+                "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
+                " LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='1'";
+        if(!db.isOpen()) {
+
+            db = dbh.getReadableDatabase();
+        }
+        coursors = db.rawQuery(Query,null);
+        if(coursors.getCount()>0)
+        {
+            badgeCertain.setVisibility(View.VISIBLE);
+            badgeCertain.setNumber(coursors.getCount());
+        }
+        if(db.isOpen()){db.close();}
+        Query = "SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
+                "LEFT JOIN " +
+                "SuggetionsInfo ON " +
+                "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode" +
+                " LEFT JOIN " +
+                "Servicesdetails ON " +
+                "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='0'";
+        if(!db.isOpen()) {
+
+            db = dbh.getReadableDatabase();
+        }
+        coursors = db.rawQuery(Query,null);
+        if(coursors.getCount()>0)
+        {
+            badgeOffers.setVisibility(View.VISIBLE);
+            badgeOffers.setNumber(coursors.getCount());
+        }
+        if(db.isOpen()){db.close();}
+        Query = "SELECT * FROM messages WHERE IsReade='0'";
+        if(!db.isOpen()) {
+
+            db = dbh.getReadableDatabase();
+        }
+        coursors = db.rawQuery(Query,null);
+        if(coursors.getCount()>0)
+        {
+            badgeNotification.setVisibility(View.VISIBLE);
+            badgeNotification.setNumber(coursors.getCount());
+        }
+        if(db.isOpen()){db.close();}
+        //**************************************************************************
         LinearOrders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -485,9 +589,12 @@ public class MainMenu extends AppCompatActivity{
                     String Query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                             "LEFT JOIN " +
                             "Servicesdetails ON " +
-                            "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Suggetion='0'";
-                    LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
-                            "guid", guid,"Query",Query,
+                            "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Suggetion='0' ORDER BY BsUserServices.Code_BsUserServices DESC";
+                    LoadActivity2(List_Orders.class,
+                            "hamyarcode", hamyarcode,
+                            "guid", guid,
+                            "Query",Query,
+                            "tvTitlePageName","سفارش های مشتریان",
                             "Table","BsUserServices");
                 }
                 else {
@@ -500,15 +607,16 @@ public class MainMenu extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(isActive) {
-                    String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM SuggetionsInfo " +
+                    String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
                             "LEFT JOIN " +
-                            "BsUserServices ON " +
+                            "SuggetionsInfo ON " +
                             "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
                             " LEFT JOIN " +
                             "Servicesdetails ON " +
                             "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='1'";
                     LoadActivity2(List_Sertains.class, "hamyarcode", hamyarcode,
                             "guid", guid,"Query",Query,
+                            "tvTitlePageName","قطعی",
                             "Table","BsUserServices");
                 }
                 else {
@@ -520,15 +628,18 @@ public class MainMenu extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 if(isActive) {
-                    String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM SuggetionsInfo " +
+                    String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
                             "LEFT JOIN " +
-                            "BsUserServices ON " +
+                            "SuggetionsInfo ON " +
                             "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
                             " LEFT JOIN " +
                             "Servicesdetails ON " +
                             "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='0'";
-                    LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
-                            "guid", guid,"Query",Query,
+                    LoadActivity2(List_Orders.class,
+                            "hamyarcode", hamyarcode,
+                            "guid", guid,
+                            "Query",Query,
+                            "tvTitlePageName","پیشنهادها",
                             "Table","BsUserServices");
                 }
                 else {
@@ -563,7 +674,7 @@ public class MainMenu extends AppCompatActivity{
                 }
                 else
                 {
-                    mounth="0"+String.valueOf(calNow.getPersianMonth());
+                    mounth=String.valueOf(calNow.getPersianMonth());
                 }
                 if(calNow.getPersianDay()<10)
                 {
@@ -593,6 +704,32 @@ public class MainMenu extends AppCompatActivity{
                     tvDayOfWeek.setText(calNow.getPersianWeekDayName());
                     tvDayOfMounth.setText(EnToFa(spShamsi[2]));
                     tvTitleMounth.setText(calNow.getPersianMonthName());
+                    Query="SELECT SuggetionsInfo.*,BsUserServices.* FROM BsUserServices " +
+                        "LEFT JOIN  " +
+                        "SuggetionsInfo ON  " +
+                        "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode" +
+                        " WHERE SuggetionsInfo.ConfirmByUser='1' AND StartDate='"+DateShamsi+"'";
+                    try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
+                    Cursor cursorCountSelectService=db.rawQuery(Query,null);
+                    if(cursorCountSelectService.getCount()>0)
+                    {
+                        cursorCountSelectService.moveToNext();
+                        imgSmile.setVisibility(View.GONE);
+                        tvCountSelectService.setText("سرویس در درست اجرا: "+cursorCountSelectService.getCount());
+                    }
+                    else
+                    {
+                        imgSmile.setVisibility(View.VISIBLE);
+                        tvCountSelectService.setText("وقت استراحته امروز سفارشی برای انجام ندارید");
+                    }
+                    if(!cursorCountSelectService.isClosed())
+                    {
+                        cursorCountSelectService.close();
+                    }
+                }
+                if(db.isOpen())
+                {
+                    db.close();
                 }
             }
         });
@@ -606,7 +743,7 @@ public class MainMenu extends AppCompatActivity{
                 }
                 else
                 {
-                    mounth="0"+String.valueOf(calNow.getPersianMonth());
+                    mounth=String.valueOf(calNow.getPersianMonth());
                 }
                 if(calNow.getPersianDay()<10)
                 {
@@ -637,6 +774,33 @@ public class MainMenu extends AppCompatActivity{
                     tvDayOfWeek.setText(calNow.getPersianWeekDayName());
                     tvDayOfMounth.setText(EnToFa(spShamsi[2]));
                     tvTitleMounth.setText(calNow.getPersianMonthName());
+                    //***************************Coutn Service Select From Calculate******************
+                    Query="SELECT SuggetionsInfo.*,BsUserServices.* FROM BsUserServices " +
+                            "LEFT JOIN  " +
+                            "SuggetionsInfo ON  " +
+                            "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode" +
+                            " WHERE SuggetionsInfo.ConfirmByUser='1' AND StartDate='"+DateShamsi+"'";
+                    try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
+                    Cursor cursorCountSelectService=db.rawQuery(Query,null);
+                    if(cursorCountSelectService.getCount()>0)
+                    {
+                        cursorCountSelectService.moveToNext();
+                        imgSmile.setVisibility(View.GONE);
+                        tvCountSelectService.setText("سرویس در درست اجرا: "+cursorCountSelectService.getCount());
+                    }
+                    else
+                    {
+                        imgSmile.setVisibility(View.VISIBLE);
+                        tvCountSelectService.setText("وقت استراحته امروز سفارشی برای انجام ندارید");
+                    }
+                    if(!cursorCountSelectService.isClosed())
+                    {
+                        cursorCountSelectService.close();
+                    }
+                }
+                if(db.isOpen())
+                {
+                    db.close();
                 }
             }
         });
@@ -664,6 +828,8 @@ public class MainMenu extends AppCompatActivity{
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
             startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
+            startService(new Intent(getBaseContext(), ServiceGetKarnameMali.class));
+            startService(new Intent(getBaseContext(), ServiceGetHamyarCredite.class));
         }
         startService(new Intent(getBaseContext(), ServiceGetProfile.class));
         startService(new Intent(getBaseContext(), ServiceGetSliderPic.class));
@@ -686,7 +852,7 @@ public class MainMenu extends AppCompatActivity{
             intIncome=intIncome+Integer.parseInt(cur.getString(cur.getColumnIndex("Price")));
         }
         cur.close();
-        db.close();
+        if(db.isOpen()){db.close();}
         tvShowIncome.setText(String.valueOf(intIncome));
         db=dbh.getReadableDatabase();
         cur=db.rawQuery("SELECT * FROM credits",null);
@@ -702,7 +868,7 @@ public class MainMenu extends AppCompatActivity{
             }
         }
         cur.close();
-        db.close();
+        if(db.isOpen()){db.close();}
     }
 
 
@@ -758,7 +924,7 @@ public class MainMenu extends AppCompatActivity{
                 db.execSQL("DELETE FROM Supportphone");
                 db.execSQL("DELETE FROM Unit");
                 db.execSQL("DELETE FROM UpdateApp");
-                db.close();
+                if(db.isOpen()){db.close();}
                 System.exit(0);
                 arg0.dismiss();
 
@@ -865,13 +1031,15 @@ public class MainMenu extends AppCompatActivity{
     public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue,
                               String VariableName2, String VariableValue2,
                               String VariableName3, String VariableValue3,
-                              String VariableName4, String VariableValue4)
+                              String VariableName4, String VariableValue4,
+                              String VariableName5, String VariableValue5)
     {
         Intent intent = new Intent(getApplicationContext(),Cls);
         intent.putExtra(VariableName, VariableValue);
         intent.putExtra(VariableName2, VariableValue2);
         intent.putExtra(VariableName3, VariableValue3);
         intent.putExtra(VariableName4, VariableValue4);
+        intent.putExtra(VariableName5, VariableValue5);
         this.startActivity(intent);
     }
 	  public Bitmap convertToBitmap(String base){
@@ -900,6 +1068,8 @@ public class MainMenu extends AppCompatActivity{
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
             startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
+            startService(new Intent(getBaseContext(), ServiceGetKarnameMali.class));
+            startService(new Intent(getBaseContext(), ServiceGetHamyarCredite.class));
         }
         //startService(new Intent(getBaseContext(), ServiceGetNewJobNotNotifi.class));
 
@@ -916,6 +1086,8 @@ public class MainMenu extends AppCompatActivity{
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
             startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
+            startService(new Intent(getBaseContext(), ServiceGetKarnameMali.class));
+            startService(new Intent(getBaseContext(), ServiceGetHamyarCredite.class));
         }
     }
     protected void onPause() {
@@ -930,6 +1102,8 @@ public class MainMenu extends AppCompatActivity{
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
             startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
+            startService(new Intent(getBaseContext(), ServiceGetKarnameMali.class));
+            startService(new Intent(getBaseContext(), ServiceGetHamyarCredite.class));
         }
     }
     protected void onDestroy() {
@@ -944,6 +1118,8 @@ public class MainMenu extends AppCompatActivity{
             startService(new Intent(getBaseContext(), ServiceGetAllHamyarRequest.class));
             startService(new Intent(getBaseContext(), ServiceGetSelectJob.class));
             startService(new Intent(getBaseContext(), ServiceSyncMessage.class));
+            startService(new Intent(getBaseContext(), ServiceGetKarnameMali.class));
+            startService(new Intent(getBaseContext(), ServiceGetHamyarCredite.class));
         }
     }
     void sharecode(String shareStr)

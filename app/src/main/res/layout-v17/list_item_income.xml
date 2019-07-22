@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="vertical"
-        android:background="@drawable/rounded_head_incom">
+        android:background="@drawable/rounded_head_incom_unread">
         <TextView
             android:id="@+id/tvDateIncom"
             android:layout_width="match_parent"

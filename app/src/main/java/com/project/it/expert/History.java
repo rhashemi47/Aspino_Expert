@@ -70,7 +70,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
                     guid = coursors.getString(coursors.getColumnIndex("guid"));
                     hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
-                db.close();
+                if(db.isOpen()){db.close();}
             }
             Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
             tvHistory=(TextView)findViewById(R.id.tvHistory);
@@ -290,7 +290,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
                 AdapterHistory dataAdapter=new AdapterHistory(this,valuse,guid,hamyarcode);
                 lstHistory.setAdapter(dataAdapter);
             }
-            db.close();
+            if(db.isOpen()){db.close();}
 
 //            btnCredit.setOnClickListener(new View.OnClickListener() {
 //                @Override

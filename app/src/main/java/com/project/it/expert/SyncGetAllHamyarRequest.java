@@ -210,7 +210,7 @@ public class SyncGetAllHamyarRequest {
         String[] value;
         String query=null;
         res=WsResponse.split("@@");
-        db=dbh.getWritableDatabase();
+        try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
         db.execSQL("DELETE FROM SuggetionsInfo");
         for(int i=0;i<res.length;i++) {
             value = res[i].split("##");
@@ -232,25 +232,25 @@ public class SyncGetAllHamyarRequest {
                         "','" + value[6] +
                         "')";
                 db.execSQL(query);
-            query = "UPDATE BsUserServices SET Suggetion='1' WHERE Code_BsUserServices='" + value[1] +"'";
+            query = "UPDATE BsUserServices SET Suggetion='1' , Read='0' WHERE Code_BsUserServices='" + value[1] +"'";
             db.execSQL(query);
                 if (notifocationEnable) {
-                    db = dbh.getReadableDatabase();
+                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     query = "SELECT * FROM Servicesdetails  WHERE code_Servicesdetails=" + value[1];
                     Cursor coursors = db.rawQuery(query, null);
                     if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
                     {
                         coursors.moveToNext();
-                        runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i, value[0], Pishnahad_Gheimat.class);
+                        runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i,"", value[0], Pishnahad_Gheimat.class);
                     }
                 }
         }
-        db.close();
+        if(db.isOpen()){db.close();}
     }
 
-    public void runNotification(String title,String detail,int id,String BsUserServicesID,Class<?> Cls)
+    public void runNotification(String title,String detail,int id,String Table,String BsUserServicesID,Class<?> Cls)
     {
-        NotificationClass notifi=new NotificationClass();
-        notifi.Notificationm(this.activity,title,detail,BsUserServicesID,id,Cls);
+        NotificationClass notifi=new NotificationClass(this.activity);
+        notifi.Notificationm(this.activity,title,detail,BsUserServicesID,Table,id,Cls);
     }
 }

@@ -67,7 +67,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:id="@+id/TitleOrder"
-            android:background="@drawable/rounded_head_incom"/>
+            android:background="@drawable/rounded_head_incom_unread"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

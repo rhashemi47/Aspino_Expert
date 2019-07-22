@@ -76,11 +76,23 @@ public class Fragment_Gheimat_final extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                db=dbh.getWritableDatabase();
+                if(etGheimat.getText().length() >= 8 && etGheimat.getText().length() < 9)
+                {
+                    etGheimat.setTextSize(21);
+                }
+                if(etGheimat.getText().length() >= 9 && etGheimat.getText().length() < 10)
+                {
+                    etGheimat.setTextSize(18);
+                }
+                if(etGheimat.getText().length() >= 10)
+                {
+                    etGheimat.setTextSize(16);
+                }
+                try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
                 db.execSQL("DELETE FROM TempValue");
                 String query="INSERT INTO TempValue (value) VALUES('"+etGheimat.getText().toString()+"')";
-                db.execSQL(query);
-                db.close();
+                db.execSQL(query);if(db.isOpen()){db.close();}
+                if(db.isOpen()){db.close();}
             }
         });
         return rootView;
@@ -103,11 +115,11 @@ public class Fragment_Gheimat_final extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                db=dbh.getWritableDatabase();
+                try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
                 db.execSQL("DELETE FROM TempValue");
                 String query="INSERT INTO TempValue (value) VALUES('"+etGheimat.getText().toString()+"')";
-                db.execSQL(query);
-                db.close();
+                db.execSQL(query);if(db.isOpen()){db.close();}
+                if(db.isOpen()){db.close();}
             }
         });
     }

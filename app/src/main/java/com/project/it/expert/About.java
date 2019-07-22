@@ -81,7 +81,7 @@ protected void onCreate(Bundle savedInstanceState) {
 	}
 	catch (Exception e)
 	{
-		db=dbh.getReadableDatabase();
+		try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}}	catch (Exception ex){	 db = dbh.getReadableDatabase();	}
 		Cursor coursors = db.rawQuery("SELECT * FROM login",null);
 		for(int i=0;i<coursors.getCount();i++){
 			coursors.moveToNext();
@@ -89,7 +89,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 	}
 	Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
 	txtContent=(TextView)findViewById(R.id.tvTextAbout);
@@ -106,13 +106,13 @@ protected void onCreate(Bundle savedInstanceState) {
 	LinearCallSupporter.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			db = dbh.getReadableDatabase();
+			try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();};
 			Cursor cursor = db.rawQuery("SELECT * FROM Supportphone", null);
 			if (cursor.getCount() > 0) {
 				cursor.moveToNext();
 				dialContactPhone(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
 			}
-			db.close();
+			if(db.isOpen()){db.close();}
 		}
 	});
 	LinearRole.setOnClickListener(new View.OnClickListener() {
@@ -220,7 +220,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db.execSQL("DELETE FROM Supportphone");
 				db.execSQL("DELETE FROM Unit");
 				db.execSQL("DELETE FROM UpdateApp");
-				db.close();
+				if(db.isOpen()){db.close();}
 				System.exit(0);
 				arg0.dismiss();
 

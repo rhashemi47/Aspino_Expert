@@ -312,16 +312,16 @@ public class SyncInsertUserServicesHamyarRequest {
 //					"','" + "0" +
 //					"','" + "1')";//status 1 is select- 2 is pause - 3 is pause - 4 is cansel - 5 is visit - 6 is perfactor
 //			db=dbh.getWritableDatabase();
-//			db.execSQL(query);
+//			db.execSQL(query);if(db.isOpen()){db.close();}
 //			query = "DELETE  FROM BsUserServices WHERE Code=" + UserServiceCode;
-//			db.execSQL(query);
+//			db.execSQL(query);if(db.isOpen()){db.close();}
 //			Toast.makeText(this.activity.getApplicationContext(), "پیشنهاد شما ارسال گردید", Toast.LENGTH_LONG).show();
 //			if(!coursors.isClosed())
 //			{
 //				coursors.close();
 //			}
 //			if(db.isOpen()) {
-//				db.close();
+//				if(db.isOpen()){db.close();}
 //			}
 //		}
 		SyncGetAllHamyarRequest syncGetAllHamyarRequest=new SyncGetAllHamyarRequest(activity.getApplicationContext(),guid,hamyarcode,false);

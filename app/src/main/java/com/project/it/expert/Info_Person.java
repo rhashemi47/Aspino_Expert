@@ -139,7 +139,7 @@ public class Info_Person extends Activity {
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, labels);
 		dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spEducation.setAdapter(dataAdapter);
-		db.close();
+		if(db.isOpen()){db.close();}
 		education=spEducation.getSelectedItem().toString();
         prepareListData();
  
@@ -353,7 +353,7 @@ public void insertHamyar() {
 		{
 			Toast.makeText(getApplicationContext(), "لطفا تخصص خود را اعلام انتخاب فرمایید", Toast.LENGTH_SHORT).show();
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
 	}
 	else
 	{
@@ -384,6 +384,6 @@ public void insertHamyar() {
 
 			listDataChild.put(listDataHeader.get(i), childDetails);
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 }

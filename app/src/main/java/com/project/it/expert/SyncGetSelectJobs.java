@@ -130,7 +130,7 @@ public class SyncGetSelectJobs {
 			} catch (Exception e) {
 			}
 
-			db.close();
+			if(db.isOpen()){db.close();}
 		}
 
 		@Override
@@ -212,8 +212,8 @@ public class SyncGetSelectJobs {
 		db = dbh.getWritableDatabase();
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
-			query = "UPDATE BsUserServices SET Status='1' WHERE Code_BsUserServices='" + value[0] + "'";
-			db.execSQL(query);
+			query = "UPDATE BsUserServices SET Status='1' , Read='0' WHERE Code_BsUserServices='" + value[0] + "'";
+			db.execSQL(query);if(db.isOpen()){db.close();}
 		}
 		Cursor cursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_BsUserServices AS INT)),0) as code FROM BsUserServices", null);
 		if(cursors.getCount()>0)
@@ -222,7 +222,7 @@ public class SyncGetSelectJobs {
 			LastHamyarUserServiceCode=cursors.getString(cursors.getColumnIndex("code"));
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 		SyncJobs jobs=new SyncJobs(this.activity, guid,hamyarcode,LastHamyarUserServiceCode);
 		jobs.AsyncExecute();
 	}

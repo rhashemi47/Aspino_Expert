@@ -66,7 +66,7 @@
                     guid=coursors.getString(coursors.getColumnIndex("guid"));
                     hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
-                db.close();
+                if(db.isOpen()){db.close();}
             }
 //            btnCredit.setOnClickListener(new View.OnClickListener() {
 //                @Override

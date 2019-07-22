@@ -297,7 +297,7 @@ public class InsertHamyar {
     {
     	String notext="ثبت نشده";
     	String brith=BthYear+"/"+BthMonth+"/"+BthDay;
-		db=dbh.getWritableDatabase();	
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM login");
 		db.execSQL("DELETE FROM Profile");
 		db.execSQL("INSERT INTO login (hamyarcode,guid,islogin) VALUES('"+hamyarcode+"','"+guid+"','1')");
@@ -321,7 +321,7 @@ public class InsertHamyar {
 				+notext+"','"
 				+notext+"','"
 				+notext+"')");
-		db.close();
+		if(db.isOpen()){db.close();}
 		LoadActivity(MainMenu.class, "guid", guid,"hamyarcode",hamyarcode);
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)

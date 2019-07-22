@@ -89,7 +89,7 @@ public class List_Messages extends AppCompatActivity {
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
 
-            db.close();
+            if(db.isOpen()){db.close();}
         }
         //********************************************************************
         imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
@@ -102,13 +102,13 @@ public class List_Messages extends AppCompatActivity {
         LinearCallSupporter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 Cursor cursor = db.rawQuery("SELECT * FROM Supportphone", null);
                 if (cursor.getCount() > 0) {
                     cursor.moveToNext();
                     dialContactPhone(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
                 }
-                db.close();
+                if(db.isOpen()){db.close();}
             }
         });
         LinearRole.setOnClickListener(new View.OnClickListener() {
@@ -210,7 +210,7 @@ public class List_Messages extends AppCompatActivity {
                 db.execSQL("DELETE FROM Supportphone");
                 db.execSQL("DELETE FROM Unit");
                 db.execSQL("DELETE FROM UpdateApp");
-                db.close();
+                if(db.isOpen()){db.close();}
                 System.exit(0);
                 arg0.dismiss();
 
@@ -267,6 +267,6 @@ public class List_Messages extends AppCompatActivity {
             AdapterMessage dataAdapter=new AdapterMessage(List_Messages.this,valuse);
             lvMessage.setAdapter(dataAdapter);
         }
-        db.close();
+        if(db.isOpen()){db.close();}
     }
 }

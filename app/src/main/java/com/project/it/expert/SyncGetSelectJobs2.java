@@ -48,7 +48,7 @@ public class SyncGetSelectJobs2 {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.thread_SelectJob=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -59,6 +59,7 @@ public class SyncGetSelectJobs2 {
 
 		} catch (SQLException sqle) {
 
+			PublicVariable.thread_SelectJob=true;
 			throw sqle;
 		}
 	}
@@ -73,12 +74,14 @@ public class SyncGetSelectJobs2 {
 				task.execute();
 			}
 			catch (Exception e) {
+				PublicVariable.thread_SelectJob=true;
 
 				e.printStackTrace();
 			}
 		}
 		else
 		{
+			PublicVariable.thread_SelectJob=true;
 			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -102,6 +105,7 @@ public class SyncGetSelectJobs2 {
 				CallWsMethod("GetHamyarUserServiceSelect");
 			}
 			catch (Exception e) {
+				PublicVariable.thread_SelectJob=true;
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -129,6 +133,7 @@ public class SyncGetSelectJobs2 {
 					this.dialog.dismiss();
 				}
 			} catch (Exception e) {
+				PublicVariable.thread_SelectJob=true;
 			}
 		}
 
@@ -207,16 +212,114 @@ public class SyncGetSelectJobs2 {
 		String[] value;
 		String query = null;
 		res = WsResponse.split("@@");
-		db = dbh.getWritableDatabase();
+
 		for (int i = 0; i < res.length; i++) {
 			value = res[i].split("##");
 			if(Check_Null(value[0]))
 			{
-				query = "UPDATE BsUserServices SET Status='1' WHERE Code_BsUserServices='" + value[0] + "'";
+				try
+				{
+					if (!db.isOpen()) {
+						db = dbh.getReadableDatabase();
+					}
+				}catch (Exception ex)
+				{
+					db = dbh.getReadableDatabase();
+				}
+				query = "SELECT * FROM BsUserServices  WHERE code_BsUserServices=" + value[0];
+				Cursor coursors = db.rawQuery(query, null);
+				if (coursors.getCount() > 0)//Just show 10 Notification
+				{
+					coursors.moveToNext();
+					String Status=coursors.getString(coursors.getColumnIndex("Status"));
+					if(Status.compareTo(value[34])!=0) {
+						query = "SELECT * FROM Servicesdetails  WHERE code_Servicesdetails=" + value[4];
+						Cursor coursor = db.rawQuery(query, null);
+						if (coursor.getCount() > 0)
+						{
+							coursor.moveToNext();
+							String Detail="سرویس "+coursor.getString(coursor.getColumnIndex("name"))+" "+ TranslateStatus(Status);
+							runNotification("آسپینو", Detail, i, value[0],"BsUserServices", Joziat_Sefaresh.class);
+						}
+					}
+				}
+				if(!coursors.isClosed())
+				{
+					coursors.close();
+				}
+				try {
+					if (db.isOpen()) {
+						db.close();
+					}
+				}catch (Exception ex)
+				{}
+				try
+				{
+					if (!db.isOpen()) {
+						db = dbh.getWritableDatabase();
+					}
+				}catch (Exception ex)
+				{
+					db = dbh.getWritableDatabase();
+				}
+//				query = "UPDATE BsUserServices SET Status='1' , Read='0' WHERE Code_BsUserServices='" + value[0] + "'";
+				query = "UPDATE BsUserServices SET " +
+						"Code_BsUserServices='" +value[0] + "'," +
+						"UserCode='" +value[1] + "'," +
+						"UserName='" +value[2] + "'," +
+						"UserFamily='" +value[3] + "'," +
+						"ServiceDetaileCode='" +value[4] + "'," +
+						"MaleCount='" +value[5] + "'," +
+						"FemaleCount='" +value[6] + "'," +
+						"StartDate='" +value[7] + "'," +
+						"EndDate='" +value[8] + "'," +
+						"AddressCode='" +value[9] + "'," +
+						"AddressText='" +value[10] + "'," +
+						"Lat='" +value[11] + "'," +
+						"Lng='" +value[12] + "'," +
+						"City='" +value[13] + "'," +
+						"State='" +value[14] + "'," +
+						"Description='" +value[15] + "'," +
+						"IsEmergency='" +value[16] + "'," +
+						"InsertUser='" +value[17] + "'," +
+						"InsertDate='" +value[18] + "'," +
+						"StartTime='" +value[19] + "'," +
+						"EndTime='" +value[20] + "'," +
+						"HamyarCount='" +value[21] + "'," +
+						"PeriodicServices='" +value[22] + "'," +
+						"EducationGrade='" +value[23] + "'," +
+						"FieldOfStudy='" +value[24] + "'," +
+						"StudentGender='" +value[25] + "'," +
+						"TeacherGender='" +value[26] + "'," +
+						"EducationTitle='" +value[27] + "'," +
+						"ArtField='" +value[28] + "'," +
+						"CarWashType='" +value[29] + "'," +
+						"CarType='" +value[30] + "'," +
+						"Language='" +value[31] + "'," +
+						"ArtFieldOther='" +value[32] + "'," +
+						"UserPhone='" +value[33] + "'," +
+						"Status='" +value[34] + "'" +
+						"WHERE Code_BsUserServices='" + value[0] + "'";
 				db.execSQL(query);
+				try {
+					if (db.isOpen()) {
+						db.close();
+					}
+				}catch (Exception ex)
+				{
+
+				}
 			}
 			else
 			{
+				try {
+					if (!db.isOpen()) {
+						db = dbh.getWritableDatabase();
+					}
+				}catch (Exception ex)
+				{
+					db = dbh.getWritableDatabase();
+				}
 				query = "INSERT INTO BsUserServices (" +
 						"Code_BsUserServices," +
 						"UserCode," +
@@ -288,23 +391,109 @@ public class SyncGetSelectJobs2 {
 						"','" + value[31] +
 						"','" + value[32] +
 						"','" + value[33] +
-						"' , '1')";
+						"','" + value[34] +
+						"')";
 				db.execSQL(query);
-			}
+                try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
+                query = "SELECT * FROM Servicesdetails  WHERE code_Servicesdetails=" + value[4];
+                Cursor coursors = db.rawQuery(query, null);
+                if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
+                {
+                    coursors.moveToNext();
+					String Detail="سرویس "+coursors.getString(coursors.getColumnIndex("name"))+" "+ TranslateStatus(value[34]);
+					runNotification("آسپینو", Detail, i, value[0],"BsUserServices", Joziat_Sefaresh.class);
+                }
+				if(!coursors.isClosed())
+				{
+					coursors.close();
+				}
+				try {
+					if (db.isOpen()) {
+						db.close();
+					}
+				}catch (Exception ex)
+				{
 
+				}
+			}
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
 	}
 	public boolean Check_Null(String Code)
 	{
 		db=dbh.getReadableDatabase();
 		Cursor cursor=db.rawQuery("SELECT * FROM BsUserServices WHERE Code_BsUserServices='" +Code +"'",null);
 		if(cursor.getCount()>0) {
+			if(!cursor.isClosed())
+			{
+				cursor.close();
+			}
+			if(db.isOpen()){db.close();}
 			return true;
 		}
 		else
 		{
+			if(!cursor.isClosed())
+			{
+				cursor.close();
+			}
+			if(db.isOpen()){db.close();}
 			return false;
 		}
+	}
+    public void runNotification(String title,String detail,int id,String BsUserServicesID,String Table,Class<?> Cls)
+    {
+        NotificationClass notifi=new NotificationClass(this.activity);
+        notifi.Notificationm(this.activity,title,detail,BsUserServicesID,Table,id,Cls);
+    }
+	public String TranslateStatus(String status)
+	{
+		String StrStatus="";
+		switch (status)
+		{
+			case "0":
+				StrStatus="آزاد شد";
+				break;
+			case "1":
+				StrStatus="در نوبت انجام قرار گرفت";
+				break;
+			case "2":
+				StrStatus="در حال انجام است";
+				break;
+			case "3":
+				StrStatus="لغو شد";
+				break;
+			case "4":
+				StrStatus="اتمام و تسویه شده است";
+				break;
+			case "5":
+				StrStatus="اتمام و تسویه نشده است";
+				break;
+			case "6":
+				StrStatus="اعلام شکایت شده است";
+				break;
+			case "7":
+				StrStatus="درحال پیگیری شکایت و یا رفع خسارت می باشد";
+				break;
+			case "8":
+				StrStatus=" توسط متخصص رفع عیب و خسارت شده است";
+				break;
+			case "9":
+				StrStatus="پرداخت خسارت";
+				break;
+			case "10":
+				StrStatus="پرداخت جریمه";
+				break;
+			case "11":
+				StrStatus="تسویه حساب با متخصص";
+				break;
+			case "12":
+				StrStatus="متوقف و تسویه شده است";
+				break;
+			case "13":
+				StrStatus="متوقف و تسویه نشده است";
+				break;
+		}
+		return StrStatus;
 	}
 }

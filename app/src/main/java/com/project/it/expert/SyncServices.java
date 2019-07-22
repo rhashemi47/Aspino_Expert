@@ -203,13 +203,13 @@ public class SyncServices {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();			
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM services");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");			
 			db.execSQL("INSERT INTO services (code_services,servicename) VALUES('"+value[0] +"','"+value[1]+"')");
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
 		SyncServicesDetails syncservicesdetails=new SyncServicesDetails(this.activity,this.phonenumber,this.acceptcode,this.flag,CityCode);
 		syncservicesdetails.AsyncExecute();
     }

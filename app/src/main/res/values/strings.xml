@@ -155,5 +155,6 @@
     <string name="StartJob">شروع به کار</string>
     <string name="Call2">تماس</string>
     <string name="CustomersCertains">سفارشات قطعی</string>
-
+    <string name="default_notification_channel_id">Aspino_Expert</string>
+    <string name="default_notification_channel_title">آسپینو</string>
 </resources>

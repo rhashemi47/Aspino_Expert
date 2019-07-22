@@ -76,7 +76,7 @@ public class ServiceGetSliderPic extends Service {
                                         SyncSliderPic syncSliderPic = new SyncSliderPic(getApplicationContext(), guid, hamyarcode);
                                         syncSliderPic.AsyncExecute();
                                     }
-                                    db.close();
+                                    if(db.isOpen()){db.close();}
 
                                 }
                             });
@@ -90,7 +90,7 @@ public class ServiceGetSliderPic extends Service {
                                 Thread.sleep(6000); // every 12 hour
                             }
 
-                            db.close();
+                            if(db.isOpen()){db.close();}
                         }
                         catch (Exception e) {
                             String error="";

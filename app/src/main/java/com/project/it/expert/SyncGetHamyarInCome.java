@@ -42,6 +42,7 @@ public class SyncGetHamyarInCome {
 
    		} catch (IOException ioe) {
 
+			PublicVariable.thread_Income=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -51,7 +52,7 @@ public class SyncGetHamyarInCome {
    			dbh.openDataBase();
 
    		} catch (SQLException sqle) {
-
+			PublicVariable.thread_Income=true;
    			throw sqle;
    		}   		
 	}
@@ -66,12 +67,13 @@ public class SyncGetHamyarInCome {
 				task.execute();
 			}	
 			 catch (Exception e) {
-
+				 PublicVariable.thread_Income=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
+			PublicVariable.thread_Income=true;
 			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -95,6 +97,7 @@ public class SyncGetHamyarInCome {
         		CallWsMethod("GetHamyarInCome");
         	}
 	    	catch (Exception e) {
+				PublicVariable.thread_Income=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -133,7 +136,9 @@ public class SyncGetHamyarInCome {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.thread_Income=true;
+			}
         }
  
         @Override
@@ -205,7 +210,7 @@ public class SyncGetHamyarInCome {
 		String[] res;
 		String query;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		for(int i=0;i<res.length;i++) {
 			value=res[i].split("##");
 			query = "INSERT INTO Income (Code_Income," +
@@ -215,6 +220,6 @@ public class SyncGetHamyarInCome {
 					"','" + value[2] + "')";
 			db.execSQL(query);
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 }

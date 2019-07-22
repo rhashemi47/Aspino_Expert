@@ -86,7 +86,7 @@ public class ShowMessage extends Activity{
                 hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 guid = coursors.getString(coursors.getColumnIndex("guid"));
             }
-            db.close();
+            if(db.isOpen()){db.close();}
         }
         db=dbh.getReadableDatabase();
         query="SELECT * FROM messages WHERE Code='"+code+"'";
@@ -96,32 +96,32 @@ public class ShowMessage extends Activity{
             content.setText(cursor.getString(cursor.getColumnIndex("Content")));
             Isread=cursor.getString(cursor.getColumnIndex("IsReade"));
         }
-        db.close();
+        if(db.isOpen()){db.close();}
         if(Isread.compareTo("0")==0)
         {
             db = dbh.getWritableDatabase();
             query = "UPDATE  messages" +
                     " SET  IsReade='1'" +
                     "WHERE Code='" + code + "'";
-            db.execSQL(query);
-            db.close();
+            db.execSQL(query);if(db.isOpen()){db.close();}
+            if(db.isOpen()){db.close();}
         }
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String query=null;
-                db=dbh.getWritableDatabase();
+                try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
                 query="UPDATE  messages" +
                         " SET  IsDelete='1' " +
                         "WHERE Code='"+getIntent().getStringExtra("Code") + "'";
-                db.execSQL(query);
+                db.execSQL(query);if(db.isOpen()){db.close();}
                 LoadActivity(List_Messages.class, "hamyarcode", hamyarcode);
             }
         });
         String Query="UPDATE UpdateApp SET Status='1'";
-        db=dbh.getWritableDatabase();
-        db.execSQL(Query);
-        db.close();
+        try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
+        db.execSQL(query);if(db.isOpen()){db.close();}
+        if(db.isOpen()){db.close();}
         db=dbh.getReadableDatabase();
         Cursor cursor2 = db.rawQuery("SELECT OrdersService.*,Servicesdetails.name FROM OrdersService " +
                 "LEFT JOIN " +
@@ -152,7 +152,7 @@ public class ShowMessage extends Activity{
                 btncredite.setText(PersianDigitConverter.PerisanNumber("اعتبار( " + "0")+")");
             }
         }
-        db.close();
+        if(db.isOpen()){db.close();}
 
     }
     @Override
@@ -171,15 +171,6 @@ public class ShowMessage extends Activity{
 
         ShowMessage.this.startActivity(intent);
     }
-    public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue
-            , String VariableName2, String VariableValue2) {
-        Intent intent = new Intent(getApplicationContext(), Cls);
-        intent.putExtra(VariableName, VariableValue);
-        intent.putExtra(VariableName2, VariableValue2);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        this.startActivity(intent);
-    }
     public void dialContactPhone(String phoneNumber) {
         //startActivity(new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", phoneNumber, null)));
         Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -196,13 +187,13 @@ public class ShowMessage extends Activity{
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission Granted
-                    db = dbh.getReadableDatabase();
+                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     Cursor cursorPhone = db.rawQuery("SELECT * FROM Supportphone", null);
                     if (cursorPhone.getCount() > 0) {
                         cursorPhone.moveToNext();
                         dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("PhoneNumber")));
                     }
-                    db.close();
+                    if(db.isOpen()){db.close();}
                 } else {
                     // Permission Denied
                     Toast.makeText(this, "مجوز تماس از طریق برنامه لغو شده برای بر قراری تماس از درون برنامه باید مجوز دسترسی تماس را فعال نمایید.", Toast.LENGTH_LONG)

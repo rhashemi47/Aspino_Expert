@@ -206,11 +206,11 @@ public class SyncGetRating {
     {
 		String[] value;
 		String query;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 			value=WsResponse.split("##");
 			query="UPDATE Profile SET " +
 					"Rate='" + value[0] + "'";
-		db.execSQL(query);
-		db.close();
+		db.execSQL(query);if(db.isOpen()){db.close();}
+		if(db.isOpen()){db.close();}
     }
 }

@@ -200,11 +200,11 @@ public class SyncProfilePic {
 	public void InsertDataFromWsToDb(String AllRecord)
     {
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 			query="UPDATE Profile SET Pic='"+WsResponse+"'";
-			db.execSQL(query);
+			db.execSQL(query);if(db.isOpen()){db.close();}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 
     }
 }

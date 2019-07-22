@@ -15,7 +15,7 @@ import java.io.OutputStream;
 public class DatabaseHelper extends SQLiteOpenHelper {
 	  String DB_PATH =null;
 	  
-	    private static String DB_NAME = "DB_expert.db";
+	    private static String DB_NAME = "DB_Aspino_expert.db";
 	 
 	    private SQLiteDatabase myDataBase;
 	    
@@ -80,8 +80,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	    	}
 	 
 	    	if(checkDB != null){
-	 
-	    		checkDB.close();
+
+				checkDB.close();
 	 
 	    	}
 	 

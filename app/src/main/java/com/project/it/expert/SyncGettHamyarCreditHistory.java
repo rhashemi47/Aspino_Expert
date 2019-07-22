@@ -193,7 +193,7 @@ public class SyncGettHamyarCreditHistory {
 		String[] value;
 		res=WsResponse.split("@@");
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM credits");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
@@ -209,7 +209,7 @@ public class SyncGettHamyarCreditHistory {
 					"')";
 			db.execSQL(query);
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
 		Toast.makeText(activity, "ثبت شد", Toast.LENGTH_LONG).show();
 		SyncGetHamyarCredit syncGetHamyarCredit =new SyncGetHamyarCredit(this.activity,pHamyarCode,this.Flag);
 		syncGetHamyarCredit.AsyncExecute();

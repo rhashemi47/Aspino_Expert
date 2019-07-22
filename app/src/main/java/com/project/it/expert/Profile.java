@@ -162,7 +162,7 @@ public class Profile extends Activity {
 				hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 			}
 
-			db.close();
+			if(db.isOpen()){db.close();}
 		}
 
 		Bitmap bmp= BitmapFactory.decodeResource(getResources(),R.drawable.useravatar);
@@ -189,7 +189,7 @@ public class Profile extends Activity {
 			}
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 
 		try
 		{
@@ -265,7 +265,7 @@ public class Profile extends Activity {
 				{
 					Toast.makeText(getApplicationContext(), "اتصال به شبکه را چک نمایید.", Toast.LENGTH_LONG).show();
 				}
-				db.close();
+				if(db.isOpen()){db.close();}
 			}
 		});
 		db=dbh.getReadableDatabase();

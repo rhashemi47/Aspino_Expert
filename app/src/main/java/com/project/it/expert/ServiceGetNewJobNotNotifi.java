@@ -41,7 +41,7 @@ public class ServiceGetNewJobNotNotifi extends Service {
                     while (continue_or_stop) {
                         try {
                             if (PublicVariable.thread_NewJob) {
-                                Thread.sleep(60000); // every 60 seconds
+                                Thread.sleep(6000); // every 6 seconds
                                 mHandler.post(new Runnable() {
 
                                     public String LastHamyarUserServiceCode;
@@ -67,7 +67,7 @@ public class ServiceGetNewJobNotNotifi extends Service {
 
                                             throw sqle;
                                         }
-                                        db = dbh.getReadableDatabase();
+                                       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                                         Cursor coursors = db.rawQuery("SELECT * FROM login", null);
                                         for (int i = 0; i < coursors.getCount(); i++) {
 
@@ -82,7 +82,7 @@ public class ServiceGetNewJobNotNotifi extends Service {
                                             LastHamyarUserServiceCode = cursors.getString(cursors.getColumnIndex("code"));
                                         }
 
-                                        db.close();
+                                        if(db.isOpen()){db.close();}
                                         SyncNewJob syncNewJob = new SyncNewJob(getApplicationContext(), guid, hamyarcode, LastHamyarUserServiceCode, false);
                                         syncNewJob.AsyncExecute();
                                     }

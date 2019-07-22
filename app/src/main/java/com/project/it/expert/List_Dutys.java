@@ -71,7 +71,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
-            db.close();
+            if(db.isOpen()){db.close();}
         }
             db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery("SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
@@ -90,7 +90,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
                 map.put("UserPhone",coursors.getString(coursors.getColumnIndex("UserPhone")));
                 valuse.add(map);
             }
-            db.close();
+            if(db.isOpen()){db.close();}
             AdapterDutys dataAdapter=new AdapterDutys(this,valuse,guid,hamyarcode);
             lvDutys.setAdapter(dataAdapter);
 

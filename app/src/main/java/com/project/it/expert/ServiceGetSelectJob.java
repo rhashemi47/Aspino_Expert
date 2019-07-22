@@ -65,7 +65,7 @@ public class ServiceGetSelectJob extends Service {
 
                                             throw sqle;
                                         }
-                                        db = dbh.getReadableDatabase();
+                                       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                                         Cursor coursors = db.rawQuery("SELECT * FROM login", null);
                                         for (int i = 0; i < coursors.getCount(); i++) {
                                             coursors.moveToNext();
@@ -74,7 +74,7 @@ public class ServiceGetSelectJob extends Service {
                                         }
                                         SyncGetSelectJobs2 syncGetSelectJobs2 = new SyncGetSelectJobs2(getApplicationContext(), guid, hamyarcode, "0");
                                         syncGetSelectJobs2.AsyncExecute();
-                                        db.close();
+                                        if(db.isOpen()){db.close();}
                                     }
                                 });
                             }

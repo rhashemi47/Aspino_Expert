@@ -221,7 +221,7 @@ public class Save_Per_Factor extends Activity {
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
 
-            db.close();
+            if(db.isOpen()){db.close();}
         }
         try
         {
@@ -235,9 +235,9 @@ public class Save_Per_Factor extends Activity {
         }
         db = dbh.getWritableDatabase();
         String query="DELETE FROM HmFactorTools_List";
-        db.execSQL(query);
+        db.execSQL(query);if(db.isOpen()){db.close();}
 
-        db.close();
+        if(db.isOpen()){db.close();}
         FillSpinnerStep();
         FillSpinnerTools();
         ShowOrHidde();
@@ -334,7 +334,7 @@ public class Save_Per_Factor extends Activity {
         SpTitleStepJob.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 String temp=SpTitleStepJob.getSelectedItem().toString();
                 String codeStep=mapStep.get(temp);
                 Cursor coursors = db.rawQuery("SELECT HmFactorService.*,Unit.Name FROM HmFactorService" +
@@ -348,7 +348,7 @@ public class Save_Per_Factor extends Activity {
                     EtUnitValuePrice.setText("0");
                 }
 
-                db.close();
+                if(db.isOpen()){db.close();}
             }
 
             @Override
@@ -359,7 +359,7 @@ public class Save_Per_Factor extends Activity {
         SPTitleTools.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 String codeStep=mapTool.get(SPTitleTools.getSelectedItem().toString());
                 Cursor coursors = db.rawQuery("SELECT * FROM HmFactorTools WHERE Code='"+codeStep+"'", null);
                 if (coursors.getCount() > 0) {
@@ -369,7 +369,7 @@ public class Save_Per_Factor extends Activity {
                         EtToolValuePrice.setText("0");
                     }
 
-                db.close();
+                if(db.isOpen()){db.close();}
             }
 
             @Override
@@ -409,10 +409,10 @@ public class Save_Per_Factor extends Activity {
     public boolean onKeyDown( int keyCode, KeyEvent event )  {
         if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
             String query="DELETE FROM HmFactorTools_List";
-            db=dbh.getWritableDatabase();
-            db.execSQL(query);
+            try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
+            db.execSQL(query);if(db.isOpen()){db.close();}
 
-            db.close();
+            if(db.isOpen()){db.close();}
             Save_Per_Factor.this.LoadActivity_Select(Joziat_Sefaresh.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", BsUserServicesID, "tab", tab);
         }
 
@@ -435,7 +435,7 @@ public class Save_Per_Factor extends Activity {
         Save_Per_Factor.this.startActivity(intent);
     }
     public void FillSpinnerStep(){
-        db = dbh.getReadableDatabase();
+       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
         Cursor coursors = db.rawQuery("SELECT * FROM HmFactorService WHERE ServiceDetaileCode='"+ServiceDetaileCode+"' AND Status='1'", null);
         if (coursors.getCount() > 0) {
             labelsServiceDetailName  = new ArrayList<String>();
@@ -445,7 +445,7 @@ public class Save_Per_Factor extends Activity {
                 labelsServiceDetailName.add(coursors.getString(coursors.getColumnIndex("ServiceName")));
             }
 
-            db.close();
+            if(db.isOpen()){db.close();}
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelsServiceDetailName){
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
@@ -472,7 +472,7 @@ public class Save_Per_Factor extends Activity {
     }
     public void FillSpinnerTools(){
 
-        db = dbh.getReadableDatabase();
+       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
         Cursor coursors = db.rawQuery("SELECT * FROM HmFactorTools WHERE ServiceDetaileCode='"+ServiceDetaileCode+"'", null);
         if (coursors.getCount() > 0) {
             labelsServiceDetailName  = new ArrayList<String>();
@@ -482,7 +482,7 @@ public class Save_Per_Factor extends Activity {
                 labelsServiceDetailName.add(coursors.getString(coursors.getColumnIndex("ToolName")));
             }
 
-            db.close();
+            if(db.isOpen()){db.close();}
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, labelsServiceDetailName){
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
@@ -572,7 +572,7 @@ public class Save_Per_Factor extends Activity {
                 Toast.makeText(Save_Per_Factor.this, "لطفا  فیلد مقدار را پر فرمایید", Toast.LENGTH_SHORT).show();
             } else {
                 temp=TitleTool+ "-" +BrandName+ "-" +Price+ "-" +Amont;
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 Cursor coursors = db.rawQuery("SELECT * FROM HmFactorTools_List WHERE ToolName='" + TitleTool + "' AND BrandName='" + BrandName + "'AND " +
                         "Price='" +Price+"' AND " +
                         "Amount='" +Amont+ "' AND ServiceDetaileCode='"+ServiceDetaileCode+"'", null);
@@ -582,7 +582,7 @@ public class Save_Per_Factor extends Activity {
                     String query="INSERT INTO HmFactorTools_List (Code,ToolName,BrandName,Price,Amount,ServiceDetaileCode) VALUES('" +mapTool.get(SPTitleTools.getSelectedItem().toString())+"','"+ TitleTool + "','" + BrandName
                             + "','" + Price + "','" + Amont + "','" +ServiceDetaileCode+"')";
                     db = dbh.getWritableDatabase();
-                    db.execSQL(query);
+                    db.execSQL(query);if(db.isOpen()){db.close();}
                     if (ListTools.getCount() > 0) {
                         adapterList.add(temp);
                         ListTools.setAdapter(adapterList);
@@ -595,7 +595,7 @@ public class Save_Per_Factor extends Activity {
                 }
             }
 
-        db.close();
+        if(db.isOpen()){db.close();}
     }
 void removeItemFromList(final int position) {
     final int deletePosition = position;
@@ -620,9 +620,9 @@ void removeItemFromList(final int position) {
             db = dbh.getWritableDatabase();
             String query="DELETE FROM HmFactorTools WHERE ToolName='"+STR[0]+"' AND Price='"+STR[2]+"'" +
                     " AND ServiceDetaileCode='"+ServiceDetaileCode+"' AND BrandName='"+STR[1]+"' AND Amount='"+STR[3]+"'";
-           db.execSQL(query);
+           db.execSQL(query);if(db.isOpen()){db.close();}
 
-            db.close();
+            if(db.isOpen()){db.close();}
             listItems.remove(deletePosition);
             adapterList.notifyDataSetChanged();
             Toast.makeText(Save_Per_Factor.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();

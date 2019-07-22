@@ -201,13 +201,13 @@ public class SyncServicesDetails {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();			
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM servicesdetails");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");			
 			db.execSQL("INSERT INTO servicesdetails (code_servicesdetails,servicename,type,name,NeedVisit) VALUES('"+value[0] + "','" +value[1] + "','" + value[2] +"','"+value[3]+"','"+value[4]+"')");
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
 //		if(this.flag.compareTo("0")==0)
 //		{
 //			LoadActivity(Info_Person.class, "phonenumber",this.phonenumber,"acceptcode",this.acceptcode);

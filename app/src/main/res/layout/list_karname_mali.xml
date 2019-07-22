@@ -80,11 +80,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textSize="45sp"
-                android:textColor="#d12c2c"
+                android:textSize="30sp"
                 android:fontFamily="@font/vazir"
-                android:id="@+id/tvNumberHesab"
-                android:text="34000"/>
+                android:id="@+id/tvNumberHesab"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

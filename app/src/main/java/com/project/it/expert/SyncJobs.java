@@ -215,7 +215,7 @@ public class SyncJobs {
 		String[] value;
 		String query=null;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
 			query="INSERT INTO BsUserServices (" +
@@ -284,11 +284,11 @@ public class SyncJobs {
 			"','" + value[30] +
 			"','" + value[31] +
 			"')";
-			db.execSQL(query);
+			db.execSQL(query);if(db.isOpen()){db.close();}
 			SyncGetServiceUserInfo syncGetServiceUserInfo=new SyncGetServiceUserInfo(activity.getApplicationContext(),value[0]);
 			syncGetServiceUserInfo.AsyncExecute();
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
 		SyncServices syncservices=new SyncServices(this.activity,this.guid,this.hamyarcode,"1","0");
 		syncservices.AsyncExecute();
     }

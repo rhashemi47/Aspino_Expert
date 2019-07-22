@@ -230,14 +230,14 @@ public class SyncCanselJob {
     {
 
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		query="UPDATE  BsUserServices" +
 				" SET Status='4' ,Description='" +Description+
 				"' WHERE BsUserServices='"+UserServiceCode+"'";
-		db.execSQL(query);
+		db.execSQL(query);if(db.isOpen()){db.close();}
 		Toast.makeText(activity, "سرویس لغو شد", Toast.LENGTH_LONG).show();
 
-		db.close();
+		if(db.isOpen()){db.close();}
 		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 
 	}

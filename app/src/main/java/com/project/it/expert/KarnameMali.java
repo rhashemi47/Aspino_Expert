@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -18,9 +17,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -35,7 +37,7 @@ public class KarnameMali extends AppCompatActivity {
 //	//private Button btnHome;
 //	private GoogleMap map;
 //	private Typeface FontMitra;
-//	private LatLng point;
+	private ListView lstIncome;
 	private ImageView imgHumberger;
 	private ImageView imgBack;
 	private DrawerLayout mDrawer;
@@ -43,6 +45,8 @@ public class KarnameMali extends AppCompatActivity {
 	private LinearLayout LinearRole;
 	private LinearLayout LinearAboutAspino;
 	private LinearLayout LinearLogout;
+	private TextView tvNumberHesab;
+	private ArrayList<HashMap<String ,String>> valuse=new ArrayList<HashMap<String, String>>();
 	final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 	@Override
 	protected void attachBaseContext(Context newBase) {
@@ -52,8 +56,8 @@ public class KarnameMali extends AppCompatActivity {
 protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.slide_menu_karname_mali);
-//	btnCredit=(Button)findViewById(R.id.btnCredit);
-//	btnOrders=(Button)findViewById(R.id.btnOrders);
+	tvNumberHesab=(TextView) findViewById(R.id.tvNumberHesab);
+	lstIncome=(ListView) findViewById(R.id.lstIncome);
 //	btnHome=(Button)findViewById(R.id.btnHome);
 	dbh=new DatabaseHelper(getApplicationContext());
 	try {
@@ -89,7 +93,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 	}
 	//********************************************************************
 	imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
@@ -103,13 +107,22 @@ protected void onCreate(Bundle savedInstanceState) {
 	LinearCallSupporter.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			db = dbh.getReadableDatabase();
+			try {
+				if(!db.isOpen())
+				{
+					db = dbh.getReadableDatabase();
+				}
+			}
+			catch (Exception ex)
+			{
+				db = dbh.getReadableDatabase();
+			}
 			Cursor cursor = db.rawQuery("SELECT * FROM Supportphone", null);
 			if (cursor.getCount() > 0) {
 				cursor.moveToNext();
 				dialContactPhone(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
 			}
-			db.close();
+			if(db.isOpen()){db.close();}
 		}
 	});
 	LinearRole.setOnClickListener(new View.OnClickListener() {
@@ -144,15 +157,56 @@ protected void onCreate(Bundle savedInstanceState) {
 		}
 	});
 	//********************************************************************
+	try
+	{
+		try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();};
+		double Content=0;
+		Cursor coursors = db.rawQuery("SELECT * FROM AmountCredit", null);
+		if (coursors.getCount() > 0) {
+			coursors.moveToNext();
+			Content=Double.parseDouble(coursors.getString(coursors.getColumnIndex("Amount")));
+			if(Content>=0)
+			{
+				tvNumberHesab.setTextColor(getResources().getColor(R.color.md_blue_800));
+				tvNumberHesab.setText(Content+" ریال");
+			}
+			else
+			{
+				tvNumberHesab.setTextColor(getResources().getColor(R.color.md_red_800));
+				tvNumberHesab.setText(Content+" ریال");
+			}
+		}
+		else
+		{
+			tvNumberHesab.setTextColor(getResources().getColor(R.color.md_blue_800));
+			tvNumberHesab.setText("0"+" ریال");
+		}
+		if(db.isOpen()){db.close();}
+	}
+	catch (Exception ex)
+	{
+		tvNumberHesab.setTextColor(getResources().getColor(R.color.md_blue_800));
+		tvNumberHesab.setText("0"+" ریال");
+	}
+	//************************************************List Karname**********************************
+	db=dbh.getReadableDatabase();
+	Cursor coursors = db.rawQuery("SELECT * FROM KarnameMali ",null);
+	if(coursors.getCount()>0) {
+		for (int i = 0; i < coursors.getCount(); i++) {
+			coursors.moveToNext();
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("OrderCode", coursors.getString(coursors.getColumnIndex("Code_KarnameMali")));
+			map.put("Status", coursors.getString(coursors.getColumnIndex("Type")));
+			map.put("Currency", coursors.getString(coursors.getColumnIndex("Price")));
+			map.put("DateHesab", coursors.getString(coursors.getColumnIndex("Date")));
+			valuse.add(map);
+		}
+		AdapterKarnameMali adapterKarnameMali = new AdapterKarnameMali(KarnameMali.this, valuse);
+		lstIncome.setAdapter(adapterKarnameMali);
+	}
+	//**********************************************************************************************
 }
-//@Override
-//public boolean onKeyDown( int keyCode, KeyEvent event )  {
-//    if ( keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0 ) {
-//    	LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
-//    }
-//
-//    return super.onKeyDown( keyCode, event );
-//}
+
 public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{
 		Intent intent = new Intent(getApplicationContext(),Cls);
@@ -217,7 +271,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db.execSQL("DELETE FROM Supportphone");
 				db.execSQL("DELETE FROM Unit");
 				db.execSQL("DELETE FROM UpdateApp");
-				db.close();
+				if(db.isOpen()){db.close();}
 				System.exit(0);
 				arg0.dismiss();
 

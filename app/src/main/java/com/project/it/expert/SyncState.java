@@ -189,14 +189,14 @@ public class SyncState {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();			
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM State");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
 			String query="INSERT INTO State (Name,Code) VALUES('"+ value[1] +"','"+value[0]+"')";
-			db.execSQL(query);
+			db.execSQL(query);if(db.isOpen()){db.close();}
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 	
 }

@@ -261,16 +261,16 @@ public class SyncInsertFaktorUserDetailes {
 	public void InsertDataFromWsToDb()
 	{
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		query="INSERT INTO  InsertFaktorUserDetailes (FaktorUsersHeadCode,Type,ObjectCode,PricePerUnit,Amount) VALUES ('"
 				+FaktorUsersHeadCode+"','"
 				+Type+"','"
 				+ObjectCode+"','"
 				+PricePerUnit+"','"
 				+Amount+"')";
-		db.execSQL(query);
+		db.execSQL(query);if(db.isOpen()){db.close();}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 		Toast.makeText(activity," ثبت شد", Toast.LENGTH_SHORT).show();
 	}
 }

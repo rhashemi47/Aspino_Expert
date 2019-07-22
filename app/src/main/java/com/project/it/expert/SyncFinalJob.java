@@ -215,12 +215,12 @@ public class SyncFinalJob {
 	public void InsertDataFromWsToDb()
 	{
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		query="UPDATE  BsUserServices" +
 				" SET Status='7' " +
 				"WHERE Code_BsUserServices='"+UserServiceCode+"'";
-		db.execSQL(query);
-		db.close();
+		db.execSQL(query);if(db.isOpen()){db.close();}
+		if(db.isOpen()){db.close();}
 		Toast.makeText(this.activity.getApplicationContext(), "کار پایان یافت", Toast.LENGTH_LONG).show();
 		LoadActivity(MainMenu.class,"guid", guid,"hamyarcode",hamyarcode,"tab","1","BsUserServicesID",UserServiceCode);
 	}

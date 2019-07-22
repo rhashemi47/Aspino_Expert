@@ -1,24 +1,27 @@
 	package com.project.it.expert;
 
     import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+    import android.content.Context;
+    import android.content.Intent;
+    import android.database.Cursor;
+    import android.database.SQLException;
+    import android.database.sqlite.SQLiteDatabase;
+    import android.os.Bundle;
+    import android.support.v4.view.GravityCompat;
+    import android.support.v4.widget.DrawerLayout;
+    import android.view.View;
+    import android.widget.ImageView;
+    import android.widget.LinearLayout;
+    import android.widget.ListView;
+    import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+    import com.nex3z.notificationbadge.NotificationBadge;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+    import java.io.IOException;
+    import java.util.ArrayList;
+    import java.util.HashMap;
+
+    import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
     public class List_Orders extends Activity {
         private String hamyarcode;
@@ -35,9 +38,14 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
         private LinearLayout LinearSuggestions;
         private LinearLayout LinearHome;
         private LinearLayout LinearNotifications;
+        private NotificationBadge badgeOrders;
+        private NotificationBadge badgeCertain;
+        private NotificationBadge badgeOffers;
+        private NotificationBadge badgeNotification;
         private DrawerLayout mDrawer;
         private ImageView imgHumberger;
         private ImageView imgBack;
+        private TextView tvTitlePageName;
 
         @Override
         protected void attachBaseContext(Context newBase) {
@@ -54,9 +62,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
             LinearSuggestions = (LinearLayout) findViewById(R.id.LinearSuggestions);
             LinearHome = (LinearLayout) findViewById(R.id.LinearHome);
             LinearNotifications = (LinearLayout) findViewById(R.id.LinearNotifications);
+
+            badgeOrders=(NotificationBadge) findViewById(R.id.badgeOrders);
+            badgeCertain=(NotificationBadge) findViewById(R.id.badgeCertain);
+            badgeOffers=(NotificationBadge) findViewById(R.id.badgeOffers);
+            badgeNotification=(NotificationBadge) findViewById(R.id.badgeNotification);
             mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
             imgBack = (ImageView) findViewById(R.id.imgBack);
+            tvTitlePageName = (TextView) findViewById(R.id.tvTitlePageName);
             dbh=new DatabaseHelper(getApplicationContext());
             try {
 
@@ -90,6 +104,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
             {
                 Table="";
             }
+            try {
+                tvTitlePageName.setText(getIntent().getStringExtra("tvTitlePageName").toString());
+            }
+            catch (Exception ex)
+            {
+                tvTitlePageName.setText("");
+            }
         try
         {
             hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
@@ -104,7 +125,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
                 guid=coursors.getString(coursors.getColumnIndex("guid"));
                 hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
             }
-            db.close();
+            if(db.isOpen()){db.close();}
         }
             db=dbh.getReadableDatabase();
             Cursor coursors = db.rawQuery(Query,null);
@@ -114,11 +135,33 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
                 map.put("Code",coursors.getString(coursors.getColumnIndex("Code_"+Table)));
                 map.put("TitleOrder",coursors.getString(coursors.getColumnIndex("name")));
                 map.put("OrderDate",coursors.getString(coursors.getColumnIndex("StartDate")));
-                map.put("Addres",coursors.getString(coursors.getColumnIndex("AddressText")));
+                map.put("OrderTime",coursors.getString(coursors.getColumnIndex("StartTime")));
+                try {
+                    map.put("Read",coursors.getString(coursors.getColumnIndex("Read")));
+                }
+                catch (Exception ex)
+                {
+                    map.put("Read","1");
+                }
+                String AddressStr=coursors.getString(coursors.getColumnIndex("AddressText"));
+                try
+                {
+                    if(AddressStr.length()>25)
+                    {
+                        map.put("Addres",AddressStr.substring(0,30) + "...");
+                    }
+                    else {
+                        map.put("Addres",coursors.getString(coursors.getColumnIndex("AddressText")));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    map.put("Addres",coursors.getString(coursors.getColumnIndex("AddressText")));
+                }
                 map.put("Table",Table);
                 valuse.add(map);
             }
-            db.close();
+            if(db.isOpen()){db.close();}
             AdapterServices dataAdapter=new AdapterServices(this,valuse,guid,hamyarcode);
             lstOrder.setAdapter(dataAdapter);
             //**************************************************************************
@@ -142,43 +185,115 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
                         String Query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
                                 "LEFT JOIN " +
                                 "Servicesdetails ON " +
-                                "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Suggetion='0'";
-                        LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
-                                "guid", guid,"Query",Query,
-                                "Table","BsUserServices");
+                                "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Suggetion='0' ORDER BY BsUserServices.Code_BsUserServices DESC";
+
+                    LoadActivity2(List_Orders.class,
+                            "hamyarcode", hamyarcode,
+                            "guid", guid,
+                            "Query",Query,
+                            "tvTitlePageName","سفارش های مشتریان",
+                            "Table","BsUserServices");
 
                 }
             });
+            String Query="SELECT BsUserServices.*,Servicesdetails.name FROM BsUserServices " +
+                    "LEFT JOIN " +
+                    "Servicesdetails ON " +
+                    "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE BsUserServices.Suggetion='0'  AND Read='0' ORDER BY BsUserServices.Code_BsUserServices DESC";
+            if(!db.isOpen()) {
+
+                db = dbh.getReadableDatabase();
+            }
+            coursors = db.rawQuery(Query,null);
+            if(coursors.getCount()>0)
+            {
+                badgeOrders.setVisibility(View.VISIBLE);
+                badgeOrders.setNumber(coursors.getCount());
+            }
+            if(db.isOpen()){db.close();}
+            Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
+                    "LEFT JOIN " +
+                    "SuggetionsInfo ON " +
+                    "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
+                    " LEFT JOIN " +
+                    "Servicesdetails ON " +
+                    "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='1'";
+            if(!db.isOpen()) {
+
+                db = dbh.getReadableDatabase();
+            }
+            coursors = db.rawQuery(Query,null);
+            if(coursors.getCount()>0)
+            {
+                badgeCertain.setVisibility(View.VISIBLE);
+                badgeCertain.setNumber(coursors.getCount());
+            }
+            if(db.isOpen()){db.close();}
+            Query = "SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
+                    "LEFT JOIN " +
+                    "SuggetionsInfo ON " +
+                    "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode" +
+                    " LEFT JOIN " +
+                    "Servicesdetails ON " +
+                    "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='0'";
+            if(!db.isOpen()) {
+
+                db = dbh.getReadableDatabase();
+            }
+            coursors = db.rawQuery(Query,null);
+            if(coursors.getCount()>0)
+            {
+                badgeOffers.setVisibility(View.VISIBLE);
+                badgeOffers.setNumber(coursors.getCount());
+            }
+            if(db.isOpen()){db.close();}
+            Query = "SELECT * FROM messages WHERE IsReade='0'";
+            if(!db.isOpen()) {
+
+                db = dbh.getReadableDatabase();
+            }
+            coursors = db.rawQuery(Query,null);
+            if(coursors.getCount()>0)
+            {
+                badgeNotification.setVisibility(View.VISIBLE);
+                badgeNotification.setNumber(coursors.getCount());
+            }
+            if(db.isOpen()){db.close();}
             LinearCertain.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                    
-                        String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM SuggetionsInfo " +
+                        String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
                                 "LEFT JOIN " +
-                                "BsUserServices ON " +
+                                "SuggetionsInfo ON " +
                                 "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
                                 " LEFT JOIN " +
                                 "Servicesdetails ON " +
                                 "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='1'";
-                        LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
-                                "guid", guid,"Query",Query,
-                                "Table","BsUserServices");
+                    LoadActivity2(List_Sertains.class, "hamyarcode", hamyarcode,
+                            "guid", guid,"Query",Query,
+                            "tvTitlePageName","قطعی",
+                            "Table","BsUserServices");
                     }
             });
             LinearSuggestions.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    String Query = "SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM SuggetionsInfo " +
+                    String Query = "SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
                             "LEFT JOIN " +
-                            "BsUserServices ON " +
+                            "SuggetionsInfo  ON " +
                             "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode" +
                             " LEFT JOIN " +
                             "Servicesdetails ON " +
                             "Servicesdetails.code_Servicesdetails=BsUserServices.ServiceDetaileCode WHERE SuggetionsInfo.ConfirmByUser='0'";
-                    LoadActivity2(List_Orders.class, "hamyarcode", hamyarcode,
-                            "guid", guid, "Query", Query,
-                            "Table", "BsUserServices");
+
+                    LoadActivity2(List_Orders.class,
+                            "hamyarcode", hamyarcode,
+                            "guid", guid,
+                            "Query",Query,
+                            "tvTitlePageName","پیشنهادها",
+                            "Table","BsUserServices");
                 }
 
             });
@@ -191,8 +306,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
             LinearNotifications.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   
-                        LoadActivity(List_Messages.class, "hamyarcode", hamyarcode, "guid", guid);
+                    String Query = "SELECT * FROM messages WHERE IsReade='0'";
+                                       LoadActivity(List_Messages.class, "hamyarcode", hamyarcode, "guid", guid);
                     }
             });
     }
@@ -220,13 +335,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
         public void LoadActivity2(Class<?> Cls, String VariableName, String VariableValue,
                                   String VariableName2, String VariableValue2,
                                   String VariableName3, String VariableValue3,
-                                  String VariableName4, String VariableValue4)
+                                  String VariableName4, String VariableValue4,
+                                  String VariableName5, String VariableValue5)
         {
             Intent intent = new Intent(getApplicationContext(),Cls);
             intent.putExtra(VariableName, VariableValue);
             intent.putExtra(VariableName2, VariableValue2);
             intent.putExtra(VariableName3, VariableValue3);
             intent.putExtra(VariableName4, VariableValue4);
+            intent.putExtra(VariableName5, VariableValue5);
             this.startActivity(intent);
         }
     }

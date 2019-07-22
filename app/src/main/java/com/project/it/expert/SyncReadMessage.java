@@ -263,9 +263,9 @@ public class SyncReadMessage {
 			query = "UPDATE  messages" +
 					" SET  IsReade='1' " +
 					"WHERE Code_messages='" + messagecode + "'";
-			db.execSQL(query);
+			db.execSQL(query);if(db.isOpen()){db.close();}
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
 	{

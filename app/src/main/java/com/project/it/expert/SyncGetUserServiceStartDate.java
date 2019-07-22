@@ -42,6 +42,7 @@ public class SyncGetUserServiceStartDate {
 
 		} catch (IOException ioe) {
 
+			PublicVariable.theard_GetUserServiceStartDate=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -51,7 +52,7 @@ public class SyncGetUserServiceStartDate {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.theard_GetUserServiceStartDate=true;
 			throw sqle;
 		}
 	}
@@ -62,10 +63,12 @@ public class SyncGetUserServiceStartDate {
 				AsyncCallWS task = new AsyncCallWS(this.activity);
 				task.execute();
 			} catch (Exception e) {
+				PublicVariable.theard_GetUserServiceStartDate=true;
 				//akeText(this.activity.getApplicationContext(), PersianReshape.reshape("ط¹ط¯ظ… ط¯ط³طھط±ط³غŒ ط¨ظ‡ ط³ط±ظˆط±"), Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 		} else {
+			PublicVariable.theard_GetUserServiceStartDate=true;
 			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -87,6 +90,7 @@ public class SyncGetUserServiceStartDate {
 			try {
 				CallWsMethod("GetUserServiceStartDate");
 			} catch (Exception e) {
+				PublicVariable.theard_GetUserServiceStartDate=true;
 				result = e.getMessage().toString();
 			}
 			return result;
@@ -110,6 +114,7 @@ public class SyncGetUserServiceStartDate {
 					InsertDataFromWsToDb(WsResponse);
 				}
 			} else {
+				PublicVariable.theard_GetUserServiceStartDate=true;
 				//akeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
 			}
 			try {
@@ -117,6 +122,7 @@ public class SyncGetUserServiceStartDate {
 					this.dialog.dismiss();
 				}
 			} catch (Exception e) {
+				PublicVariable.theard_GetUserServiceStartDate=true;
 			}
 		}
 
@@ -190,21 +196,21 @@ public class SyncGetUserServiceStartDate {
 						value[3] + "','" +
 						value[4] + "','" +
 						value[5] + "')";
-				db.execSQL(query);
+				db.execSQL(query);if(db.isOpen()){db.close();}
 				String message = "برای سرویس به شماره: " + value[1] + "اعلام شروع به کار تایید شده است";
-				runNotification("بسپارینا", message, i, value[1], Joziat_Sefaresh.class);
+				runNotification("بسپارینا", message, i, "",value[1], Joziat_Sefaresh.class);
 			}
 			catch (Exception ex)
 			{
 
 			}
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
 	}
-	public void runNotification(String title,String detail,int id,String OrderCode,Class<?> Cls)
+	public void runNotification(String title,String detail,int id,String Table,String OrderCode,Class<?> Cls)
 	{
-		NotificationClass notifi=new NotificationClass();
-		notifi.Notificationm(this.activity,title,detail,OrderCode,id,Cls);
+		NotificationClass notifi=new NotificationClass(this.activity);
+		notifi.Notificationm(this.activity,title,detail,OrderCode,Table,id,Cls);
 	}
 
 }

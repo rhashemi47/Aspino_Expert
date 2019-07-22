@@ -119,7 +119,7 @@
                 hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
                 guid = getIntent().getStringExtra("guid").toString();
             } catch (Exception e) {
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 Cursor coursors = db.rawQuery("SELECT * FROM login", null);
                 for (int i = 0; i < coursors.getCount(); i++) {
                     coursors.moveToNext();
@@ -159,18 +159,18 @@
                 SpNameService.setAdapter(dataAdapter);
             }
 
-            db.close();
+            if(db.isOpen()){db.close();}
             SpNameService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    db = dbh.getReadableDatabase();
+                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     Cursor coursors = db.rawQuery("SELECT * FROM services WHERE servicename='"+adapterView.getItemAtPosition(i).toString()+"'", null);
                     if (coursors.getCount() > 0) {
                         coursors.moveToNext();
                         FillSpinnerChild(coursors.getString(coursors.getColumnIndex("code")));
                     }
 
-                    db.close();
+                    if(db.isOpen()){db.close();}
                 }
 
                 @Override
@@ -232,7 +232,7 @@
                 } else {
                     String[] StrDital=SpDitalNameService.getSelectedItem().toString().split(":");
                     temp=SpDitalNameService.getSelectedItem().toString()+ "-" +EttitleStepStr+ "-" +EtBrandStr+ "-" +EtUnitPriceStr;
-                    db = dbh.getReadableDatabase();
+                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     String query="SELECT * FROM HmFactorTools WHERE ToolName='" + EttitleStepStr
                             + "' AND Price='" + EtUnitPriceStr
                             +"' AND ServiceDetaileCode='" +StrDital[0]+
@@ -245,7 +245,7 @@
                         query="INSERT INTO HmFactorTools (ToolName,Price,ServiceDetaileCode,BrandName) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
                                 + "','" +StrDetail[0] +"','" +EtBrandStr+"')";
                         db = dbh.getWritableDatabase();
-                        db.execSQL(query);
+                        db.execSQL(query);if(db.isOpen()){db.close();}
                         if (lvStepJob.getCount() > 0) {
                             adapterList.add(temp);
                             lvStepJob.setAdapter(adapterList);
@@ -277,7 +277,7 @@
                     }
                 }
             } else {
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 String query="SELECT HmFactorTools.*,Servicesdetails.name FROM HmFactorTools " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
@@ -319,7 +319,7 @@
                             }
                         };
 
-                        db.close();
+                        if(db.isOpen()){db.close();}
                         lvStepJob.setAdapter(adapterList);
                     }
                 }
@@ -331,8 +331,8 @@
         public boolean onKeyDown(int keyCode, KeyEvent event) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
                 String query="DELETE FROM HmFactorTools WHERE IsSend='0' AND Status='0'";
-                db=dbh.getWritableDatabase();
-                db.execSQL(query);
+                try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
+                db.execSQL(query);if(db.isOpen()){db.close();}
                 this.LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
             return super.onKeyDown(keyCode, event);
@@ -366,7 +366,7 @@
                     //Declare Object From Get Internet Connection Status For Check Internet Status
                     String[] STR=listItems.get(position).toString().split("-");
                     String[] STRDetails=STR[0].split(":");
-                    db = dbh.getReadableDatabase();
+                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     String query="SELECT * FROM HmFactorTools WHERE ToolName='"+STR[1]+"' AND Price='"+STR[3]+"'" +
                             " AND ServiceDetaileCode='"+STRDetails[0]+"' AND BrandName='"+STR[2]+"' AND Status='1'";
                     Cursor c=db.rawQuery(query,null);
@@ -378,7 +378,7 @@
 
                     }
 
-                    db.close();
+                    if(db.isOpen()){db.close();}
                     Toast.makeText(StepJobDetaile.this, "آیتم حذف شد", Toast.LENGTH_LONG).show();
                     listItems.remove(deletePosition);
                     adapterList.notifyDataSetChanged();
@@ -392,7 +392,7 @@
             alertbox.show();
         }
         public void FillSpinnerChild(String ServiceCode){
-            db = dbh.getReadableDatabase();
+           try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
             Cursor coursors = db.rawQuery("SELECT * FROM servicesdetails WHERE servicename='"+ServiceCode+"'", null);
             if (coursors.getCount() > 0) {
                 labelsServiceDetailName  = new ArrayList<String>();
@@ -405,10 +405,10 @@
                 SpDitalNameService.setAdapter(dataAdapter);
             }
 
-            db.close();
+            if(db.isOpen()){db.close();}
         }
         public void SendFarctor() {
-            db = dbh.getReadableDatabase();
+           try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
             Cursor coursors = db.rawQuery("SELECT * FROM HmFactorTools WHERE Status='0' AND IsSend='0'", null);
             if (coursors.getCount() > 0)
             {
@@ -432,6 +432,6 @@
                 Toast.makeText(StepJobDetaile.this, "لطفا آیتم جدیدی ایجاد کنید", Toast.LENGTH_LONG).show();
             }
 
-            db.close();
+            if(db.isOpen()){db.close();}
         }
     }

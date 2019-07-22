@@ -144,12 +144,12 @@ public class Joziat_Sefaresh extends AppCompatActivity{
             SuggetionFinal=false;
         }
         cursors.close();
-        db.close();
+        if(db.isOpen()){db.close();}
         //********************************************************************
         db=dbh.getReadableDatabase();
-        String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM SuggetionsInfo " +
+        String Query="SELECT SuggetionsInfo.*,BsUserServices.*,Servicesdetails.* FROM BsUserServices " +
                 "LEFT JOIN " +
-                "BsUserServices ON " +
+                "SuggetionsInfo ON " +
                 "BsUserServices.code_BsUserServices=SuggetionsInfo.BsUserServicesCode"+
                 " LEFT JOIN " +
                 "Servicesdetails ON " +
@@ -241,7 +241,7 @@ public class Joziat_Sefaresh extends AppCompatActivity{
                     tvFinishService.setText(" * ");
                 }
             }
-            db.close();
+            if(db.isOpen()){db.close();}
 
         btnStartJob.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -396,8 +396,8 @@ public class Joziat_Sefaresh extends AppCompatActivity{
                                                     }
                                                     db = dbh.getWritableDatabase();
                                                     String query = "UPDATE  DateTB SET Date = '" + StartYear + "/" + StartMonth + "/" + StartDay + "'";
-                                                    db.execSQL(query);
-                                                    db.close();
+                                                    db.execSQL(query);if(db.isOpen()){db.close();}
+                                                    if(db.isOpen()){db.close();}
                                                     GetTime();
                                                 }
 
@@ -445,7 +445,7 @@ public class Joziat_Sefaresh extends AppCompatActivity{
 //                    LoadActivity_PerFactor(Save_Per_Factor.class,"tab",tab,"BsUserServicesID",BsUserServicesID,"ServiceDetaileCode",coursors.getString(coursors.getColumnIndex("ServiceDetaileCode")));
 //                }
 //
-//                db.close();
+//                if(db.isOpen()){db.close();}
 //            }
 //        });
         LinearCallUser.setOnClickListener(new View.OnClickListener() {
@@ -463,14 +463,14 @@ public class Joziat_Sefaresh extends AppCompatActivity{
                     }
 
                 }
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 Cursor cursorPhone;
                 cursorPhone = db.rawQuery("SELECT * FROM BsUserServices WHERE Code_BsUserServices='"+BsUserServicesID+"'", null);
                 if (cursorPhone.getCount() > 0) {
                     cursorPhone.moveToNext();
                     dialContactPhone(cursorPhone.getString(cursorPhone.getColumnIndex("UserPhone")));
                 }
-                db.close();
+                if(db.isOpen()){db.close();}
             }
         });
 
@@ -530,9 +530,9 @@ public class Joziat_Sefaresh extends AppCompatActivity{
 
             @Override
             public void onTimeSet(com.ikovac.timepickerwithseconds.TimePicker view, int hourOfDay, int minute, int seconds) {
-                db=dbh.getWritableDatabase();
+                try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
                 String query="UPDATE  DateTB SET Time = '" +String.valueOf(hourOfDay)+":"+String.valueOf(minute)+"'";
-                db.execSQL(query);
+                db.execSQL(query);if(db.isOpen()){db.close();}
                 db=dbh.getReadableDatabase();
                 query="SELECT * FROM DateTB";
                 Cursor c=db.rawQuery(query,null);

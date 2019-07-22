@@ -274,9 +274,9 @@ public class SyncUpdateStepDetailJobs {
 		db = dbh.getWritableDatabase();
 		String query="UPDATE HmFactorTools SET Status='0',IsSend='1' WHERE ToolName='"+ToolName+"' AND Price='"+Price+"' AND BrandName='"+BrandName+"'" +
 				" AND ServiceDetaileCode='"+ServiceDetaileCode+"'";
-		db.execSQL(query);
+		db.execSQL(query);if(db.isOpen()){db.close();}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 
 	}
 }

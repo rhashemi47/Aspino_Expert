@@ -281,13 +281,13 @@ public class SyncGetFactorUsersHeadCode {
 	public void InsertDataFromWsToDb()
 	{
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		query="INSERT INTO  HeadFactor (Code,UserServiceCode,Date,Description) VALUES ('"
 				+WsResponse+"','"
 				+UserServiceCode+"','"
 				+Year+"/"+Month+"/"+Day+"','"
 				+Description+"')";
-		db.execSQL(query);
+		db.execSQL(query);if(db.isOpen()){db.close();}
 		db=dbh.getReadableDatabase();
 		query="SELECT *  FROM HmFactorService WHERE Code='"+StepCode+"'";
 		Cursor c= db.rawQuery(query,null);
@@ -323,7 +323,7 @@ public class SyncGetFactorUsersHeadCode {
 			}
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 		LoadActivity(Joziat_Sefaresh.class, "guid", guid, "hamyarcode", hamyarcode,"BsUserServicesID", UserServiceCode, "tab", "0");
 	}
 	public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2, String VariableName3, String VariableValue3, String VariableName4, String VariableValue4)

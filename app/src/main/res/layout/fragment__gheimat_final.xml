@@ -101,13 +101,15 @@
                 android:textColor="#243b9a"
                 android:fontFamily="@font/vazir"
                 android:textSize="22sp"
+                android:maxLength="10"
                 android:layout_gravity="center"
-                android:gravity="center"
+                android:gravity="center|right"
                 android:inputType="phone"
                 android:id="@+id/etGheimat"
                 android:background="@drawable/rounded_edittext_gheimat"
                 android:layout_marginRight="100dp"
-                android:layout_marginLeft="100dp"/>
+                android:layout_marginLeft="100dp"
+                android:paddingRight="15dp" />
             <TextView
                 android:id="@+id/btnEnter"
                 android:layout_width="60dp"

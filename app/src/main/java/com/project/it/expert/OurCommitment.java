@@ -70,7 +70,7 @@
                     hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
 
-                db.close();
+                if(db.isOpen()){db.close();}
             }
             Typeface FontMitra = Typeface.createFromAsset(getAssets(), "font/BMitra.ttf");//set font for page
             txtContent=(TextView)findViewById(R.id.tvTextOurcommitment);

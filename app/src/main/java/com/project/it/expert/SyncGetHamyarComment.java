@@ -205,7 +205,7 @@ public class SyncGetHamyarComment {
 		String[] res;
 		String query;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		for(int i=0;i<res.length;i++) {
 			value=res[i].split("##");
 			query = "INSERT INTO Comments (Code_Comments," +
@@ -213,8 +213,8 @@ public class SyncGetHamyarComment {
 					",InsertDate) VALUES('" + value[0] +
 					"','" + value[1] +
 					"','" + value[2] + "')";
-			db.execSQL(query);
+			db.execSQL(query);if(db.isOpen()){db.close();}
 		}
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 }

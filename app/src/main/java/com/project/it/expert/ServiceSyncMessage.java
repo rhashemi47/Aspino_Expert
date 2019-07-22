@@ -67,20 +67,20 @@ public class ServiceSyncMessage extends Service {
                                             throw sqle;
                                         }
 
-                                        db = dbh.getReadableDatabase();
+                                       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                                         Cursor coursors = db.rawQuery("SELECT * FROM login", null);
                                         for (int i = 0; i < coursors.getCount(); i++) {
                                             coursors.moveToNext();
                                             hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                                             guid = coursors.getString(coursors.getColumnIndex("guid"));
                                         }
-                                        db = dbh.getReadableDatabase();
+                                       try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                                         coursors = db.rawQuery("SELECT ifnull(MAX(CAST (code_messages AS INT)),0)as code FROM messages", null);
                                         if (coursors.getCount() > 0) {
                                             coursors.moveToNext();
                                             LastMessageCode = coursors.getString(coursors.getColumnIndex("code"));
                                         }
-                                        db.close();
+                                        if(db.isOpen()){db.close();}
                                         SyncMessage syncMessage = new SyncMessage(getApplicationContext(), guid, hamyarcode, LastMessageCode);
                                         syncMessage.AsyncExecute();
                                     }

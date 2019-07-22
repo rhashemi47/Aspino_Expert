@@ -200,7 +200,7 @@ public class SyncGetHmFactorService {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM HmFactorService");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
@@ -228,6 +228,6 @@ public class SyncGetHmFactorService {
 					+value[7]+"','1')");
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 }

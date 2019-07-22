@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -89,7 +88,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 	}
 	//********************************************************************
 	imgHumberger = (ImageView) findViewById(R.id.imgHumberger);
@@ -103,13 +102,13 @@ protected void onCreate(Bundle savedInstanceState) {
 	LinearCallSupporter.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			db = dbh.getReadableDatabase();
+			try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();};
 			Cursor cursor = db.rawQuery("SELECT * FROM Supportphone", null);
 			if (cursor.getCount() > 0) {
 				cursor.moveToNext();
 				dialContactPhone(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
 			}
-			db.close();
+			if(db.isOpen()){db.close();}
 		}
 	});
 	LinearRole.setOnClickListener(new View.OnClickListener() {
@@ -217,7 +216,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db.execSQL("DELETE FROM Supportphone");
 				db.execSQL("DELETE FROM Unit");
 				db.execSQL("DELETE FROM UpdateApp");
-				db.close();
+				if(db.isOpen()){db.close();}
 				System.exit(0);
 				arg0.dismiss();
 

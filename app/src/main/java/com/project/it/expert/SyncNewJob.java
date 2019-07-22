@@ -50,7 +50,7 @@ public class SyncNewJob {
             dbh.createDataBase();
 
         } catch (IOException ioe) {
-
+            PublicVariable.thread_NewJob=true;
             throw new Error("Unable to create database");
 
         }
@@ -61,6 +61,7 @@ public class SyncNewJob {
 
         } catch (SQLException sqle) {
 
+            PublicVariable.thread_NewJob=true;
             throw sqle;
         }
     }
@@ -76,11 +77,14 @@ public class SyncNewJob {
             }
             catch (Exception e) {
 
+                PublicVariable.thread_NewJob=true;
                 e.printStackTrace();
             }
         }
         else
         {
+
+            PublicVariable.thread_NewJob=true;
             //Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
         }
     }
@@ -104,6 +108,8 @@ public class SyncNewJob {
                 CallWsMethod("GetUserServiceForHamyar");
             }
             catch (Exception e) {
+                PublicVariable.thread_NewJob=true;
+
                 result = e.getMessage().toString();
             }
             return result;
@@ -141,7 +147,8 @@ public class SyncNewJob {
                     this.dialog.dismiss();
                 }
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+                PublicVariable.thread_NewJob=true;}
         }
 
         @Override
@@ -220,7 +227,7 @@ public class SyncNewJob {
         String[] value;
         String query=null;
         res=WsResponse.split("@@");
-        db=dbh.getWritableDatabase();
+        try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
         for(int i=0;i<res.length;i++) {
             value = res[i].split("##");
             db_check = dbh.getReadableDatabase();
@@ -297,28 +304,28 @@ public class SyncNewJob {
                         "','" + value[32] +
                         "','" + value[33] +
                         "')";
-                db.execSQL(query);
+                db.execSQL(query);if(db.isOpen()){db.close();}
                 SyncGetServiceUserInfo syncGetServiceUserInfo = new SyncGetServiceUserInfo(this.activity, value[0]);
                 syncGetServiceUserInfo.AsyncExecute();
                 if (notifocationEnable) {
-                    db = dbh.getReadableDatabase();
+                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     query = "SELECT * FROM Servicesdetails  WHERE code_Servicesdetails=" + value[4];
                     Cursor coursors = db.rawQuery(query, null);
                     if (coursors.getCount() > 0 && i < 10)//Just show 10 Notification
                     {
                         coursors.moveToNext();
-                        runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i, value[0], Pishnahad_Gheimat.class);
+                        runNotification("آسپینو", coursors.getString(coursors.getColumnIndex("name")), i,"", value[0], Pishnahad_Gheimat.class);
                     }
                 }
             }
         }
         db_check.close();
-        db.close();
+        if(db.isOpen()){db.close();}
     }
 
-    public void runNotification(String title,String detail,int id,String BsUserServicesID,Class<?> Cls)
+    public void runNotification(String title,String detail,int id,String Table,String BsUserServicesID,Class<?> Cls)
     {
-        NotificationClass notifi=new NotificationClass();
-        notifi.Notificationm(this.activity,title,detail,BsUserServicesID,id,Cls);
+        NotificationClass notifi=new NotificationClass(this.activity);
+        notifi.Notificationm(this.activity,title,detail,BsUserServicesID,Table,id,Cls);
     }
 }

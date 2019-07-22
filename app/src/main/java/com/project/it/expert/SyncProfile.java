@@ -207,7 +207,7 @@ public class SyncProfile {
     {
 		String[] value;
 		String query=null;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM Profile");
 			value=WsResponse.split("##");
 			query="INSERT INTO Profile " +
@@ -256,8 +256,8 @@ public class SyncProfile {
 					"','"+value[19]+
 					"','"+value[20]+
 					"')";
-		db.execSQL(query);
-		db.close();
+		db.execSQL(query);if(db.isOpen()){db.close();}
+		if(db.isOpen()){db.close();}
 		SyncCity syncCity=new SyncCity(this.activity,value[20],phonenumber,acceptcode);
 		syncCity.AsyncExecute();
 		SyncGetRating syncGetRating=new SyncGetRating(activity.getApplicationContext(),guid,hamyarcode);

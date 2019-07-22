@@ -41,7 +41,7 @@ public class SyncGetProfileForService {
 			dbh.createDataBase();
 
 		} catch (IOException ioe) {
-
+			PublicVariable.thread_Profile=true;
 			throw new Error("Unable to create database");
 
 		}
@@ -51,7 +51,7 @@ public class SyncGetProfileForService {
 			dbh.openDataBase();
 
 		} catch (SQLException sqle) {
-
+			PublicVariable.thread_Profile=true;
 			throw sqle;
 		}
 	}
@@ -66,12 +66,13 @@ public class SyncGetProfileForService {
 				task.execute();
 			}
 			catch (Exception e) {
-
+				PublicVariable.thread_Profile=true;
 				e.printStackTrace();
 			}
 		}
 		else
 		{
+			PublicVariable.thread_Profile=true;
 			//Toast.makeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -96,6 +97,7 @@ public class SyncGetProfileForService {
         		CallWsMethod("GetHamyarProfile");
         	}
 	    	catch (Exception e) {
+				PublicVariable.thread_Profile=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -126,6 +128,7 @@ public class SyncGetProfileForService {
         	}
         	else
         	{
+				PublicVariable.thread_Profile=true;
         		//Toast.makeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
         	}
             try
@@ -134,7 +137,7 @@ public class SyncGetProfileForService {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {PublicVariable.thread_Profile=true;}
         }
  
         @Override
@@ -204,7 +207,7 @@ public class SyncGetProfileForService {
     {
 		String[] value;
 		String query;
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 			value=WsResponse.split("##");
 			query="UPDATE Profile SET " +
 					"Code_Profile='" + value[0] + "' , " +
@@ -228,8 +231,8 @@ public class SyncGetProfileForService {
 					"AccountNameOwner='" + value[18]+ "' , " +
 					"BankName='" + value[19]+ "' , " +
 					"DateStart='" + value[20]+ "'";
-		db.execSQL(query);
-		db.close();
+		db.execSQL(query);if(db.isOpen()){db.close();}
+		if(db.isOpen()){db.close();}
 		SyncGetRating syncGetRating=new SyncGetRating(activity,guid,hamyarcode);
 		syncGetRating.AsyncExecute();
     }

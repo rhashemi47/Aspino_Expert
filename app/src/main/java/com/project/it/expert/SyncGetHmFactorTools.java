@@ -201,7 +201,7 @@ public class SyncGetHmFactorTools {
 		String[] res;
 		String[] value;
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		db.execSQL("DELETE FROM HmFactorTools");
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
@@ -215,9 +215,9 @@ public class SyncGetHmFactorTools {
 					+value[5]+"','"
 					+value[6]+"','"
 					+value[7]+"','1')";
-			db.execSQL(query);
+			db.execSQL(query);if(db.isOpen()){db.close();}
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
     }
 }

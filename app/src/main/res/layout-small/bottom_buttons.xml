@@ -113,4 +113,40 @@
         </LinearLayout>
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_marginBottom="25dp">
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badgeOrders"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:textSize="10sp"
+            android:layout_marginLeft="10dp"
+            app:nbMaxTextLength="2"/>
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badgeOffers"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:textSize="10sp"
+            android:layout_marginLeft="10dp"
+            app:nbMaxTextLength="2"/>
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badgeCertain"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:textSize="10sp"
+
+            android:layout_marginRight="50dp"
+            app:nbMaxTextLength="2"/>
+        <com.nex3z.notificationbadge.NotificationBadge
+            android:id="@+id/badgeNotification"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:textSize="10sp"
+            android:layout_marginLeft="10dp"
+            app:nbMaxTextLength="2"/>
+    </LinearLayout>
 </RelativeLayout>

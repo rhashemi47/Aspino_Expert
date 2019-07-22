@@ -95,7 +95,7 @@ public class ServiceGetLocation extends Service {
                                                         +PersianDigitConverter.EnglishNumber(Hourobj)+","
                                                         +PersianDigitConverter.EnglishNumber(Minuteobj)+")";
                                                 db = dbh.getWritableDatabase();
-                                                db.execSQL(query);
+                                                db.execSQL(query);if(db.isOpen()){db.close();}
 
                                             }
                                         }
@@ -123,7 +123,7 @@ public class ServiceGetLocation extends Service {
                                         }
                                     }
 
-                                    db.close();
+                                    if(db.isOpen()){db.close();}
 
                                 }
                             });

@@ -133,7 +133,7 @@
                 hamyarcode = getIntent().getStringExtra("hamyarcode").toString();
                 guid = getIntent().getStringExtra("guid").toString();
             } catch (Exception e) {
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 Cursor coursors = db.rawQuery("SELECT * FROM login", null);
                 for (int i = 0; i < coursors.getCount(); i++) {
                     coursors.moveToNext();
@@ -141,10 +141,10 @@
                     hamyarcode = coursors.getString(coursors.getColumnIndex("hamyarcode"));
                 }
 
-                db.close();
+                if(db.isOpen()){db.close();}
             }
 
-            db = dbh.getReadableDatabase();
+           try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
             Cursor coursors = db.rawQuery("SELECT * FROM Unit", null);
             if (coursors.getCount() > 0) {
                 for (int i = 0; i < coursors.getCount(); i++) {
@@ -209,21 +209,21 @@
                     }
                 };
 
-                db.close();
+                if(db.isOpen()){db.close();}
                 dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 SpNameService.setAdapter(dataAdapter);
             }
             SpNameService.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                     db = dbh.getReadableDatabase();
+                    try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     Cursor coursors = db.rawQuery("SELECT * FROM services WHERE servicename='"+adapterView.getItemAtPosition(i).toString()+"'", null);
                     if (coursors.getCount() > 0) {
                             coursors.moveToNext();
                         FillSpinnerChild(coursors.getString(coursors.getColumnIndex("code")));
                         }
 
-                    db.close();
+                    if(db.isOpen()){db.close();}
                 }
 
                 @Override
@@ -286,7 +286,7 @@
                 } else {
                     String[] StrDital=SpDitalNameService.getSelectedItem().toString().split(":");
                     temp=SpDitalNameService.getSelectedItem().toString()+ "-" +EttitleStepStr+ "-" +UnitStr+ "-" +EtUnitPriceStr;
-                    db = dbh.getReadableDatabase();
+                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     Cursor coursors = db.rawQuery("SELECT * FROM HmFactorService WHERE ServiceName='" + EttitleStepStr + "' AND PricePerUnit='" + EtUnitPriceStr + "'AND " +
                             "Unit='" +Unit_value.get(UnitStr) + "' AND ServiceDetaileCode='"+StrDital[0]+"'", null);
                     if (coursors.getCount() > 0) {
@@ -296,7 +296,7 @@
                         String query="INSERT INTO HmFactorService (ServiceName,PricePerUnit,Unit,ServiceDetaileCode) VALUES('" + EttitleStepStr + "','" + EtUnitPriceStr
                                 + "','" + Unit_value.get(UnitStr) + "','" +StrDetail[0] +"')";
                         db = dbh.getWritableDatabase();
-                        db.execSQL(query);
+                        db.execSQL(query);if(db.isOpen()){db.close();}
                         if (lvStepJob.getCount() > 0) {
                             adapterList.add(temp);
                             lvStepJob.setAdapter(adapterList);
@@ -329,7 +329,7 @@
                     }
                 }
             } else {
-                db = dbh.getReadableDatabase();
+               try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                 String query="SELECT HmFactorService.*,Servicesdetails.name FROM HmFactorService " +
                         "LEFT JOIN " +
                         "Servicesdetails ON " +
@@ -374,7 +374,7 @@
                     }
                 }
             }
-            db.close();
+            if(db.isOpen()){db.close();}
 }
 
 
@@ -382,10 +382,10 @@
         public boolean onKeyDown(int keyCode, KeyEvent event) {
             if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
                 String query="DELETE FROM HmFactorService WHERE IsSend='0' AND Status='0'";
-                db=dbh.getWritableDatabase();
-                db.execSQL(query);
+                try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
+                db.execSQL(query);if(db.isOpen()){db.close();}
 
-                db.close();
+                if(db.isOpen()){db.close();}
                 StepJob.this.LoadActivity(MainMenu.class, "guid", guid, "hamyarcode", hamyarcode);
             }
             return super.onKeyDown(keyCode, event);
@@ -419,7 +419,7 @@
                     //Declare Object From Get Internet Connection Status For Check Internet Status
                     String[] STR=listItems.get(position).toString().split("-");
                     String[] STRDetails=STR[0].split(":");
-                    db = dbh.getReadableDatabase();
+                   try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
                     String query="SELECT * FROM HmFactorService WHERE ServiceName='"+STR[1]+"' AND PricePerUnit='"+STR[3]+"' AND Unit='"+Unit_value.get(STR[2])+"'" +
                             " AND ServiceDetaileCode='"+STRDetails[0]+"' AND Status='1'";
                     Cursor c=db.rawQuery(query,null);
@@ -443,7 +443,7 @@
             alertbox.show();
         }
         public void FillSpinnerChild(String ServiceCode){
-            db = dbh.getReadableDatabase();
+           try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
             Cursor coursors = db.rawQuery("SELECT * FROM servicesdetails WHERE servicename='"+ServiceCode+"'", null);
             if (coursors.getCount() > 0) {
                 labelsServiceDetailName  = new ArrayList<String>();
@@ -476,7 +476,7 @@
             }
         }
         public void SendFarctor() {
-            db = dbh.getReadableDatabase();
+           try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();}
             Cursor coursors = db.rawQuery("SELECT * FROM HmFactorService WHERE Status='0' AND IsSend='0'", null);
             if (coursors.getCount() > 0)
             {

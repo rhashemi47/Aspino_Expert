@@ -110,7 +110,7 @@ protected void onCreate(Bundle savedInstanceState) {
 			hamyarcode=coursors.getString(coursors.getColumnIndex("hamyarcode"));
 		}
 
-		db.close();
+		if(db.isOpen()){db.close();}
 	}
 	try
 	{
@@ -132,13 +132,13 @@ protected void onCreate(Bundle savedInstanceState) {
 	LinearCallSupporter.setOnClickListener(new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			db = dbh.getReadableDatabase();
+			try { if(!db.isOpen()) {  db = dbh.getReadableDatabase();}} catch (Exception ex){ db = dbh.getReadableDatabase();};
 			Cursor cursor = db.rawQuery("SELECT * FROM Supportphone", null);
 			if (cursor.getCount() > 0) {
 				cursor.moveToNext();
 				dialContactPhone(cursor.getString(cursor.getColumnIndex("PhoneNumber")));
 			}
-			db.close();
+			if(db.isOpen()){db.close();}
 		}
 	});
 	LinearRole.setOnClickListener(new View.OnClickListener() {
@@ -203,8 +203,12 @@ protected void onCreate(Bundle savedInstanceState) {
 		tvCustomerDescription.setText(cursors.getString(cursors.getColumnIndex("Description")));
 	}
 	cursors.close();
-	db.close();
+	if(db.isOpen()){db.close();}
 	//********************************************************************
+	db=dbh.getWritableDatabase();
+	String Query="UPDATE " + Table +" SET Read='1' WHERE Code_BsUserServices='"+ OrderCode+"'";
+	db.execSQL(Query);
+	if(db.isOpen()){db.close();}
 	//********************************************************************
 	db=dbh.getReadableDatabase();
 	cursors = db.rawQuery("SELECT * FROM SuggetionsInfo WHERE BsUserServicesCode='"+OrderCode+"'", null);
@@ -225,7 +229,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		SuggetionFinal=false;
 	}
 	cursors.close();
-	db.close();
+	if(db.isOpen()){db.close();}
 	//********************************************************************
 }
 public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue, String VariableName2, String VariableValue2)
@@ -304,7 +308,7 @@ public void LoadActivity(Class<?> Cls, String VariableName, String VariableValue
 				db.execSQL("DELETE FROM Supportphone");
 				db.execSQL("DELETE FROM Unit");
 				db.execSQL("DELETE FROM UpdateApp");
-				db.close();
+				if(db.isOpen()){db.close();}
 				System.exit(0);
 				arg0.dismiss();
 

@@ -48,6 +48,7 @@ public class SyncMessage {
 
    		} catch (IOException ioe) {
 
+			PublicVariable.thread_Message=true;
    			throw new Error("Unable to create database");
 
    		}
@@ -58,6 +59,7 @@ public class SyncMessage {
 
    		} catch (SQLException sqle) {
 
+			PublicVariable.thread_Message=true;
    			throw sqle;
    		}   		
 	}
@@ -73,11 +75,13 @@ public class SyncMessage {
 			}	
 			 catch (Exception e) {
 
+				 PublicVariable.thread_Message=true;
 	            e.printStackTrace();
 			 }
 		}
 		else
 		{
+			PublicVariable.thread_Message=true;
 			//akeText(this.activity.getApplicationContext(), "لطفا ارتباط شبکه خود را چک کنید", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -100,6 +104,7 @@ public class SyncMessage {
         		CallWsMethod("GetMessagesForAll");
         	}
 	    	catch (Exception e) {
+				PublicVariable.thread_Message=true;
 	    		result = e.getMessage().toString();
 			}
 	        return result;
@@ -130,6 +135,7 @@ public class SyncMessage {
         	}
         	else
         	{
+				PublicVariable.thread_Message=true;
         		//akeText(this.activity, "ط®ط·ط§ ط¯ط± ط§طھطµط§ظ„ ط¨ظ‡ ط³ط±ظˆط±", Toast.LENGTH_SHORT).show();
         	}
             try
@@ -138,7 +144,8 @@ public class SyncMessage {
             		this.dialog.dismiss();
             	}
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+				PublicVariable.thread_Message=true;}
         }
  
         @Override
@@ -218,7 +225,7 @@ public class SyncMessage {
 		String query=null;
 		boolean isFirst=IsFristInsert();
 		res=WsResponse.split("@@");
-		db=dbh.getWritableDatabase();
+		try { if(!db.isOpen()) { db=dbh.getWritableDatabase();}} catch (Exception ex){	db=dbh.getWritableDatabase();	}
 		for(int i=0;i<res.length;i++){
 			value=res[i].split("##");
 			query="INSERT INTO messages (Code_messages," +
@@ -230,18 +237,18 @@ public class SyncMessage {
 					"','"+value[3]+
 					"','"+value[4]+
 					"','0')";
-			db.execSQL(query);
-			db.close();
+			db.execSQL(query);if(db.isOpen()){db.close();}
+			if(db.isOpen()){db.close();}
 			if(!isFirst && value[4].compareTo("0")==0) {
-				runNotification("بسپارینا", value[1], i, value[0], ShowMessage.class);
+				runNotification("بسپارینا", value[1], i, "",value[0], ShowMessage.class);
 			}
 		}
     }
-	public void runNotification(String title,String TitleMessage,int id,String MessageCode,Class<?> Cls)
+	public void runNotification(String title,String TitleMessage,int id,String Table,String MessageCode,Class<?> Cls)
 	{
 		//todo
-		NotificationClass notifi=new NotificationClass();
-		notifi.Notificationm(this.activity,title,TitleMessage,MessageCode,id,Cls);
+		NotificationClass notifi=new NotificationClass(this.activity);
+		notifi.Notificationm(this.activity,title,TitleMessage,MessageCode,Table,id,Cls);
 	}
 	public boolean IsFristInsert()
 	{
@@ -250,12 +257,12 @@ public class SyncMessage {
 		Cursor cursor= db.rawQuery(query,null);
 		if(cursor.getCount()>0)
 		{
-			db.close();
+			if(db.isOpen()){db.close();}
 			return false;
 		}
 		else
 		{
-			db.close();
+			if(db.isOpen()){db.close();}
 			return true;
 		}
 	}

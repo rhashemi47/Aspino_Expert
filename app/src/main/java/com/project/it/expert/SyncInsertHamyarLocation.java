@@ -300,7 +300,7 @@ public class SyncInsertHamyarLocation {
 	{
 //		db=dbh.getWritableDatabase();
 //		String query="DELETE location WHERE id="+rowID;
-//		db.execSQL(query);
-//		db.close();
+//		db.execSQL(query);if(db.isOpen()){db.close();}
+//		if(db.isOpen()){db.close();}
 	}
 }
